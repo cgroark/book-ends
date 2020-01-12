@@ -1,0 +1,102 @@
+$color-purple: #6B3074;
+$color-blue: #86A3C3;
+$color-lightgrey: #B8B8B8;
+
+body {
+  max-width: 1400px;
+  padding: 0 20px;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.App-header {
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: $color-blue;
+  border-bottom: 3px solid $color-blue;
+}
+ul.signup-navigation{
+  list-style: none;
+  float: right;
+  li{
+    display: inline-block;
+    padding: 3px 8px;
+    a{
+      padding-bottom: 2px;
+      color: $color-purple;
+      text-decoration: none;
+    }
+    a:hover, a.active{
+      border-bottom: 3px solid $color-purple;
+      cursor: pointer;
+    }
+  }
+}
+a{
+  color: $color-blue;
+  font-weight: bold;
+}
+a:hover{
+  cursor: pointer;
+  text-decoration: underline;
+  
+}
+.signup-success p{
+  font-size: 1.5rem;
+}
+table{
+  width: 100%;
+  th{
+    color: $color-purple;
+    font-size: 1.5rem;
+    border-bottom: 1px solid $color-purple;
+  }
+  td{
+    padding: 4px 0;
+    font-size: 1.3rem;
+    border-bottom: 1px solid $color-lightgrey;
+  }
+}
+form{
+  input{
+    height: 1.5em;
+  }
+  input[type="submit"]{
+    width: 50%;
+    height: 3em;
+    background-color: $color-purple;
+    font-size: 1em;
+    font-weight: bold;
+    border: 3px solid white;
+    color: white;
+  }
+  input[type="submit"]:hover{
+    border: 3px solid $color-purple;
+    cursor: pointer;
+  }
+  label{
+    color: $color-purple;
+    font-size: 1.5rem;
+  }
+}
+form.loading {
+  label{
+      color: $color-lightgrey;
+      
+  }
+  input[type="submit"]{
+      background-color: $color-lightgrey;
+      border: 3px solid $color-lightgrey;
+  }
+}
