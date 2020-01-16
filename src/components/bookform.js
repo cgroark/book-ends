@@ -15,7 +15,9 @@ class BookForm extends React.Component {
             status: '', 
             rating: '',
             datedone: '',
-            editing: false
+            bookid: '',
+            editing: false,
+            currentID: ''
         }
 
     }
@@ -33,24 +35,29 @@ class BookForm extends React.Component {
                     allData: json
                 })
                 console.log('data', this.state.allData)
+            }).then( () => {
+                let userData = this.state.allData.filter(one => one.username === this.state.username);
+                console.log('length of dataset', userData.length);
+                if(userData.length == 0){
+                    console.log('userdata length is 0', userData.length);
+                    this.setState({currentID: 1});
+                }else{
+                    console.log('userdata length is not 0', userData.length);
+                    let allIDs =[];
+                    for(var b=0 ; b<userData.length ; b++){
+                        allIDs.push(parseInt(userData[b].id.split('id=')[1]));
+                    }
+                    let newID = allIDs.sort()[allIDs.length -1] + 1;
+                    console.log('new id is ', newID)
+                    this.setState({currentID: newID})
+                }       
             })
+             
     }
-    updateBook = (each, e) =>{
-        this.setState({editing: true})
-        console.log(each, e);
-        this.setState({
-            authorfirst: each.authorfirst, 
-            authorlast: each.authorlast,
-            title: each.title, 
-            status: each.status, 
-            rating: each.rating,
-            datedone: each.datedone
-        })
-        console.log(this.state.title)
-    }
+
     renderAllData(){
         return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each, index) => 
-            <tr key={each.title}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{each.datedone}</td><td>{each.rating}</td>
+            <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{each.datedone}</td><td>{each.rating}</td>
             <td>
             <label htmlFor="edit"></label>
             <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
@@ -69,12 +76,14 @@ class BookForm extends React.Component {
         })
     }
     handleSubmit = event => {
+        console.log('current ID in submit', this.state.currentID)
         const dataSend = {
             authorfirst: this.state.authorfirst,
             authorlast: this.state.authorlast,
             username: this.state.username,
             title: this.state.title,
             status: this.state.status,
+            id: this.state.username+'?id='+this.state.currentID,
             datedone: this.state.datedone
         }
         console.log(dataSend)
@@ -103,31 +112,55 @@ class BookForm extends React.Component {
             this.getAllData();
             return response.json()  
         });
-      }
-      handleSubmitEdit = event => {
-        const dataSend = {
+    }
+    updateBook = (each, e) =>{
+        this.setState({editing: true})
+        console.log(each, e);
+        this.setState({
+            authorfirst: each.authorfirst, 
+            authorlast: each.authorlast,
+            title: each.title, 
+            status: each.status, 
+            rating: each.rating,
+            bookid: each.id,
+            datedone: each.datedone
+        })
+        console.log(this.state.title);
+    }
+    handleSubmitEdit = event => {
+        const dataEdit = {
             authorfirst: this.state.authorfirst,
             authorlast: this.state.authorlast,
             username: this.state.username,
+            id: this.state.bookid,
             title: this.state.title,
             rating: this.state.rating,
             status: this.state.status,
             datedone: this.state.datedone
         }
-        console.log(dataSend)
+        console.log('editing id ', this.state.bookid)
+        console.log(dataEdit)
         event.preventDefault()
         this.setState({
             submitting: true
         })
         console.log('before fetch', this.state.submitting)
-        fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351', {
+        fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351/id/'+this.state.bookid, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            method: 'UPATCH',
-            body: JSON.stringify(dataSend)
+            method: 'PATCH',
+            body: JSON.stringify({
+                authorfirst: this.state.authorfirst,
+                authorlast: this.state.authorlast,
+                title: this.state.title,
+                rating: this.state.rating,
+                status: this.state.status,
+                datedone: this.state.datedone
+            })
         }).then( (response) => {
+            console.log(response)
             this.setState({
                 submitting: false,
                 authorfirst: '', 
@@ -136,8 +169,8 @@ class BookForm extends React.Component {
                 status: 'select-status', 
                 datedone: ''
             })
-            console.log('done with book')
-            this.getAllData();
+            console.log('done with book edit')
+            // this.getAllData();
             return response.json()  
         });
       }
