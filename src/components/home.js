@@ -1,6 +1,5 @@
 import React from 'react';
 import BookForm from './bookform';
-import BookList from './booklist';
 
 
 class Home extends React.Component {
@@ -27,13 +26,17 @@ class Home extends React.Component {
         if(checkusername){
           welcomeContent = 
             <div><p>Welcome back {savedusername}. Check your list and add books below.</p>
+            <i class="fa fa-book" aria-hidden="true"></i>
             <div>
                 <BookForm username={this.state.savedusername}/>
             </div>
             </div>
         }else{
           welcomeContent = 
-        <p>Welcome to Book Ends. Use the navigation to sign-up or sign-in.</p>
+        <div>
+            <p>Welcome to Book Ends. Use the navigation to sign-up or sign-in.</p>
+            <i class="fa fa-book" aria-hidden="true"></i>
+        </div>
         }
     return(
             <div>
