@@ -115,7 +115,17 @@ form.loading input[type="submit"] {
   border: 3px solid #B8B8B8;
 }
 
-.editor label, .editor input {
-  display: inline-block;
+input#edit, input#add {
+  padding: 6px 10px 8px;
+  background-color: #6B3074;
+  font-size: 1em;
+  font-weight: bold;
+  border: 3px solid white;
+  color: white;
+}
+
+input#edit:hover, input#add:hover {
+  border: 3px solid #6B3074;
+  cursor: pointer;
 }
 /*# sourceMappingURL=index.css.map */

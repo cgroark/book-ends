@@ -100,3 +100,15 @@ form.loading {
       border: 3px solid $color-lightgrey;
   }
 }
+input#edit, input#add{
+  padding: 6px 10px 8px;
+  background-color: $color-purple;
+  font-size: 1em;
+  font-weight: bold;
+  border: 3px solid white;
+  color: white;
+}
+input#edit:hover, input#add:hover{
+  border: 3px solid $color-purple;
+  cursor: pointer;
+}

@@ -172,8 +172,12 @@ class BookForm extends React.Component {
         return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each, index) => 
             <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{each.datedone}</td><td>{each.rating}</td>
             <td>
-            <label htmlFor="edit"></label>
-            <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
+            {!this.state.form &&
+               <div>
+                <label htmlFor="edit"></label>
+                 <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
+               </div>
+            }
             </td>
             
             </tr>
@@ -194,7 +198,9 @@ class BookForm extends React.Component {
                                     <th>Status</th>
                                     <th>Date finished</th>
                                     <th>Rating</th>
-                                    <th>Edit</th>
+                                    {!this.state.form &&
+                                        <th>Edit</th>
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
@@ -203,8 +209,8 @@ class BookForm extends React.Component {
                         </table>
                     </Col>
                     <Col md={4}>
-                    {!this.state.editing &&
-                        <input type='submit' value="Add a book" onClick={this.showAddForm}></input>
+                    {!this.state.editing && !this.state.form &&
+                        <input type='submit' id="add" value="Add a book" onClick={this.showAddForm}></input>
                     }
                     {this.state.form &&
                     <form onSubmit={this.state.adding ? this.handleSubmit : this.handleSubmitEdit} className={submitting ? 'loading' : 'submit-form'}>
