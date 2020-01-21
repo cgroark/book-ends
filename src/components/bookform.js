@@ -24,8 +24,30 @@ class BookForm extends React.Component {
 
     }
     componentDidMount =() => {
-        this.setState({username: this.props.username});
-        this.getAllData();
+        let usernameProps = this.props.name;
+        let usernameData = localStorage.getItem('username');
+        console.log('props:', usernameProps, ' localstorage: ', usernameData)
+        if(usernameProps){
+            console.log('in the if')
+            this.setState({
+                savedusername: usernameProps,
+                checkusername: true,
+                username: usernameProps
+            })
+            this.getAllData();
+        }
+        else if(usernameData){
+            console.log('in the else')
+            this.setState({
+                savedusername: usernameData,
+                checkusername: true,
+                username: usernameData
+            })
+            console.log('user is', usernameData )
+            this.getAllData();
+        }
+        // this.setState({username: this.props.name});
+        
     }
     getAllData = () => {
         console.log('reached')
@@ -58,6 +80,20 @@ class BookForm extends React.Component {
             form: true
         })
     }
+    clearForm = (e) => {
+        console.log('clear reached');
+        e.preventDefault()
+        this.setState({
+            adding: false,
+            form: false,
+            authorfirst: '', 
+            authorlast: '', 
+            title: '', 
+            status: 'select-status', 
+            datedone: '',
+            rating: '',
+        })
+    }
     handleSubmit = event => {
         const dataSend = {
             authorfirst: this.state.authorfirst,
@@ -65,7 +101,7 @@ class BookForm extends React.Component {
             username: this.state.username,
             title: this.state.title,
             status: this.state.status,
-            id: this.state.username+'?id='+this.state.currentID,
+            id: this.state.username+'id='+this.state.currentID,
             datedone: this.state.datedone,
             rating: this.state.rating
         }
@@ -168,6 +204,11 @@ class BookForm extends React.Component {
             rating: e.target.value
         })
     }
+    renderReading(){
+        return this.state.allData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
+        <span>{each.title}</span>
+        )
+    }
     renderAllData(){
         return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each, index) => 
             <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{each.datedone}</td><td>{each.rating}</td>
@@ -184,87 +225,96 @@ class BookForm extends React.Component {
         )
     }
     render(){
-    const { submitting, authorfirst, authorlast, title, status, datedone, rating} = this.state;
-    let welcomeContent;
+    const { submitting, authorfirst, authorlast, title, status, datedone, rating, allData} = this.state;
+    const bookCount = allData.filter(book => book.username === this.state.username).length;
         return(
-            <div>
-                <Row>
-                    <Col md={8}>
-                        <table className="book-table">
-                            <thead>
-                                <tr>
-                                    <th>Book title</th>
-                                    <th>Author</th>
-                                    <th>Status</th>
-                                    <th>Date finished</th>
-                                    <th>Rating</th>
-                                    {!this.state.form &&
-                                        <th>Edit</th>
-                                    }
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {this.renderAllData()}
-                            </tbody>
-                        </table>
-                    </Col>
-                    <Col md={4}>
-                    {!this.state.editing && !this.state.form &&
+            <div className="main-body">
+                {bookCount > 1 && allData.filter(book => book.status === "Currently-Reading") &&
+               <div>
+                   <h3> <i className="fa fa-book" aria-hidden="true"></i>&nbsp;Currently Reading: {this.renderReading()}</h3>
+                    <hr />
+               </div>
+                }
+                {!this.state.editing && !this.state.form &&
                         <input type='submit' id="add" value="Add a book" onClick={this.showAddForm}></input>
                     }
                     {this.state.form &&
                     <form onSubmit={this.state.adding ? this.handleSubmit : this.handleSubmitEdit} className={submitting ? 'loading' : 'submit-form'}>
-                        <p>
-                            <label >Title:<br />
-                            <input type="text" name='title' value={title} onChange={this.handleChange} />
+        
+                        <Row>
+                            <Col md={4}>
+                                <label >Title:<br />
+                                    <input type="text" name='title' value={title} onChange={this.handleChange} />
                                 </label>
-                        </p>
-                        <p>
-                            <label >Author first name:<br />
-                                <input type="text" name='authorfirst' value={authorfirst} onChange={this.handleChange} /> 
-                            </label>
-                        </p>
-                        <p>
-                            <label>Author last name: <br />
-                                <input type="text" name="authorlast" value={authorlast}  onChange={this.handleChange} />
-                            </label>
-                        </p>
-                        <p>
-                            <label>Status: <br />
-                                <select defaultValue={"select-status"} onChange={this.updateStatus}>>
-                                    <option value="select-status" disabled>Select status</option>
-                                    <option value="Finished">Finished</option>
-                                    <option value="Currently-Reading">Currently reading</option>
-                                    <option value="Want-to-read">Want to read</option>
-                                </select>
-                            </label>
-                        </p>
-                       
-                        {status === "Finished" &&
-                         <div>
-                         <p>
-                         <label>Recommendation: <br />
-                             <select defaultValue={"select-rating"} onChange={this.updateRating}>>
-                                 <option value="select-rating" disabled>Select rating</option>
-                                 <option value="Highly Recommend">Highly recommend</option>
-                                 <option value="Recommend">Recommend</option>
-                                 <option value="Do-not-Recommend">Don't recommend</option>
-                                 <option value="Do-not-read">Please do not read</option>
-                             </select>
-                         </label>
-                        </p>
-                        <p>
-                        <label >Date finished:<br />
-                                <input type="text" name='datedone' value={datedone} onChange={this.handleChange} /> 
-                        </label>
-                        </p>
+                            </Col>
+                            <Col md={4}>
+                                <label >Author first name:<br />
+                                    <input type="text" name='authorfirst' value={authorfirst} onChange={this.handleChange} /> 
+                                </label>
+                            </Col>
+                            <Col md={4}>
+                                <label>Author last name: <br />
+                                    <input type="text" name="authorlast" value={authorlast}  onChange={this.handleChange} />
+                                </label>
+                            </Col>
+                        </Row>
+                        <Row>
+                    
+                            <Col md={4}>
+                                <label>Status: <br />
+                                    <select defaultValue={"select-status"} onChange={this.updateStatus}>>
+                                        <option value="select-status" disabled>Select status</option>
+                                        <option value="Finished">Finished</option>
+                                        <option value="Currently-Reading">Currently reading</option>
+                                        <option value="Want-to-read">Want to read</option>
+                                    </select>
+                                </label>
+                            </Col>
+                            {status === "Finished" &&
+                            <React.Fragment>
+                            <Col md={4}>
+                                <label>Recommendation: <br />
+                                    <select defaultValue={"select-rating"} onChange={this.updateRating}>>
+                                        <option value="select-rating" disabled>Select rating</option>
+                                        <option value="Highly Recommend">Highly recommend</option>
+                                        <option value="Recommend">Recommend</option>
+                                        <option value="Do-not-Recommend">Don't recommend</option>
+                                        <option value="Do-not-read">Please do not read</option>
+                                    </select>
+                                </label>
+                            </Col>
+                            <Col md={4}>
+                                <label >Date finished:<br />
+                                        <input type="text" name='datedone' value={datedone} onChange={this.handleChange} /> 
+                                </label>
+                            </Col>
+                            </React.Fragment>
+                            }
+                            
+                        </Row>
+                        <div id="input-section">
+                            <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Submit'}></input>
+                            <input id="nevermind" type='submit' onClick={this.clearForm} disabled={submitting} value={submitting ? 'Loading...' : 'Nevermind'}></input>
                         </div>
-                        }
-                        <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Submit'}></input>
                     </form>   
                     }
-                    </Col>
-                </Row>
+                <table className="book-table">
+                    <thead>
+                        <tr>
+                            <th>Book title</th>
+                            <th>Author</th>
+                            <th>Status</th>
+                            <th>Date finished</th>
+                            <th>Rating</th>
+                            {!this.state.form &&
+                                <th>Edit</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {this.renderAllData()}
+                    </tbody>
+                </table>
             </div>
         )
     }

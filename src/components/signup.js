@@ -11,13 +11,14 @@ class SignUp extends React.Component {
             checkusername: false,
             savedusername: '',
             done: false,
-            usernamedone: ''
+            usernamedone: '',
+            bookid: ''
         }
 
     }
     componentDidMount =() => {
         console.log('mounted')
-        let usernameData = sessionStorage.getItem('username');
+        let usernameData = localStorage.getItem('username');
         console.log(usernameData)
         if(usernameData){
             this.setState({
@@ -28,7 +29,7 @@ class SignUp extends React.Component {
     }
     handleClear = () => {
         console.log('reached clear')
-        sessionStorage.clear();
+        localStorage.clear();
         this.setState({checkusername: false})
     }
     handleChange = e => this.setState({
@@ -38,7 +39,8 @@ class SignUp extends React.Component {
         const dataSend = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
-            username: this.state.username
+            username: this.state.username,
+            id: this.state.username+'id=0'
         }
         console.log(dataSend)
         event.preventDefault()
@@ -63,7 +65,8 @@ class SignUp extends React.Component {
                 done: true
             })
             console.log('done user', this.state.usernamedone)
-            sessionStorage.setItem('username', this.state.usernamedone);
+            localStorage.setItem('username', this.state.usernamedone);
+            this.props.updateNav();
             return response.json()
            
         });
@@ -74,19 +77,19 @@ class SignUp extends React.Component {
         let pageContent;
         if(checkusername){
             pageContent = 
-            <div className="signup-success">
+            <div className="login">
                     <p>Looks like you have already signed up as {savedusername}</p>
                     <p>Not {savedusername} or want to sign up another user? <a onClick={this.handleClear}>View sign-up form</a></p>
             </div>
         }else if(this.state.done){
             pageContent = 
-            <div className="signup-success">
+            <div className="login">
                         <p>Thanks for signing up {usernamedone}
                         </p>
             </div>
         }else{
             pageContent =
-            <div>
+            <div  className="login">
             <form onSubmit={this.handleSubmit} className={submitting ? 'loading' : 'submit-form'}>
                 <p>
                     <label >First Name:<br />

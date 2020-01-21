@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 class SignIn extends React.Component {
     constructor(props){
         super(props);
@@ -18,7 +19,7 @@ class SignIn extends React.Component {
     }
     componentDidMount = () => {
         this.getAllData()
-        let usernameData = sessionStorage.getItem('username');
+        let usernameData = localStorage.getItem('username');
         console.log(usernameData)
         if(usernameData){
             this.setState({
@@ -43,7 +44,6 @@ class SignIn extends React.Component {
     })
 
     handleSubmit = event => {
-        event.preventDefault()
         let usernameEntered = {
             username: this.state.username
         }
@@ -56,7 +56,7 @@ class SignIn extends React.Component {
             if(allData[i].username === this.state.username){
                 console.log('we found ', this.state.username, ' and ', allData[i].username);
                 this.setState({usernamefound: true})
-                sessionStorage.setItem('username', this.state.username);
+                localStorage.setItem('username', this.state.username);
 
             }
         }
@@ -71,33 +71,36 @@ class SignIn extends React.Component {
         let pageContent;
         if(checkusername){
             pageContent = 
-            <div className="signup-success">
+            <div className="login">
                     <p>Looks like you are already signed in as {savedusername}</p>
                     <p>Not {savedusername} or want to sign up another user? <a>Go to the Sign Up page</a></p>
             </div>
         }else if(this.state.done){
             pageContent = 
-            <div className="signup-success">
+            <div className="login">
                         <p>Thanks for signing in {usernamedone}
                         </p>
             </div>
         }else if(this.state.usernamefound){
             pageContent = 
-            <div className="signup-success">
-                        <p>Welcome back {username}
-                        </p>
+            <div className="login">
+                        <h2>Welcome back {username}</h2>
+                        <p>Use the navigation to view your book list, make updates, add new books.</p>
+
+                        
+                        
             </div>
         }
         else{
             pageContent =
-            <div>
+            <div className="login">
             <form onSubmit={this.handleSubmit} className={submitting ? 'loading' : 'submit-form'}>
                 <p>
                     <label>Enter your username: <br />
                         <input type="text" name="username" value={username}  onChange={this.handleChange} />
                     </label>
                 </p>
-                <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Submit'}></input>
+                <input type='submit' onClick={this.props.updateNav} disabled={submitting} value={submitting ? 'Loading...' : 'Sign In'}></input>
             </form>
             </div>
         }
