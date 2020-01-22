@@ -45,10 +45,11 @@ class SignOut extends React.Component {
             </div>
         }
         return(
-            <React.Fragment>
+            <div className="main-body">
             <h2>User logout</h2>
+            < hr />
             {pageContent}
-            </React.Fragment>
+            </div>
         )
     }
 }

@@ -111,7 +111,11 @@ class SignUp extends React.Component {
             </div>
         }
         return(
-           <div>{pageContent} </div>    
+            <div className="main-body">
+                <h2>Sign up as a new user</h2>
+                <hr  />
+                {pageContent} 
+            </div>    
         )
     }
 }

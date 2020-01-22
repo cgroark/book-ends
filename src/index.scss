@@ -5,7 +5,7 @@ $color-lightgrey: #B8B8B8;
 div.App article{
   max-width: 1100px;
   padding: 0 20px;
-  margin: 0 auto !important;
+  margin: 0 auto;
     h2{
       font-size: 2.5em;
       margin: 20px 0;
@@ -36,7 +36,7 @@ code {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 40vh;
+  height: 300px;
   width: 100%;
   text-align: center;
   padding-top: 10vh;
@@ -46,9 +46,20 @@ code {
     text-shadow: 2px 2px black;
   }
 }
-.main-body h3{
-  margin-top: 15px;
-}
+.main-body{
+  text-align: center;
+  h3, h2{
+    margin-top: 15px;
+  }
+  h2{
+    color: $color-purple;
+    font-weight: 700;
+  }
+  hr{
+    border-top: 2px solid $color-purple;
+  }
+
+} 
 .login{
   text-align: center;
   .sign-out{
@@ -68,6 +79,7 @@ code {
 .navigation{
     text-align: right;
     a{
+      margin: 0 4px;
       font-size: 1.3em;
       display: inline-block;
       padding: 10px;
@@ -94,21 +106,26 @@ a:hover{
   
 }
 table{
+  text-align: left;
   width: 100%;
   margin-bottom: 50px;
   th{
     color: $color-purple;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     border-bottom: 1px solid $color-purple;
   }
   td{
     padding: 4px 0;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     border-bottom: 1px solid $color-lightgrey;
   }
 }
 form{
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  border-bottom: 2px solid $color-purple;
+  .col-md-4{
+    text-align: left;
+  }
   input{
     height: 1.5em;
   }
@@ -139,6 +156,7 @@ form{
     border: 3px solid $color-blue;
   }
   label{
+    text-align: left;
     color: $color-purple;
     font-size: 1.5rem;
   }
@@ -156,7 +174,7 @@ form.loading {
 input#edit, input#add{
   padding: 6px 10px 8px;
   background-color: $color-purple;
-  font-size: 1em;
+  font-size: 0.8em;
   font-weight: bold;
   border: 3px solid white;
   color: white;
@@ -170,4 +188,20 @@ input#add{
 input#edit:hover, input#add:hover{
   border: 3px solid $color-purple;
   cursor: pointer;
+}
+@media only screen and (max-width: 768px) {
+  .welcome{
+    margin-top: 20px !important;
+    .col-md-4 i{
+      float: none;
+    }
+  }
+  .App-header{
+    padding-top: 5vh;
+    height: 200px;
+    h1{
+      font-size: 4.5rem;
+      text-shadow: 2px 2px black;
+    }
+  } 
 }

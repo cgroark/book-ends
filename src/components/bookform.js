@@ -190,7 +190,7 @@ class BookForm extends React.Component {
         })
     }
     handleChange = e => this.setState({
-    [e.target.name]: e.target.value
+        [e.target.name]: e.target.value
     })
     updateStatus = e => {
         console.log(e.target.value)
@@ -226,10 +226,12 @@ class BookForm extends React.Component {
     }
     render(){
     const { submitting, authorfirst, authorlast, title, status, datedone, rating, allData} = this.state;
+    const allBooks = allData.filter(book => book.username === this.state.username)
     const bookCount = allData.filter(book => book.username === this.state.username).length;
+    console.log('all books', allBooks, bookCount, allBooks.filter(book => book.status === "Currently-Reading"))
         return(
             <div className="main-body">
-                {bookCount > 1 && allData.filter(book => book.status === "Currently-Reading") &&
+                {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
                <div>
                    <h3> <i className="fa fa-book" aria-hidden="true"></i>&nbsp;Currently Reading: {this.renderReading()}</h3>
                     <hr />
@@ -307,7 +309,7 @@ class BookForm extends React.Component {
                             <th>Date finished</th>
                             <th>Rating</th>
                             {!this.state.form &&
-                                <th>Edit</th>
+                                <th>&nbsp;</th>
                             }
                         </tr>
                     </thead>

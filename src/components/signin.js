@@ -84,7 +84,7 @@ class SignIn extends React.Component {
         }else if(this.state.usernamefound){
             pageContent = 
             <div className="login">
-                        <h2>Welcome back {username}</h2>
+                        <h3>Welcome back {username}</h3>
                         <p>Use the navigation to view your book list, make updates, add new books.</p>
 
                         
@@ -105,7 +105,11 @@ class SignIn extends React.Component {
             </div>
         }
         return(
-           <div>{pageContent} </div>    
+            <div className="main-body">
+                <h2>User login</h2>
+                <hr  />
+                {pageContent} 
+            </div>    
         )
     }
 }

@@ -5,6 +5,7 @@ import SignUp from './components/signup';
 import SignIn from './components/signin';
 import SignOut from './components/signout';
 import BookForm from './components/bookform';
+import FindUser from './components/finduser';
 
 
 
@@ -39,15 +40,16 @@ class App extends React.Component {
           <Router>
                 {checkusername &&
                   <React.Fragment>
-                    <NavLink exact aciveClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
+                    <NavLink exact activeClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
                     <NavLink exact activeClassName="active" to="/sign-out">Logout</NavLink>
                     <NavLink exact activeClassName="active" to="/books" >Your books</NavLink>
+                    <NavLink exact activeClassName="active" to="/friend-find" ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends' Books</NavLink>
                   </React.Fragment>
                 }
                   {!checkusername &&
                   <React.Fragment>
-                    <NavLink exact aciveClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
-                    <NavLink exact aciveClassName="active" to="/sign-up">Sign Up</NavLink>
+                    <NavLink exact activeClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
+                    <NavLink exact activeClassName="active" to="/sign-up">Sign Up</NavLink>
                     <NavLink exact activeClassName="active" to="/sign-in" >Login</NavLink>
                   </React.Fragment>
                   }
@@ -57,6 +59,8 @@ class App extends React.Component {
                     <Route exact path="/sign-up" render={() => <SignUp updateNav={this.updateNav}/>}  />
                     <Route exact path="/sign-in"  render={() => <SignIn updateNav={this.updateNav}/>} />
                     <Route exact path="/"  render={() => <Home updateNav={this.updateNav}/>} />
+                    <Route exact path="/friend-find" render={() => <FindUser username={savedusername}/>} />
+
                   </React.Fragment>
           </Router>
     return(
