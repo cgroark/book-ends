@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
+import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
 
 
@@ -97,6 +98,7 @@ class BookForm extends React.Component {
         })
     }
     handleSubmit = event => {
+        console.log('date here in submit', this.state.date)
         const dataSend = {
             date: this.state.date,
             authorfirst: this.state.authorfirst,
@@ -141,6 +143,7 @@ class BookForm extends React.Component {
             editing: true,
             form: true
         })
+        console.log('date here', each.date)
         this.setState({
             authorfirst: each.authorfirst, 
             authorlast: each.authorlast,
@@ -216,7 +219,7 @@ class BookForm extends React.Component {
     }
     renderAllData(){
         return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each) => 
-            <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{each.date}</td><td>{each.rating}</td>
+            <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{moment(each.date).format('MM/DD/YYYY')}</td><td>{each.rating}</td>
             <td>
             {!this.state.form &&
                <div>
@@ -233,7 +236,6 @@ class BookForm extends React.Component {
     const { submitting, authorfirst, authorlast, title, status, rating, allData, date} = this.state;
     const allBooks = allData.filter(book => book.username === this.state.username)
     const bookCount = allData.filter(book => book.username === this.state.username).length;
-    console.log('all books', allBooks, bookCount, allBooks.filter(book => book.status === "Currently-Reading"))
         return(
             <div className="main-body">
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
