@@ -1,5 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 class BookForm extends React.Component {
@@ -14,12 +16,12 @@ class BookForm extends React.Component {
             title: '', 
             status: '', 
             rating: '',
-            datedone: '',
             bookid: '',
             editing: false,
             adding: false,
             form: false,
-            currentID: ''
+            currentID: '',
+            date: ''
         }
 
     }
@@ -90,19 +92,19 @@ class BookForm extends React.Component {
             authorlast: '', 
             title: '', 
             status: 'select-status', 
-            datedone: '',
+            date: '',
             rating: '',
         })
     }
     handleSubmit = event => {
         const dataSend = {
+            date: this.state.date,
             authorfirst: this.state.authorfirst,
             authorlast: this.state.authorlast,
             username: this.state.username,
             title: this.state.title,
             status: this.state.status,
             id: this.state.username+'id='+this.state.currentID,
-            datedone: this.state.datedone,
             rating: this.state.rating
         }
         console.log(dataSend)
@@ -124,7 +126,7 @@ class BookForm extends React.Component {
                 authorlast: '', 
                 title: '', 
                 status: 'select-status', 
-                datedone: '',
+                date: '',
                 rating: '',
                 adding: false,
                 form: false
@@ -146,7 +148,7 @@ class BookForm extends React.Component {
             status: each.status, 
             rating: each.rating,
             bookid: each.id,
-            datedone: each.datedone
+            date: each.date
         })
     }
     handleSubmitEdit = event => {
@@ -156,7 +158,7 @@ class BookForm extends React.Component {
             title: this.state.title,
             rating: this.state.rating,
             status: this.state.status,
-            datedone: this.state.datedone
+            date: this.state.date
         }
         console.log(dataEdit)
         event.preventDefault()
@@ -178,7 +180,7 @@ class BookForm extends React.Component {
                 authorlast: '', 
                 title: '', 
                 status: 'select-status', 
-                datedone: '',
+                date: '',
                 editing: false,
                 form: false
             })
@@ -192,6 +194,9 @@ class BookForm extends React.Component {
     handleChange = e => this.setState({
         [e.target.name]: e.target.value
     })
+    handleDateChange = date => {
+        this.setState({date: date})
+    }
     updateStatus = e => {
         console.log(e.target.value)
         this.setState({
@@ -210,8 +215,8 @@ class BookForm extends React.Component {
         )
     }
     renderAllData(){
-        return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each, index) => 
-            <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{each.datedone}</td><td>{each.rating}</td>
+        return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each) => 
+            <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{each.date}</td><td>{each.rating}</td>
             <td>
             {!this.state.form &&
                <div>
@@ -225,7 +230,7 @@ class BookForm extends React.Component {
         )
     }
     render(){
-    const { submitting, authorfirst, authorlast, title, status, datedone, rating, allData} = this.state;
+    const { submitting, authorfirst, authorlast, title, status, rating, allData, date} = this.state;
     const allBooks = allData.filter(book => book.username === this.state.username)
     const bookCount = allData.filter(book => book.username === this.state.username).length;
     console.log('all books', allBooks, bookCount, allBooks.filter(book => book.status === "Currently-Reading"))
@@ -287,7 +292,7 @@ class BookForm extends React.Component {
                             </Col>
                             <Col md={4}>
                                 <label >Date finished:<br />
-                                        <input type="text" name='datedone' value={datedone} onChange={this.handleChange} /> 
+                                <DatePicker selected={date} onChange={this.handleDateChange} />
                                 </label>
                             </Col>
                             </React.Fragment>

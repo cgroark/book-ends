@@ -40,8 +40,8 @@ class SignOut extends React.Component {
         }else{
             pageContent = 
             <div className="login">
-                <p><strong>Are you sure you want to sign out, {this.props.username}?</strong></p> 
-                <div className="sign-out" onClick={this.handleClear}>Sign me out</div>       
+                <p><strong>Are you sure you want to sign out?</strong></p> 
+                <div className="div-button" onClick={this.handleClear}>Sign me out</div>       
             </div>
         }
         return(

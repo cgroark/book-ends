@@ -73,7 +73,7 @@ class SignIn extends React.Component {
             pageContent = 
             <div className="login">
                     <p>Looks like you are already signed in as {savedusername}</p>
-                    <p>Not {savedusername} or want to sign up another user? <a>Go to the Sign Up page</a></p>
+                    <p>Not {savedusername} or want to sign up another user? Logout and then login or sign-up.</p>
             </div>
         }else if(this.state.done){
             pageContent = 
