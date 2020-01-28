@@ -178,6 +178,20 @@ form{
     font-size: 1.5rem;
   }
 }
+#delete{
+  float: right;
+  border: solid red 2px;
+  background-color: white;
+  color: #333;
+  width: 150px;
+}
+#delete:hover{
+  float: right;
+  border: solid white 2px;
+  background-color: red;
+  color: white;
+  width: 150px;
+}
 form.loading {
   label{
       color: $color-lightgrey;

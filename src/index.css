@@ -67,7 +67,7 @@ code {
   text-align: center;
 }
 
-.login .sign-out {
+.div-button {
   display: inline-block;
   padding: 10px 12px 12px;
   background-color: #6B3074;
@@ -77,9 +77,29 @@ code {
   color: white;
 }
 
-.login .sign-out:hover {
+.div-button.friend {
+  margin-left: 10px;
+  padding: 4px 8px 6px;
+  background-color: white;
+  font-size: .8em;
+  font-weight: bold;
+  border: 3px solid #6B3074;
+  color: #6B3074;
+}
+
+.div-button:hover {
   border: 3px solid #6B3074;
   cursor: pointer;
+}
+
+.div-button.friend:hover {
+  background-color: #6B3074;
+  border: 3px solid white;
+  color: white;
+}
+
+.friend-results {
+  margin-top: 35px;
 }
 
 .navigation {
@@ -182,6 +202,22 @@ form label {
   text-align: left;
   color: #6B3074;
   font-size: 1.5rem;
+}
+
+#delete {
+  float: right;
+  border: solid red 2px;
+  background-color: white;
+  color: #333;
+  width: 150px;
+}
+
+#delete:hover {
+  float: right;
+  border: solid white 2px;
+  background-color: red;
+  color: white;
+  width: 150px;
 }
 
 form.loading label {
