@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Accordion, Collapse, Card, Header, Toggle, Body, Button } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,8 +12,7 @@ class BookForm extends React.Component {
             username: '',
             allData: [],
             submitting: false,
-            authorfirst: '', 
-            authorlast: '', 
+            author: '', 
             title: '', 
             status: '', 
             rating: '',
@@ -25,7 +24,9 @@ class BookForm extends React.Component {
             date: '',
             checking: false,
             query: '',
-            searchData: []
+            searchData: [],
+            searchComplete: false,
+            searchForm: false
         }
 
     }
@@ -66,7 +67,7 @@ class BookForm extends React.Component {
                 console.log('data', this.state.allData)
             }).then( () => {
                 let userData = this.state.allData.filter(one => one.username === this.state.username);
-                if(userData.length == 0){
+                if(userData.length === 0){
                     this.setState({currentID: 1});
                 }else{
                     let allIDs =[];
@@ -82,20 +83,47 @@ class BookForm extends React.Component {
         e.preventDefault()
         console.log('query', this.state.query);
         fetch('https://www.googleapis.com/books/v1/volumes?q="'+this.state.query+'"')
-        .then( (response) => {
-            return response.json()
-        }).then( (json) => {
-            this.setState({
-                searchData: json
-            })
-            console.log('data saerch', this.state.searchData)
-        }).then( () => {
-            console.log('data saerch 2', this.state.searchData.items[0].volumeInfo)
+        .then( response => response.json())
+        .then( json => this.setState({searchData: json.items[0].volumeInfo, searchComplete: true}))
+        .then( () => {
+            console.log('data saerch 2', this.state.searchData.authors);
+        })
+    }
+    showSearchForm = () =>{
+        this.setState({
+            adding: true,
+            searchForm: true,
+            author: '', 
+            title: '', 
+            status: 'select-status', 
+            date: '',
+            editing: false,
+            form: false
+        })
+    }
+    addSearchResults = () => {
+        this.setState({
+            searchComplete: false,
+            searchForm: false,
+            query: '',
+            adding: true,
+            form: true,
+            title: this.state.searchData.title,
+            author: this.state.searchData.authors[0]
+        })
+    }
+    searchAgain = () => {
+        this.setState({
+            searchForm: true,
+            searchComplete: false,
+            query: ''
         })
     }
     showAddForm = () =>{
         this.setState({
             adding: true,
+            searchComplete: false,
+            searchForm: false,
             form: true
         })
     }
@@ -104,8 +132,7 @@ class BookForm extends React.Component {
         this.setState({
             adding: false,
             form: false,
-            authorfirst: '', 
-            authorlast: '', 
+            author: '',
             title: '', 
             status: 'select-status', 
             date: '',
@@ -115,8 +142,7 @@ class BookForm extends React.Component {
     handleSubmit = event => {
         const dataSend = {
             date: this.state.date,
-            authorfirst: this.state.authorfirst,
-            authorlast: this.state.authorlast,
+            author: this.state.author,
             username: this.state.username,
             title: this.state.title,
             status: this.state.status,
@@ -136,10 +162,10 @@ class BookForm extends React.Component {
             method: 'POST',
             body: JSON.stringify(dataSend)
         }).then( (response) => {
+            console.log(response)
             this.setState({
                 submitting: false,
-                authorfirst: '', 
-                authorlast: '', 
+                author: '', 
                 title: '', 
                 status: 'select-status', 
                 date: '',
@@ -159,8 +185,7 @@ class BookForm extends React.Component {
         })
         console.log('date here', each.date)
         this.setState({
-            authorfirst: each.authorfirst, 
-            authorlast: each.authorlast,
+            author: each.author,
             title: each.title, 
             status: each.status, 
             rating: each.rating,
@@ -169,8 +194,7 @@ class BookForm extends React.Component {
     }
     handleSubmitEdit = event => {
         const dataEdit = {
-            authorfirst: this.state.authorfirst,
-            authorlast: this.state.authorlast,
+            author: this.state.author,
             title: this.state.title,
             rating: this.state.rating,
             status: this.state.status,
@@ -192,8 +216,7 @@ class BookForm extends React.Component {
             console.log(response)
             this.setState({
                 submitting: false,
-                authorfirst: '', 
-                authorlast: '', 
+                author: '', 
                 title: '', 
                 status: 'select-status', 
                 date: '',
@@ -247,7 +270,7 @@ class BookForm extends React.Component {
             this.setState({
                 submitting: false
             });
-            this.setState({checking: false})
+            this.setState({checking: false, editing: false, form: false})
             console.log('done with book delete')
             setTimeout(() =>{
                     this.getAllData();
@@ -258,14 +281,33 @@ class BookForm extends React.Component {
     handleDeleteNo = () => {
         this.setState({checking: false})
     }
+    renderSearchData(){
+        return <div id="search-results">
+            <h3>Search results:</h3>
+            <p><strong>Title</strong>: {this.state.searchData.title}, <em>{this.state.searchData.subtitle}</em></p>
+            <p><strong>Author</strong>: {this.state.searchData.authors}</p>
+            <Accordion defaultActiveKey="0">
+                <Card>
+                    <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                            Overview (see details)
+                        </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="1">
+                        <Card.Body><p>{this.state.searchData.description}</p></Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            </Accordion>     
+        </div>
+    }
     renderReading(){
         return this.state.allData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
-        <span>{each.title}</span>
+        <span key={each.id}>{each.title}</span>
         )
     }
     renderAllData(){
         return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each) => 
-            <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
+            <tr key={each.id}><td>{each.title}</td><td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
             <td>
             {!this.state.form &&
                <div>
@@ -279,7 +321,7 @@ class BookForm extends React.Component {
         )
     }
     render(){
-    const { submitting, authorfirst, authorlast, title, status, rating, allData, date, query} = this.state;
+    const { submitting, author, title, status, allData, date, query} = this.state;
     const allBooks = allData.filter(book => book.username === this.state.username)
     const bookCount = allData.filter(book => book.username === this.state.username).length;
         return(
@@ -290,15 +332,28 @@ class BookForm extends React.Component {
                     <hr />
                </div>
                 }
-                {!this.state.editing && !this.state.form &&
-                        <input type='submit' id="add" value="Add a book" onClick={this.showAddForm}></input>
-                    }
-                    {this.state.form &&
+                {!this.state.editing && !this.state.form && !this.state.searchForm &&
+                    <input type='submit' className="add-button" value="Add a book" onClick={this.showSearchForm}></input>
+                }
+                {!this.state.searchComplete && this.state.searchForm &&
                     <div>
-                    <form onSubmit={this.handleSearch} className={submitting ? 'loading' : 'submit-form'}>
-                        <input type="text" name='query' value={query} onChange={this.handleChange} />
-                        <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Search'}></input>
-                    </form>
+                        <form onSubmit={this.handleSearch} className={submitting ? 'loading' : 'search-form'}>
+                            <input placeholder="Search for books by title..." type="text" name='query' value={query} onChange={this.handleChange} />
+                            <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Search'}></input>
+                        </form>
+                    </div>
+                }
+                {this.state.searchComplete &&
+                    <div>
+                        {this.renderSearchData()}
+                            <input type='submit' className="add-button" disabled={submitting} onClick={this.addSearchResults} value={submitting ? 'Loading...' : 'Add this book'}></input>
+                            <input  type='submit' className="add-button" onClick={this.searchAgain} disabled={submitting} value={submitting ? 'Loading...' : 'Search again'}></input>
+                            <input className="nevermind" type='submit'  onClick={this.showAddForm} disabled={submitting} value={submitting ? 'Loading...' : 'Manually enter a book'}></input>
+                    </div>
+                }
+
+                {this.state.form &&
+                    <div>
                     <form onSubmit={this.state.adding ? this.handleSubmit : this.handleSubmitEdit} className={submitting ? 'loading' : 'submit-form'}>
         
                         <Row>
@@ -307,14 +362,9 @@ class BookForm extends React.Component {
                                     <input type="text" name='title' value={title} onChange={this.handleChange} />
                                 </label>
                             </Col>
-                            <Col md={4}>
-                                <label >Author first name:<br />
-                                    <input type="text" name='authorfirst' value={authorfirst} onChange={this.handleChange} /> 
-                                </label>
-                            </Col>
-                            <Col md={4}>
-                                <label>Author last name: <br />
-                                    <input type="text" name="authorlast" value={authorlast}  onChange={this.handleChange} />
+                            <Col md={8}>
+                                <label >Author:<br />
+                                    <input type="text" name='author' value={author} onChange={this.handleChange} /> 
                                 </label>
                             </Col>
                         </Row>
@@ -355,7 +405,7 @@ class BookForm extends React.Component {
                         <div>
                             <div id="input-section">
                                 <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Submit'}></input>
-                                <input id="nevermind" type='submit' onClick={this.clearForm} disabled={submitting} value={submitting ? 'Loading...' : 'Nevermind'}></input>
+                                <input className="nevermind" type='submit' onClick={this.clearForm} disabled={submitting} value={submitting ? 'Loading...' : 'Nevermind'}></input>
                                 {this.state.editing && this.state.form &&
                                 <input id="delete" type='submit' onClick={this.checkDelete} disabled={submitting} value={submitting ? 'Loading...' : 'Delete book'}></input>
                                 }
@@ -374,7 +424,7 @@ class BookForm extends React.Component {
                         </div>
                     </form>   
                     </div>
-                    }
+                }
                 <table className="book-table">
                     <thead>
                         <tr>

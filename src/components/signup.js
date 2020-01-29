@@ -79,7 +79,7 @@ class SignUp extends React.Component {
             pageContent = 
             <div className="login">
                     <p>Looks like you have already signed up as {savedusername}</p>
-                    <p>Not {savedusername} or want to sign up another user? <a onClick={this.handleClear}>View sign-up form</a></p>
+                    <p>Not {savedusername} or want to sign up another user? <span onClick={this.handleClear}>View sign-up form</span></p>
             </div>
         }else if(this.state.done){
             pageContent = 

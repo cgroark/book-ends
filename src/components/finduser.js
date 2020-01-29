@@ -1,5 +1,4 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
 import FriendData from './friendData';
 
 
@@ -104,7 +103,7 @@ class FindUser extends React.Component {
                 {!showForm &&
                      <div className="div-button" onClick={this.searchAgain}>Search again</div>   
                 }
-                {numUsersFound == 1 && !showForm &&
+                {numUsersFound === 1 && !showForm &&
                     <div className="friend-results">
                         {showResults &&
                             <p><strong>Found user</strong>:&nbsp;<span>{this.renderFriend()}</span></p>
@@ -120,7 +119,7 @@ class FindUser extends React.Component {
                         {this.renderFriend()}
                     </div>  
                 }
-                {numUsersFound == 0 && !showForm &&
+                {numUsersFound === 0 && !showForm &&
                     <div className="friend-results">
                         No users found
                     </div>  

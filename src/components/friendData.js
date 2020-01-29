@@ -25,7 +25,7 @@ class FriendData extends React.Component {
     }
     renderAllData(){
         return this.state.friendData.map((each, index) => 
-            <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{moment(each.date).format('MM/DD/YYYY')}</td><td>{each.rating}</td>
+            <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
             </tr>
         )
     }

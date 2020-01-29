@@ -164,19 +164,23 @@ form{
     border: 3px solid $color-purple;
     cursor: pointer;
   }
-  input[type="submit"]#nevermind{
-    background-color: $color-blue;
-    color: black;
-    border: 3px solid white;
-  }
-  input[type="submit"]#nevermind:hover{
-    border: 3px solid $color-blue;
-  }
   label{
     text-align: left;
     color: $color-purple;
     font-size: 1.5rem;
   }
+}
+input[type="submit"].nevermind{
+  padding: 6px 10px 8px;
+  background-color: #86A3C3;
+  color: black;
+  border: 3px solid white;
+  display: block;
+  margin: 10px auto;
+  font-size: 1em;
+}
+input[type="submit"].nevermind:hover{
+  border: 3px solid $color-blue;
 }
 #delete{
   float: right;
@@ -202,7 +206,7 @@ form.loading {
       border: 3px solid $color-lightgrey;
   }
 }
-input#edit, input#add{
+input#edit, input.add-button{
   padding: 6px 10px 8px;
   background-color: $color-purple;
   font-size: 0.8em;
@@ -210,16 +214,52 @@ input#edit, input#add{
   border: 3px solid white;
   color: white;
 }
-input#add{
-  display: block;
+input.add-button{
+  display: inline-block;
   margin: 10px auto;
-  font-size: 1.5em;
+  font-size: 1em;
   width: 200px;
 }
-input#edit:hover, input#add:hover{
+input#edit:hover, input.add-button:hover{
   border: 3px solid $color-purple;
   cursor: pointer;
 }
+#search-results{
+  text-align: left;
+  h3{
+    color: $color-purple;
+    font-weight: 700;
+  }
+}
+form.search-form{
+  input[type="text"]{
+    display: block;
+    height: 2em;
+    width: 80%;
+    margin: auto;
+  }
+}
+.accordion{
+  .card{
+    border: none;
+    .card-header{
+      padding: 0;
+      background-color: transparent !important;
+      .btn{
+        padding: 0;
+      }
+      .btn-link{
+        color: #333 !important;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+      button.btn:after{
+        content: '+'
+      }
+    }
+  }
+}
+ 
 @media only screen and (max-width: 768px) {
   .welcome{
     margin-top: 20px !important;

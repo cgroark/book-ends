@@ -44,9 +44,6 @@ class SignIn extends React.Component {
     })
 
     handleSubmit = event => {
-        let usernameEntered = {
-            username: this.state.username
-        }
         let allData = this.state.allData;
         this.setState({
             submitting: true

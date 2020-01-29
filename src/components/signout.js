@@ -29,8 +29,7 @@ class SignOut extends React.Component {
         [e.target.name]: e.target.value
     })
     render(){
-        const { username, loggedout} = this.state;
-        const submitting = this.state.submitting;
+        const {loggedout} = this.state;
         let pageContent;
         if(loggedout){
             pageContent = 
