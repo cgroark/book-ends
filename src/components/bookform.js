@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Accordion, Collapse, Card, Header, Toggle, Body, Button } from 'react-bootstrap';
+import { Row, Col, Accordion, Card, Button } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
@@ -26,7 +26,8 @@ class BookForm extends React.Component {
             query: '',
             searchData: [],
             searchComplete: false,
-            searchForm: false
+            searchForm: false,
+            searchError: false
         }
 
     }
@@ -82,11 +83,25 @@ class BookForm extends React.Component {
     handleSearch = (e) =>{
         e.preventDefault()
         console.log('query', this.state.query);
+        this.setState({
+            searchError: false
+        })
         fetch('https://www.googleapis.com/books/v1/volumes?q="'+this.state.query+'"')
-        .then( response => response.json())
-        .then( json => this.setState({searchData: json.items[0].volumeInfo, searchComplete: true}))
-        .then( () => {
-            console.log('data saerch 2', this.state.searchData.authors);
+        .then( response =>  response.json())
+        .then( (json) => {
+            if(json.totalItems > 0){
+                this.setState({
+                    searchData: json.items[0].volumeInfo, 
+                    searchComplete: true
+                })
+            }else{
+                this.setState({
+                    query: '',
+                    searchError: true
+                })
+                return json;
+            }
+           
         })
     }
     showSearchForm = () =>{
@@ -321,7 +336,7 @@ class BookForm extends React.Component {
         )
     }
     render(){
-    const { submitting, author, title, status, allData, date, query} = this.state;
+    const { submitting, author, title, status, allData, date, query, editing, searchComplete, searchError, searchForm, form} = this.state;
     const allBooks = allData.filter(book => book.username === this.state.username)
     const bookCount = allData.filter(book => book.username === this.state.username).length;
         return(
@@ -332,18 +347,25 @@ class BookForm extends React.Component {
                     <hr />
                </div>
                 }
-                {!this.state.editing && !this.state.form && !this.state.searchForm &&
+                {!editing && !form && !searchForm &&
                     <input type='submit' className="add-button" value="Add a book" onClick={this.showSearchForm}></input>
                 }
-                {!this.state.searchComplete && this.state.searchForm &&
+                {searchError &&
+                        <div>
+                           <p><strong>Looks like we can't find that book. Search again below!</strong></p>
+                        </div>
+                }
+                {!searchComplete && searchForm &&
                     <div>
                         <form onSubmit={this.handleSearch} className={submitting ? 'loading' : 'search-form'}>
                             <input placeholder="Search for books by title..." type="text" name='query' value={query} onChange={this.handleChange} />
                             <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Search'}></input>
                         </form>
                     </div>
+                   
                 }
-                {this.state.searchComplete &&
+              
+                {searchComplete &&
                     <div>
                         {this.renderSearchData()}
                             <input type='submit' className="add-button" disabled={submitting} onClick={this.addSearchResults} value={submitting ? 'Loading...' : 'Add this book'}></input>
