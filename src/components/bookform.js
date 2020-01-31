@@ -27,7 +27,8 @@ class BookForm extends React.Component {
             searchData: [],
             searchComplete: false,
             searchForm: false,
-            searchError: false
+            searchError: false,
+            books: true
         }
 
     }
@@ -106,6 +107,7 @@ class BookForm extends React.Component {
     }
     showSearchForm = () =>{
         this.setState({
+            books: false,
             adding: true,
             searchForm: true,
             author: '', 
@@ -142,18 +144,6 @@ class BookForm extends React.Component {
             form: true
         })
     }
-    clearForm = (e) => {
-        e.preventDefault()
-        this.setState({
-            adding: false,
-            form: false,
-            author: '',
-            title: '', 
-            status: 'select-status', 
-            date: '',
-            rating: '',
-        })
-    }
     handleSubmit = event => {
         const dataSend = {
             date: this.state.date,
@@ -186,7 +176,8 @@ class BookForm extends React.Component {
                 date: '',
                 rating: '',
                 adding: false,
-                form: false
+                form: false,
+                books: true
             })
             console.log('done with book');
             this.getAllData();
@@ -195,6 +186,7 @@ class BookForm extends React.Component {
     }
     updateBook = (each, e) =>{
         this.setState({
+            books: false,
             editing: true,
             form: true
         })
@@ -242,6 +234,7 @@ class BookForm extends React.Component {
             console.log('done with book edit')
             setTimeout(() =>{
                     this.getAllData();
+                    this.setState({books: true})
             }, 1000);
         })
     }
@@ -285,7 +278,7 @@ class BookForm extends React.Component {
             this.setState({
                 submitting: false
             });
-            this.setState({checking: false, editing: false, form: false})
+            this.setState({checking: false, editing: false, form: false, books:true})
             console.log('done with book delete')
             setTimeout(() =>{
                     this.getAllData();
@@ -295,6 +288,21 @@ class BookForm extends React.Component {
     }
     handleDeleteNo = () => {
         this.setState({checking: false})
+    }
+    removeForm = () => {
+        this.setState({
+            searchForm: false,
+            form: false,
+            books: true,
+            searchComplete: false,
+            query: '',
+            adding: false,
+            author: '',
+            title: '', 
+            status: 'select-status', 
+            date: '',
+            rating: '',
+        })
     }
     renderSearchData(){
         return <div id="search-results">
@@ -336,16 +344,20 @@ class BookForm extends React.Component {
         )
     }
     render(){
-    const { submitting, author, title, status, allData, date, query, editing, searchComplete, searchError, searchForm, form} = this.state;
+    const { submitting, author, title, status, allData, date, query, editing, searchComplete, searchError, searchForm, form, books} = this.state;
     const allBooks = allData.filter(book => book.username === this.state.username)
     const bookCount = allData.filter(book => book.username === this.state.username).length;
+    console.log('this many books', bookCount)
         return(
             <div className="main-body">
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
-               <div>
-                   <h3> <i className="fa fa-book" aria-hidden="true"></i>&nbsp;Currently Reading: {this.renderReading()}</h3>
-                    <hr />
-               </div>
+                    <div>
+                        <h3> <i className="fa fa-book" aria-hidden="true"></i>&nbsp;Currently Reading: {this.renderReading()}</h3>
+                            <hr />
+                    </div>
+                }
+                {!books &&
+                    <div id="close-form"><a  onClick={this.removeForm}>x</a></div>
                 }
                 {!editing && !form && !searchForm &&
                     <input type='submit' className="add-button" value="Add a book" onClick={this.showSearchForm}></input>
@@ -427,7 +439,6 @@ class BookForm extends React.Component {
                         <div>
                             <div id="input-section">
                                 <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Submit'}></input>
-                                <input className="nevermind" type='submit' onClick={this.clearForm} disabled={submitting} value={submitting ? 'Loading...' : 'Nevermind'}></input>
                                 {this.state.editing && this.state.form &&
                                 <input id="delete" type='submit' onClick={this.checkDelete} disabled={submitting} value={submitting ? 'Loading...' : 'Delete book'}></input>
                                 }
@@ -447,23 +458,25 @@ class BookForm extends React.Component {
                     </form>   
                     </div>
                 }
-                <table className="book-table">
-                    <thead>
-                        <tr>
-                            <th>Book title</th>
-                            <th>Author</th>
-                            <th>Status</th>
-                            <th>Date finished</th>
-                            <th>Rating</th>
-                            {!this.state.form &&
-                                <th>&nbsp;</th>
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {this.renderAllData()}
-                    </tbody>
-                </table>
+                {books && bookCount > 1 &&
+                    <table className="book-table">
+                        <thead>
+                            <tr>
+                                <th>Book title</th>
+                                <th>Author</th>
+                                <th>Status</th>
+                                <th>Date finished</th>
+                                <th>Rating</th>
+                                {!this.state.form &&
+                                    <th>&nbsp;</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {this.renderAllData()}
+                        </tbody>
+                    </table>
+                }
             </div>
         )
     }

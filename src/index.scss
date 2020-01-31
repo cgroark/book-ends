@@ -180,6 +180,21 @@ input[type="submit"].nevermind{
 input[type="submit"].nevermind:hover{
   border: 3px solid $color-blue;
 }
+#close-form{
+  text-align: right;
+  padding: 30px 20px 0;
+  a{
+    margin-bottom: -10px;
+    border: solid 2px white;
+    padding: 2px 15px 5px;
+    background-color: $color-purple;
+    color: white;
+  }
+  a:hover{
+    border: solid 2px $color-purple;
+
+  }
+}
 #delete{
   float: right;
   border: solid red 2px;
