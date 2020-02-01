@@ -37,7 +37,6 @@ class BookForm extends React.Component {
         let usernameData = localStorage.getItem('username');
         console.log('props:', usernameProps, ' localstorage: ', usernameData)
         if(usernameProps){
-            console.log('in the if')
             this.setState({
                 savedusername: usernameProps,
                 checkusername: true,
@@ -46,13 +45,11 @@ class BookForm extends React.Component {
             this.getAllData();
         }
         else if(usernameData){
-            console.log('in the else')
             this.setState({
                 savedusername: usernameData,
                 checkusername: true,
                 username: usernameData
             })
-            console.log('user is', usernameData )
             this.getAllData();
         }
         // this.setState({username: this.props.name});
@@ -92,7 +89,7 @@ class BookForm extends React.Component {
         .then( (json) => {
             if(json.totalItems > 0){
                 this.setState({
-                    searchData: json.items[0].volumeInfo, 
+                    searchData: json, 
                     searchComplete: true
                 })
             }else{
@@ -118,15 +115,17 @@ class BookForm extends React.Component {
             form: false
         })
     }
-    addSearchResults = () => {
+    addSearchResults = (title, author, e) => {
+        e.preventDefault();
+        console.log("clicked", title, author)
         this.setState({
             searchComplete: false,
             searchForm: false,
             query: '',
             adding: true,
             form: true,
-            title: this.state.searchData.title,
-            author: this.state.searchData.authors[0]
+            title: title,
+            author: author[0]
         })
     }
     searchAgain = () => {
@@ -305,23 +304,36 @@ class BookForm extends React.Component {
         })
     }
     renderSearchData(){
-        return <div id="search-results">
-            <h3>Search results:</h3>
-            <p><strong>Title</strong>: {this.state.searchData.title}, <em>{this.state.searchData.subtitle}</em></p>
-            <p><strong>Author</strong>: {this.state.searchData.authors}</p>
-            <Accordion defaultActiveKey="0">
-                <Card>
-                    <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                            Overview (see details)
-                        </Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="1">
-                        <Card.Body><p>{this.state.searchData.description}</p></Card.Body>
-                    </Accordion.Collapse>
-                </Card>
-            </Accordion>     
-        </div>
+        let submitting = this.state.submitting;
+        let bookData = this.state.searchData;
+        console.log(bookData, bookData.items.length)
+        let currentBooks = [];
+        for(var b=0; b < bookData.items.length; b++){
+            let activeBook = bookData.items[b].volumeInfo
+            currentBooks.push(
+            <Col key={bookData.items[b].id} md={6}>
+            <div className="eachbook">
+                    <p><strong>{activeBook.title}<em>{activeBook.subtitle ? ', '+activeBook.subtitle : '' }</em></strong></p>
+                    <p>{activeBook.authors}</p>
+                    <img src={activeBook.imageLinks.thumbnail} alt={activeBook.title}/>
+                    <Accordion defaultActiveKey="0">
+                        <Card>
+                            <Card.Header>
+                                <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                    Overview (see details)
+                                </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="1">
+                                <Card.Body><p>{bookData.items[b].volumeInfo.description}</p></Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>    
+                    <input type='submit' className="add-button search" disabled={submitting} onClick={(e) =>this.addSearchResults(activeBook.title, activeBook.authors, e)} value={submitting ? 'Loading...' : 'Add '+activeBook.title}></input>
+            </div>
+            </Col>
+            )
+        }
+        return currentBooks;
     }
     renderReading(){
         return this.state.allData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
@@ -347,7 +359,6 @@ class BookForm extends React.Component {
     const { submitting, author, title, status, allData, date, query, editing, searchComplete, searchError, searchForm, form, books} = this.state;
     const allBooks = allData.filter(book => book.username === this.state.username)
     const bookCount = allData.filter(book => book.username === this.state.username).length;
-    console.log('this many books', bookCount)
         return(
             <div className="main-body">
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
@@ -357,10 +368,10 @@ class BookForm extends React.Component {
                     </div>
                 }
                 {!books &&
-                    <div id="close-form"><a  onClick={this.removeForm}>x</a></div>
+                    <div id="close-form"><button  onClick={this.removeForm}>x</button></div>
                 }
                 {!editing && !form && !searchForm &&
-                    <input type='submit' className="add-button" value="Add a book" onClick={this.showSearchForm}></input>
+                    <input type='submit' className="add-button" value="Find a book" onClick={this.showSearchForm}></input>
                 }
                 {searchError &&
                         <div>
@@ -378,9 +389,11 @@ class BookForm extends React.Component {
                 }
               
                 {searchComplete &&
-                    <div>
+                    <div id="search-results">
+                         <h3>Found these books:</h3>
+                         <Row>
                         {this.renderSearchData()}
-                            <input type='submit' className="add-button" disabled={submitting} onClick={this.addSearchResults} value={submitting ? 'Loading...' : 'Add this book'}></input>
+                        </Row>
                             <input  type='submit' className="add-button" onClick={this.searchAgain} disabled={submitting} value={submitting ? 'Loading...' : 'Search again'}></input>
                             <input className="nevermind" type='submit'  onClick={this.showAddForm} disabled={submitting} value={submitting ? 'Loading...' : 'Manually enter a book'}></input>
                     </div>

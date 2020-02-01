@@ -137,6 +137,9 @@ table{
     border-bottom: 1px solid $color-lightgrey;
   }
 }
+#submit-form{
+  text-align: left;
+}
 form{
   .col-md-4{
     text-align: left;
@@ -183,14 +186,14 @@ input[type="submit"].nevermind:hover{
 #close-form{
   text-align: right;
   padding: 30px 20px 0;
-  a{
+  button{
     margin-bottom: -10px;
     border: solid 2px white;
     padding: 2px 15px 5px;
     background-color: $color-purple;
     color: white;
   }
-  a:hover{
+  button:hover{
     border: solid 2px $color-purple;
 
   }
@@ -233,15 +236,29 @@ input.add-button{
   font-size: 1em;
   width: 200px;
 }
+input.add-button.search{
+  width: 100%;
+}
 input#edit:hover, input.add-button:hover{
   border: 3px solid $color-purple;
   cursor: pointer;
 }
 #search-results{
-  text-align: left;
+  .col-md-6 div.eachbook{
+    padding: 10px;
+    border-bottom: 2px solid $color-purple;
+  }
+ 
   h3{
     color: $color-purple;
     font-weight: 700;
+  }
+  p{
+    font-size: 1.2em;
+    margin-bottom: 0.5rem;
+  }
+  img{
+    height: 180px;
   }
 }
 form.search-form{
@@ -263,7 +280,7 @@ form.search-form{
       }
       .btn-link{
         color: #333 !important;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 700;
       }
       button.btn:after{
