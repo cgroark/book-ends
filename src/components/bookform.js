@@ -306,7 +306,8 @@ class BookForm extends React.Component {
     renderSearchData(){
         let submitting = this.state.submitting;
         let bookData = this.state.searchData;
-        console.log(bookData, bookData.items.length)
+        console.log('alldata', bookData, bookData.items.length)
+        console.log('first book', bookData.items[0].volumeInfo)
         let currentBooks = [];
         for(var b=0; b < bookData.items.length; b++){
             let activeBook = bookData.items[b].volumeInfo
@@ -315,7 +316,7 @@ class BookForm extends React.Component {
             <div className="eachbook">
                     <p><strong>{activeBook.title}<em>{activeBook.subtitle ? ', '+activeBook.subtitle : '' }</em></strong></p>
                     <p>{activeBook.authors}</p>
-                    <img src={activeBook.imageLinks.thumbnail} alt={activeBook.title}/>
+                    <p>{activeBook.imageLinks ? <img src={activeBook.imageLinks.thumbnail} alt={activeBook.title} /> : '' }</p>
                     <Accordion defaultActiveKey="0">
                         <Card>
                             <Card.Header>
@@ -324,7 +325,7 @@ class BookForm extends React.Component {
                                 </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="1">
-                                <Card.Body><p>{bookData.items[b].volumeInfo.description}</p></Card.Body>
+                                <Card.Body><p>{activeBook.description}</p></Card.Body>
                             </Accordion.Collapse>
                         </Card>
                     </Accordion>    
