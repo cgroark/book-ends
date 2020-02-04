@@ -48,6 +48,7 @@ code {
 }
 .main-body{
   text-align: center;
+  margin-top: 40px;
   h3, h2{
     margin-top: 15px;
   }
@@ -126,16 +127,43 @@ table{
   text-align: left;
   width: 100%;
   margin-bottom: 50px;
+  .accordion {
+    .card .card-header .btn-link{
+      color: #666 !important;
+      font-size: 1rem;
+      font-weight: 400;
+      margin: 3px 0 0 15px;
+
+    }
+    .card p{
+      font-size: .8em;
+    }
+  }
   th{
+    padding-right: 20px;
     color: $color-purple;
     font-size: 1.4rem;
     border-bottom: 1px solid $color-purple;
   }
   td{
-    padding: 4px 0;
+    padding: 4px 20px 0 0;
     font-size: 1.2rem;
     border-bottom: 1px solid $color-lightgrey;
+    img{
+      width: 90PX;
+      padding: 6px;
+    }
   }
+  td.title-cell div{
+    display: flex;
+    flex-wrap: wrap;
+    p{
+      font-size: .8em;
+      margin: 3px 0 0 15px;
+      color: #666 !important;
+      font-weight: 400;
+    }
+}
 }
 #submit-form{
   text-align: left;
@@ -243,6 +271,19 @@ input#edit:hover, input.add-button:hover{
   border: 3px solid $color-purple;
   cursor: pointer;
 }
+#reading-now{
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  text-align: left;
+  img{
+    width: 130px;
+    padding: 10px;
+  }
+  h3, h4{
+    margin: auto;
+  }
+}
 #search-results{
   .col-md-6 div.eachbook{
     padding: 10px;
@@ -268,6 +309,10 @@ form.search-form{
     width: 80%;
     margin: auto;
   }
+}
+#booklist h2{
+  text-align: left;
+  border-bottom: 2px solid $color-purple
 }
 .accordion{
   .card{

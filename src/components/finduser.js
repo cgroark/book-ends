@@ -14,7 +14,9 @@ class FindUser extends React.Component {
             showForm: true,
             showResults: true,
             friendData: [],
-            submitting: false        }
+            pickedUser: '',
+            submitting: false        
+        }
 
     }
     componentDidMount = () =>{
@@ -29,11 +31,11 @@ class FindUser extends React.Component {
     })
     handleSubmit = (event) => {
         event.preventDefault()
-        this.setState({submitting: true})
         this.setState({
-            pickedUser: this.state.userLast
+            pickedUser: this.state.userLast,
+            submitting: true
         })
-        console.log("user search for was ", this.state.pickedUser);
+        console.log("user search was for ", this.state.pickedUser);
         fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351')
         .then( (response) => {
             return response.json()
@@ -67,7 +69,7 @@ class FindUser extends React.Component {
     }
     renderFriend(){
         console.log('friend name', this.state.pickedUser)
-        return this.state.allData.filter(friend => friend.lastName.toLowerCase()=== this.state.pickedUser.toLowerCase()).map((each) => 
+        return this.state.allData.filter(friend => friend.lastName === this.state.pickedUser).map((each) => 
         <React.Fragment>
             <span key={each.id} className="found-friend">{each.firstName} {each.lastName}
                 <button type="submit" className="div-button friend" onClick={() => this.friendsBooks(each.username)} >View books
@@ -80,8 +82,10 @@ class FindUser extends React.Component {
    
 
     render(){
-        const {userLast, submitting, showForm, friendData, showResults} = this.state;
-        let numUsersFound =  this.state.allData.filter(friend => friend.lastName.toLowerCase()=== this.state.pickedUser.toLowerCase()).length;
+        const {userLast, submitting, showForm, friendData, showResults, pickedUser, allData} = this.state;
+        console.log('last anem', allData.filter(friend => friend.lastName))
+        console.log('picked', pickedUser)
+        let numUsersFound =  allData.filter(friend => friend.lastName === pickedUser).length;
         console.log('LENGGTH', friendData.length,  friendData)
         return(
             <div className="main-body">

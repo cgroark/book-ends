@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { Row, Col, Accordion, Card, Button } from 'react-bootstrap';
 
 
 
@@ -23,9 +24,42 @@ class FriendData extends React.Component {
         <span key={each.id}>{each.title}</span>
         )
     }
+    renderReading(){
+        return this.state.friendData.filter(book => book.status === "Currently-Reading").map((each) => 
+        <div id="reading-now">
+            <h3  key={each.id}>Currently reading:<br />
+            <em>{each.title}</em></h3> 
+            <span>{each.image ? <img src={each.image} alt={each.title} />  :''}</span>
+        </div>
+        )
+    }
     renderAllData(){
         return this.state.friendData.map((each, index) => 
-            <tr key={each.id}><td>{each.title}</td><td>{each.authorfirst} {each.authorlast}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
+        <tr key={each.id}><td className="title-cell">
+            <div>
+            {each.title} 
+            {each.overview ? 
+            <Accordion defaultActiveKey="0">
+                        <Card>
+                            <Card.Header>
+                                <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                    Read summary
+                                </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="1">
+                                <Card.Body><p>{each.overview}</p></Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>  
+            : <p>(No summary available)</p> }
+            </div>
+         </td>
+         <td> {each.image ?
+            <img src={each.image} alt={each.title} />
+        :
+        ''
+        }
+        </td><td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
             </tr>
         )
     }
@@ -45,6 +79,7 @@ class FriendData extends React.Component {
                     <thead>
                         <tr>
                             <th>Book title</th>
+                            <th>&nbsp;</th>
                             <th>Author</th>
                             <th>Status</th>
                             <th>Date finished</th>

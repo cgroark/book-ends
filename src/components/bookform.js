@@ -28,7 +28,9 @@ class BookForm extends React.Component {
             searchComplete: false,
             searchForm: false,
             searchError: false,
-            books: true
+            books: true,
+            description: '',
+            imageUrl: ''
         }
 
     }
@@ -73,8 +75,10 @@ class BookForm extends React.Component {
                     for(var b=0 ; b<userData.length ; b++){
                         allIDs.push(parseInt(userData[b].id.split('id=')[1]));
                     }
-                    let newID = allIDs.sort()[allIDs.length -1] + 1;
+                    let sortedIDs= allIDs.sort((b, a) => b - a)
+                    let newID = sortedIDs[allIDs.length -1] + 1;
                     this.setState({currentID: newID})
+                    console.log('the current id is', this.state.currentID)
                 }       
             })
     }
@@ -111,13 +115,13 @@ class BookForm extends React.Component {
             title: '', 
             status: 'select-status', 
             date: '',
-            editing: false,
+            editing: true,
             form: false
         })
     }
-    addSearchResults = (title, author, e) => {
+    addSearchResults = (title, author, description, image, e) => {
         e.preventDefault();
-        console.log("clicked", title, author)
+        console.log("clicked", title, author, image)
         this.setState({
             searchComplete: false,
             searchForm: false,
@@ -125,7 +129,9 @@ class BookForm extends React.Component {
             adding: true,
             form: true,
             title: title,
-            author: author[0]
+            author: author[0],
+            description: description, 
+            imageUrl: image
         })
     }
     searchAgain = () => {
@@ -151,7 +157,9 @@ class BookForm extends React.Component {
             title: this.state.title,
             status: this.state.status,
             id: this.state.username+'id='+this.state.currentID,
-            rating: this.state.rating
+            rating: this.state.rating,
+            overview: this.state.description,
+            image: this.state.imageUrl
         }
         console.log(dataSend)
         event.preventDefault()
@@ -174,9 +182,12 @@ class BookForm extends React.Component {
                 status: 'select-status', 
                 date: '',
                 rating: '',
+                description: '',
+                imageUrl: '',
                 adding: false,
                 form: false,
-                books: true
+                books: true, 
+                editing: false
             })
             console.log('done with book');
             this.getAllData();
@@ -301,6 +312,7 @@ class BookForm extends React.Component {
             status: 'select-status', 
             date: '',
             rating: '',
+            editing: false
         })
     }
     renderSearchData(){
@@ -310,13 +322,15 @@ class BookForm extends React.Component {
         console.log('first book', bookData.items[0].volumeInfo)
         let currentBooks = [];
         for(var b=0; b < bookData.items.length; b++){
-            let activeBook = bookData.items[b].volumeInfo
+            let activeBook = bookData.items[b].volumeInfo;
+            let image;
+            activeBook.imageLinks ? image = activeBook.imageLinks.thumbnail : image = '';
             currentBooks.push(
             <Col key={bookData.items[b].id} md={6}>
             <div className="eachbook">
                     <p><strong>{activeBook.title}<em>{activeBook.subtitle ? ', '+activeBook.subtitle : '' }</em></strong></p>
                     <p>{activeBook.authors}</p>
-                    <p>{activeBook.imageLinks ? <img src={activeBook.imageLinks.thumbnail} alt={activeBook.title} /> : '' }</p>
+                    <p>{activeBook.imageLinks ? <img src={image} alt={activeBook.title} /> : '' }</p>
                     <Accordion defaultActiveKey="0">
                         <Card>
                             <Card.Header>
@@ -329,7 +343,7 @@ class BookForm extends React.Component {
                             </Accordion.Collapse>
                         </Card>
                     </Accordion>    
-                    <input type='submit' className="add-button search" disabled={submitting} onClick={(e) =>this.addSearchResults(activeBook.title, activeBook.authors, e)} value={submitting ? 'Loading...' : 'Add '+activeBook.title}></input>
+                    <input type='submit' className="add-button search" disabled={submitting} onClick={(e) =>this.addSearchResults(activeBook.title, activeBook.authors, activeBook.description, image, e)} value={submitting ? 'Loading...' : 'Add '+activeBook.title}></input>
             </div>
             </Col>
             )
@@ -338,12 +352,40 @@ class BookForm extends React.Component {
     }
     renderReading(){
         return this.state.allData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
-        <span key={each.id}>{each.title}</span>
+        <div key={each.id} id="reading-now">
+            <h3  >Currently reading:<br />
+            <em>{each.title}</em></h3> 
+            <span>{each.image ? <img src={each.image} alt={each.title} />  :''}</span>
+        </div>
         )
     }
     renderAllData(){
         return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each) => 
-            <tr key={each.id}><td>{each.title}</td><td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
+            <tr key={each.id}><td className="title-cell">
+            <div>
+            {each.title} 
+            {each.overview ? 
+            <Accordion defaultActiveKey="0">
+                        <Card>
+                            <Card.Header>
+                                <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                    Read summary
+                                </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey="1">
+                                <Card.Body><p>{each.overview}</p></Card.Body>
+                            </Accordion.Collapse>
+                        </Card>
+                    </Accordion>  
+             : <p>(No summary available)</p> }
+             </div>
+             </td>
+             <td> {each.image ?
+                <img src={each.image} alt={each.title} />
+            :
+            ''
+            }
+            </td><td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
             <td>
             {!this.state.form &&
                <div>
@@ -362,9 +404,9 @@ class BookForm extends React.Component {
     const bookCount = allData.filter(book => book.username === this.state.username).length;
         return(
             <div className="main-body">
-                {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
+                {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && !editing &&
                     <div>
-                        <h3> <i className="fa fa-book" aria-hidden="true"></i>&nbsp;Currently Reading: {this.renderReading()}</h3>
+                      {this.renderReading()}
                             <hr />
                     </div>
                 }
@@ -385,6 +427,7 @@ class BookForm extends React.Component {
                             <input placeholder="Search for books by title..." type="text" name='query' value={query} onChange={this.handleChange} />
                             <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Search'}></input>
                         </form>
+                        <input className="nevermind" type='submit'  onClick={this.showAddForm} disabled={submitting} value={submitting ? 'Loading...' : 'Manually enter a book'}></input>
                     </div>
                    
                 }
@@ -392,11 +435,10 @@ class BookForm extends React.Component {
                 {searchComplete &&
                     <div id="search-results">
                          <h3>Found these books:</h3>
+                         <input  type='submit' className="add-button" onClick={this.searchAgain} disabled={submitting} value={submitting ? 'Loading...' : 'Search again'}></input>
                          <Row>
                         {this.renderSearchData()}
                         </Row>
-                            <input  type='submit' className="add-button" onClick={this.searchAgain} disabled={submitting} value={submitting ? 'Loading...' : 'Search again'}></input>
-                            <input className="nevermind" type='submit'  onClick={this.showAddForm} disabled={submitting} value={submitting ? 'Loading...' : 'Manually enter a book'}></input>
                     </div>
                 }
 
@@ -442,7 +484,7 @@ class BookForm extends React.Component {
                                 </label>
                             </Col>
                             <Col md={4}>
-                                <label >Date finished:<br />
+                                <label >Finished on:<br />
                                 <DatePicker selected={date} onChange={this.handleDateChange} />
                                 </label>
                             </Col>
@@ -473,13 +515,16 @@ class BookForm extends React.Component {
                     </div>
                 }
                 {books && bookCount > 1 &&
+                    
+                    <div id="booklist"><h2>Your book list</h2>
                     <table className="book-table">
                         <thead>
                             <tr>
-                                <th>Book title</th>
+                                <th>Title</th>
+                                <th>&nbsp;</th>
                                 <th>Author</th>
                                 <th>Status</th>
-                                <th>Date finished</th>
+                                <th>Completed</th>
                                 <th>Rating</th>
                                 {!this.state.form &&
                                     <th>&nbsp;</th>
@@ -490,6 +535,7 @@ class BookForm extends React.Component {
                         {this.renderAllData()}
                         </tbody>
                     </table>
+                    </div>
                 }
             </div>
         )
