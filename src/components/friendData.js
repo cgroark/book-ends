@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Row, Col, Accordion, Card, Button } from 'react-bootstrap';
+import {Accordion, Card, Button } from 'react-bootstrap';
 
 
 
@@ -21,11 +21,6 @@ class FriendData extends React.Component {
     
     renderReading(){
         return this.state.friendData.filter(book => book.status === "Currently-Reading").map((each) => 
-        <span key={each.id}>{each.title}</span>
-        )
-    }
-    renderReading(){
-        return this.state.friendData.filter(book => book.status === "Currently-Reading").map((each) => 
         <div id="reading-now">
             <h3  key={each.id}>Currently reading:<br />
             <em>{each.title}</em></h3> 
@@ -36,7 +31,7 @@ class FriendData extends React.Component {
     renderAllData(){
         return this.state.friendData.map((each, index) => 
         <tr key={each.id}><td className="title-cell">
-            <div>
+            <div key={each.id}>
             {each.title} 
             {each.overview ? 
             <Accordion defaultActiveKey="0">
@@ -71,18 +66,18 @@ class FriendData extends React.Component {
             <div className="main-body">
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
                 <div>
-                    <h3> <i className="fa fa-book" aria-hidden="true"></i>&nbsp;Currently Reading: {this.renderReading()}</h3>
+                    <h3> {this.renderReading()}</h3>
                         <hr />
                 </div>
                 }
                 <table className="book-table">
                     <thead>
                         <tr>
-                            <th>Book title</th>
+                            <th>Title</th>
                             <th>&nbsp;</th>
                             <th>Author</th>
                             <th>Status</th>
-                            <th>Date finished</th>
+                            <th>Completed</th>
                             <th>Rating</th>
                         </tr>
                     </thead>

@@ -30,7 +30,10 @@ class BookForm extends React.Component {
             searchError: false,
             books: true,
             description: '',
-            imageUrl: ''
+            imageUrl: '',
+            searchloading: false,
+            currentlyReading: true,
+            searchButton: true
         }
 
     }
@@ -86,7 +89,9 @@ class BookForm extends React.Component {
         e.preventDefault()
         console.log('query', this.state.query);
         this.setState({
-            searchError: false
+            searchloading: true,
+            searchError: false,
+            searchForm: false
         })
         fetch('https://www.googleapis.com/books/v1/volumes?q="'+this.state.query+'"')
         .then( response =>  response.json())
@@ -94,12 +99,15 @@ class BookForm extends React.Component {
             if(json.totalItems > 0){
                 this.setState({
                     searchData: json, 
-                    searchComplete: true
+                    searchComplete: true,
+                    searchloading: false
                 })
             }else{
                 this.setState({
                     query: '',
-                    searchError: true
+                    searchError: true,
+                    searchForm: true,
+                    searchloading: false
                 })
                 return json;
             }
@@ -108,15 +116,14 @@ class BookForm extends React.Component {
     }
     showSearchForm = () =>{
         this.setState({
+            currentlyReading: false,
+            searchButton: false,
             books: false,
-            adding: true,
             searchForm: true,
             author: '', 
             title: '', 
             status: 'select-status', 
-            date: '',
-            editing: true,
-            form: false
+            date: ''
         })
     }
     addSearchResults = (title, author, description, image, e) => {
@@ -164,7 +171,8 @@ class BookForm extends React.Component {
         console.log(dataSend)
         event.preventDefault()
         this.setState({
-            submitting: true
+            searchloading: true,
+            form: false,
         })
         fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351', {
             headers: {
@@ -176,7 +184,7 @@ class BookForm extends React.Component {
         }).then( (response) => {
             console.log(response)
             this.setState({
-                submitting: false,
+                searchloading: false,
                 author: '', 
                 title: '', 
                 status: 'select-status', 
@@ -185,9 +193,10 @@ class BookForm extends React.Component {
                 description: '',
                 imageUrl: '',
                 adding: false,
-                form: false,
                 books: true, 
-                editing: false
+                editing: false,
+                currentlyReading: true,
+                searchButton: true
             })
             console.log('done with book');
             this.getAllData();
@@ -197,10 +206,12 @@ class BookForm extends React.Component {
     updateBook = (each, e) =>{
         this.setState({
             books: false,
+            currentlyReading: false,
             editing: true,
-            form: true
+            form: true,
+            searchButton: false
         })
-        console.log('date here', each.date)
+        console.log('data here', each.date, moment(each.date).format('MM/DD/YYYY'))
         this.setState({
             author: each.author,
             title: each.title, 
@@ -220,7 +231,8 @@ class BookForm extends React.Component {
         console.log(dataEdit)
         event.preventDefault()
         this.setState({
-            submitting: true
+            searchloading: true,
+            form: false
         })
         fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351/id/'+this.state.bookid, {
             headers: {
@@ -232,19 +244,21 @@ class BookForm extends React.Component {
         }).then( (response) => {
             console.log(response)
             this.setState({
-                submitting: false,
                 author: '', 
                 title: '', 
                 status: 'select-status', 
                 date: '',
-                editing: false,
-                form: false
+                editing: false
             })
         }).then( () =>{
             console.log('done with book edit')
             setTimeout(() =>{
                     this.getAllData();
-                    this.setState({books: true})
+                    this.setState({
+                        books: true,
+                        searchloading: false,
+                        currentlyReading: true
+                    })
             }, 1000);
         })
     }
@@ -269,7 +283,9 @@ class BookForm extends React.Component {
     checkDelete = (e)=> {
         e.preventDefault();
         console.log('checking')
-        this.setState({checking: true})
+        this.setState({
+            checking: true
+        })
     }    
     handleDeleteYes = (e) =>{
         e.preventDefault();
@@ -312,7 +328,9 @@ class BookForm extends React.Component {
             status: 'select-status', 
             date: '',
             rating: '',
-            editing: false
+            editing: false,
+            currentlyReading: true,
+            searchButton: true
         })
     }
     renderSearchData(){
@@ -385,7 +403,7 @@ class BookForm extends React.Component {
             :
             ''
             }
-            </td><td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
+            </td><td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""}</td><td>{each.rating}</td>
             <td>
             {!this.state.form &&
                <div>
@@ -398,23 +416,31 @@ class BookForm extends React.Component {
             </tr>
         )
     }
+   
     render(){
-    const { submitting, author, title, status, allData, date, query, editing, searchComplete, searchError, searchForm, form, books} = this.state;
+    const { checking, submitting, author, title, status, allData, date, query, editing, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
     const allBooks = allData.filter(book => book.username === this.state.username)
     const bookCount = allData.filter(book => book.username === this.state.username).length;
+    console.log('date', date)
         return(
             <div className="main-body">
-                {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && !editing &&
+                {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && currentlyReading &&
                     <div>
                       {this.renderReading()}
                             <hr />
                     </div>
                 }
-                {!books &&
-                    <div id="close-form"><button  onClick={this.removeForm}>x</button></div>
+                {!books && !searchloading && !form &&
+                    <div id="close-button"><button  onClick={this.removeForm}>x</button></div>
                 }
-                {!editing && !form && !searchForm &&
+                {searchButton && 
                     <input type='submit' className="add-button" value="Find a book" onClick={this.showSearchForm}></input>
+                }
+                {searchloading && 
+                    <div class="progress-infinite">
+                        <div class="progress-bar3" >
+                        </div>                       
+                    </div> 
                 }
                 {searchError &&
                         <div>
@@ -425,9 +451,9 @@ class BookForm extends React.Component {
                     <div>
                         <form onSubmit={this.handleSearch} className={submitting ? 'loading' : 'search-form'}>
                             <input placeholder="Search for books by title..." type="text" name='query' value={query} onChange={this.handleChange} />
-                            <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Search'}></input>
+                            <input type='submit' value="Search"></input>
                         </form>
-                        <input className="nevermind" type='submit'  onClick={this.showAddForm} disabled={submitting} value={submitting ? 'Loading...' : 'Manually enter a book'}></input>
+                        <input className="manual" type='submit'  onClick={this.showAddForm} disabled={submitting} value='Manually enter a book'></input>
                     </div>
                    
                 }
@@ -435,17 +461,19 @@ class BookForm extends React.Component {
                 {searchComplete &&
                     <div id="search-results">
                          <h3>Found these books:</h3>
-                         <input  type='submit' className="add-button" onClick={this.searchAgain} disabled={submitting} value={submitting ? 'Loading...' : 'Search again'}></input>
+                         <input  type='submit' className="add-button" onClick={this.searchAgain}  value='Search again'></input>
                          <Row>
                         {this.renderSearchData()}
                         </Row>
                     </div>
                 }
 
-                {this.state.form &&
+                {form && 
                     <div>
-                    <form onSubmit={this.state.adding ? this.handleSubmit : this.handleSubmitEdit} className={submitting ? 'loading' : 'submit-form'}>
-        
+                    <form onSubmit={this.state.adding ? this.handleSubmit : this.handleSubmitEdit} className='submit-form'>
+                    <div id="close-form"><button  onClick={this.removeForm}>x</button></div>
+                        {!checking &&
+                        <div>
                         <Row>
                             <Col md={4}>
                                 <label >Title:<br />
@@ -462,7 +490,7 @@ class BookForm extends React.Component {
                     
                             <Col md={4}>
                                 <label>Status: <br />
-                                    <select defaultValue={"select-status"} onChange={this.updateStatus}>>
+                                    <select defaultValue={status} onChange={this.updateStatus}>>
                                         <option value="select-status" disabled>Select status</option>
                                         <option value="Finished">Finished</option>
                                         <option value="Currently-Reading">Currently reading</option>
@@ -474,7 +502,7 @@ class BookForm extends React.Component {
                             <React.Fragment>
                             <Col md={4}>
                                 <label>Recommendation: <br />
-                                    <select defaultValue={"select-rating"} onChange={this.updateRating}>>
+                                    <select defaultValue={editing ? rating : "select-rating"} onChange={this.updateRating}>>
                                         <option value="select-rating" disabled>Select rating</option>
                                         <option value="Highly Recommend">Highly recommend</option>
                                         <option value="Recommend">Recommend</option>
@@ -484,33 +512,35 @@ class BookForm extends React.Component {
                                 </label>
                             </Col>
                             <Col md={4}>
-                                <label >Finished on:<br />
-                                <DatePicker selected={date} onChange={this.handleDateChange} />
-                                </label>
+                                <label >Finished on:</label>
+                                <DatePicker selected={date} onChange={this.handleDateChange}  />                                
                             </Col>
                             </React.Fragment>
                             }
                             
                         </Row>
-                        <div>
+                        </div>
+                        }
+                         {!checking &&
                             <div id="input-section">
-                                <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Submit'}></input>
+                                <input type='submit'  value={this.state.adding ? 'Add Book' : 'Update Book'}></input>
                                 {this.state.editing && this.state.form &&
-                                <input id="delete" type='submit' onClick={this.checkDelete} disabled={submitting} value={submitting ? 'Loading...' : 'Delete book'}></input>
+                                    <input className="delete" type='submit' onClick={this.checkDelete} value='Delete book'></input>
                                 }
                             </div>
-                            {this.state.checking &&
+                         }
+                            {checking &&
                             <div id="delete-section">
-                                <div className={submitting ? 'load-delete' : 'check-delete'}>
+                                <div>
                                     <h3>Are you sure you want to delete {title} from your list?</h3>
-                                    <label htmlFor="delete-all"></label>
-                                    <input className="delete-button" type="submit" value="Yes" id="delete-all" onClick={this.handleDeleteYes}></input>
-                                    <label htmlFor="delete-all-no"></label>
-                                    <input className="delete-button-no" type="submit" value="No" id="delete-all-no" onClick={this.handleDeleteNo}></input>
+                                    <label htmlFor="delete-yes"></label>
+                                    <input className="delete" type="submit" value="Yes" id="delete-yes" onClick={this.handleDeleteYes}></input>
+                                    <label htmlFor="delete-no"></label>
+                                    <input className="delete" type="submit" value="No" id="delete-no" onClick={this.handleDeleteNo}></input>
                                 </div>
                             </div>
                             }
-                        </div>
+                        
                     </form>   
                     </div>
                 }

@@ -1,6 +1,9 @@
 $color-purple: #6B3074;
 $color-blue: #86A3C3;
 $color-lightgrey: #B8B8B8;
+$color-lightpurple: #b19cd9;
+$color-darkblue: #003152;
+$color-darkgrey: #555555;
 
 div.App article{
   max-width: 1100px;
@@ -165,10 +168,15 @@ table{
     }
 }
 }
-#submit-form{
+.submit-form{
   text-align: left;
+  border: solid $color-lightgrey 1px;
+  padding: 20px;
 }
 form{
+  .react-datepicker__input-container input{
+    font-size: 1.5em;
+  }
   .col-md-4{
     text-align: left;
   }
@@ -179,8 +187,8 @@ form{
     text-align: center;
   }
   input[type="submit"]{
-    display: inline-block;
-    margin: 10px 5px;
+    display: block;
+    margin: 30px auto 0;
     width: 200px;
     height: 3em;
     background-color: $color-purple;
@@ -193,25 +201,44 @@ form{
     border: 3px solid $color-purple;
     cursor: pointer;
   }
+
   label{
     text-align: left;
-    color: $color-purple;
+    color: $color-purple; 
     font-size: 1.5rem;
+    margin-bottom: 0;
   }
 }
-input[type="submit"].nevermind{
-  padding: 6px 10px 8px;
-  background-color: #86A3C3;
-  color: black;
-  border: 3px solid white;
-  display: block;
-  margin: 10px auto;
+input[type="submit"].manual{
   font-size: 1em;
+  margin-top: 20px;
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  font-weight: 700;
+  border-top: 40px;
 }
-input[type="submit"].nevermind:hover{
-  border: 3px solid $color-blue;
+input[type="submit"].manual:hover{
+  text-decoration: none;
+  color: $color-darkgrey;
 }
-#close-form{
+input[type="submit"].delete{
+  float: left;
+  border: none;
+  background-color: transparent;
+  color: #333;
+  border-bottom: solid red 4px;
+  width: 110px;
+  height: inherit;
+  margin-top: -50px;
+
+}
+input[type="submit"].delete:hover{
+  color: #333;
+  border: none;
+  border-bottom: solid red 9px;
+}
+#close-button{
   text-align: right;
   padding: 30px 20px 0;
   button{
@@ -226,20 +253,22 @@ input[type="submit"].nevermind:hover{
 
   }
 }
-#delete{
-  float: right;
-  border: solid red 2px;
-  background-color: white;
-  color: #333;
-  width: 150px;
+#close-form{
+  text-align: right;
+  button{
+    margin-bottom: -10px;
+    border: solid 2px white;
+    padding: 2px 15px 5px;
+    background-color: $color-purple;
+    color: white;
+  }
+  button:hover{
+    border: solid 2px $color-purple;
+
+  }
 }
-#delete:hover{
-  float: right;
-  border: solid white 2px;
-  background-color: red;
-  color: white;
-  width: 150px;
-}
+
+
 form.loading {
   label{
       color: $color-lightgrey;
@@ -283,6 +312,10 @@ input#edit:hover, input.add-button:hover{
   h3, h4{
     margin: auto;
   }
+}
+.found-friend{
+  margin-bottom: 20px;
+  font-size: 1.3em;
 }
 #search-results{
   .col-md-6 div.eachbook{
@@ -350,4 +383,46 @@ form.search-form{
       text-shadow: 2px 2px black;
     }
   } 
+}
+
+
+
+.progress-bar3 {
+  height: 18px;
+  border-radius: 4px;
+  background-image: 
+     linear-gradient(to right, 
+       $color-purple, $color-lightgrey, $color-blue);
+  transition: 0.4s linear;  
+  transition-property: width, background-color;    
+}
+
+.progress-infinite .progress-bar3 { 	 
+  width: 100%; 
+  background-image: 
+    linear-gradient(to right, $color-lightpurple, $color-purple, $color-lightgrey, $color-blue, $color-darkblue);
+  animation: colorAnimation 1s infinite;
+}
+
+@keyframes colorAnimation {
+  0% { 
+    background-image: 
+    linear-gradient(to right, $color-lightpurple, $color-purple, $color-lightgrey, $color-blue, $color-darkblue);
+  }
+  20% { 
+    background-image: 
+    linear-gradient(to right,  $color-darkblue, $color-lightpurple, $color-purple, $color-lightgrey, $color-blue);
+  }
+  40% { 
+    background-image: 
+    linear-gradient(to right, $color-blue, $color-darkblue, $color-lightpurple, $color-purple, $color-lightgrey );
+  }
+  60% { 
+    background-image: 
+    linear-gradient(to right, $color-lightgrey, $color-blue, $color-darkblue, $color-lightpurple, $color-purple );
+  }
+  100% { 
+    background-image: 
+    linear-gradient(to right, $color-purple, $color-lightgrey, $color-blue, $color-darkblue, $color-lightpurple);
+  }
 }

@@ -48,6 +48,7 @@ code {
 
 .main-body {
   text-align: center;
+  margin-top: 40px;
 }
 
 .main-body h3, .main-body h2 {
@@ -142,21 +143,58 @@ table {
   margin-bottom: 50px;
 }
 
+table .accordion .card .card-header .btn-link {
+  color: #666 !important;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 3px 0 0 15px;
+}
+
+table .accordion .card p {
+  font-size: .8em;
+}
+
 table th {
+  padding-right: 20px;
   color: #6B3074;
   font-size: 1.4rem;
   border-bottom: 1px solid #6B3074;
 }
 
 table td {
-  padding: 4px 0;
+  padding: 4px 20px 0 0;
   font-size: 1.2rem;
   border-bottom: 1px solid #B8B8B8;
 }
 
-form {
-  margin-bottom: 40px;
-  border-bottom: 2px solid #6B3074;
+table td img {
+  width: 90PX;
+  padding: 6px;
+}
+
+table td.title-cell div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+table td.title-cell div p {
+  font-size: .8em;
+  margin: 3px 0 0 15px;
+  color: #666 !important;
+  font-weight: 400;
+}
+
+.submit-form {
+  text-align: left;
+  border: solid #B8B8B8 1px;
+  padding: 20px;
+}
+
+form .react-datepicker__input-container input {
+  font-size: 1.5em;
 }
 
 form .col-md-4 {
@@ -172,8 +210,8 @@ form #input-section {
 }
 
 form input[type="submit"] {
-  display: inline-block;
-  margin: 10px 5px;
+  display: block;
+  margin: 30px auto 0;
   width: 200px;
   height: 3em;
   background-color: #6B3074;
@@ -188,36 +226,76 @@ form input[type="submit"]:hover {
   cursor: pointer;
 }
 
-form input[type="submit"]#nevermind {
-  background-color: #86A3C3;
-  color: black;
-  border: 3px solid white;
-}
-
-form input[type="submit"]#nevermind:hover {
-  border: 3px solid #86A3C3;
-}
-
 form label {
   text-align: left;
   color: #6B3074;
   font-size: 1.5rem;
+  margin-bottom: 0;
 }
 
-#delete {
-  float: right;
-  border: solid red 2px;
-  background-color: white;
+input[type="submit"].manual {
+  font-size: 1em;
+  margin-top: 20px;
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  font-weight: 700;
+  border-top: 40px;
+}
+
+input[type="submit"].manual:hover {
+  text-decoration: none;
+  color: #555555;
+}
+
+input[type="submit"].delete {
+  float: left;
+  border: none;
+  background-color: transparent;
   color: #333;
-  width: 150px;
+  border-bottom: solid red 4px;
+  width: 110px;
+  height: inherit;
+  margin-top: -50px;
 }
 
-#delete:hover {
-  float: right;
-  border: solid white 2px;
-  background-color: red;
+input[type="submit"].delete:hover {
+  color: #333;
+  border: none;
+  border-bottom: solid red 9px;
+}
+
+#close-button {
+  text-align: right;
+  padding: 30px 20px 0;
+}
+
+#close-button button {
+  margin-bottom: -10px;
+  border: solid 2px white;
+  padding: 2px 15px 5px;
+  background-color: #6B3074;
   color: white;
-  width: 150px;
+}
+
+#close-button button:hover {
+  border: solid 2px #6B3074;
+}
+
+#close-form {
+  text-align: right;
+}
+
+#close-form button {
+  margin-bottom: -10px;
+  border: solid 2px white;
+  padding: 2px 15px 5px;
+  background-color: #6B3074;
+  color: white;
+}
+
+#close-form button:hover {
+  border: solid 2px #6B3074;
 }
 
 form.loading label {
@@ -229,7 +307,7 @@ form.loading input[type="submit"] {
   border: 3px solid #B8B8B8;
 }
 
-input#edit, input#add {
+input#edit, input.add-button {
   padding: 6px 10px 8px;
   background-color: #6B3074;
   font-size: 0.8em;
@@ -238,16 +316,97 @@ input#edit, input#add {
   color: white;
 }
 
-input#add {
-  display: block;
+input.add-button {
+  display: inline-block;
   margin: 10px auto;
-  font-size: 1.5em;
+  font-size: 1em;
   width: 200px;
 }
 
-input#edit:hover, input#add:hover {
+input.add-button.search {
+  width: 100%;
+}
+
+input#edit:hover, input.add-button:hover {
   border: 3px solid #6B3074;
   cursor: pointer;
+}
+
+#reading-now {
+  max-width: 500px;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-align: left;
+}
+
+#reading-now img {
+  width: 130px;
+  padding: 10px;
+}
+
+#reading-now h3, #reading-now h4 {
+  margin: auto;
+}
+
+.found-friend {
+  margin-bottom: 20px;
+  font-size: 1.3em;
+}
+
+#search-results .col-md-6 div.eachbook {
+  padding: 10px;
+  border-bottom: 2px solid #6B3074;
+}
+
+#search-results h3 {
+  color: #6B3074;
+  font-weight: 700;
+}
+
+#search-results p {
+  font-size: 1.2em;
+  margin-bottom: 0.5rem;
+}
+
+#search-results img {
+  height: 180px;
+}
+
+form.search-form input[type="text"] {
+  display: block;
+  height: 2em;
+  width: 80%;
+  margin: auto;
+}
+
+#booklist h2 {
+  text-align: left;
+  border-bottom: 2px solid #6B3074;
+}
+
+.accordion .card {
+  border: none;
+}
+
+.accordion .card .card-header {
+  padding: 0;
+  background-color: transparent !important;
+}
+
+.accordion .card .card-header .btn {
+  padding: 0;
+}
+
+.accordion .card .card-header .btn-link {
+  color: #333 !important;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.accordion .card .card-header button.btn:after {
+  content: '+';
 }
 
 @media only screen and (max-width: 768px) {
@@ -264,6 +423,71 @@ input#edit:hover, input#add:hover {
   .App-header h1 {
     font-size: 4.5rem;
     text-shadow: 2px 2px black;
+  }
+}
+
+.progress-bar3 {
+  height: 18px;
+  border-radius: 4px;
+  background-image: -webkit-gradient(linear, left top, right top, from(#6B3074), color-stop(#B8B8B8), to(#86A3C3));
+  background-image: linear-gradient(to right, #6B3074, #B8B8B8, #86A3C3);
+  -webkit-transition: 0.4s linear;
+  transition: 0.4s linear;
+  -webkit-transition-property: width, background-color;
+  transition-property: width, background-color;
+}
+
+.progress-infinite .progress-bar3 {
+  width: 100%;
+  background-image: -webkit-gradient(linear, left top, right top, from(#b19cd9), color-stop(#6B3074), color-stop(#B8B8B8), color-stop(#86A3C3), to(#003152));
+  background-image: linear-gradient(to right, #b19cd9, #6B3074, #B8B8B8, #86A3C3, #003152);
+  -webkit-animation: colorAnimation 1s infinite;
+          animation: colorAnimation 1s infinite;
+}
+
+@-webkit-keyframes colorAnimation {
+  0% {
+    background-image: -webkit-gradient(linear, left top, right top, from(#b19cd9), color-stop(#6B3074), color-stop(#B8B8B8), color-stop(#86A3C3), to(#003152));
+    background-image: linear-gradient(to right, #b19cd9, #6B3074, #B8B8B8, #86A3C3, #003152);
+  }
+  20% {
+    background-image: -webkit-gradient(linear, left top, right top, from(#003152), color-stop(#b19cd9), color-stop(#6B3074), color-stop(#B8B8B8), to(#86A3C3));
+    background-image: linear-gradient(to right, #003152, #b19cd9, #6B3074, #B8B8B8, #86A3C3);
+  }
+  40% {
+    background-image: -webkit-gradient(linear, left top, right top, from(#86A3C3), color-stop(#003152), color-stop(#b19cd9), color-stop(#6B3074), to(#B8B8B8));
+    background-image: linear-gradient(to right, #86A3C3, #003152, #b19cd9, #6B3074, #B8B8B8);
+  }
+  60% {
+    background-image: -webkit-gradient(linear, left top, right top, from(#B8B8B8), color-stop(#86A3C3), color-stop(#003152), color-stop(#b19cd9), to(#6B3074));
+    background-image: linear-gradient(to right, #B8B8B8, #86A3C3, #003152, #b19cd9, #6B3074);
+  }
+  100% {
+    background-image: -webkit-gradient(linear, left top, right top, from(#6B3074), color-stop(#B8B8B8), color-stop(#86A3C3), color-stop(#003152), to(#b19cd9));
+    background-image: linear-gradient(to right, #6B3074, #B8B8B8, #86A3C3, #003152, #b19cd9);
+  }
+}
+
+@keyframes colorAnimation {
+  0% {
+    background-image: -webkit-gradient(linear, left top, right top, from(#b19cd9), color-stop(#6B3074), color-stop(#B8B8B8), color-stop(#86A3C3), to(#003152));
+    background-image: linear-gradient(to right, #b19cd9, #6B3074, #B8B8B8, #86A3C3, #003152);
+  }
+  20% {
+    background-image: -webkit-gradient(linear, left top, right top, from(#003152), color-stop(#b19cd9), color-stop(#6B3074), color-stop(#B8B8B8), to(#86A3C3));
+    background-image: linear-gradient(to right, #003152, #b19cd9, #6B3074, #B8B8B8, #86A3C3);
+  }
+  40% {
+    background-image: -webkit-gradient(linear, left top, right top, from(#86A3C3), color-stop(#003152), color-stop(#b19cd9), color-stop(#6B3074), to(#B8B8B8));
+    background-image: linear-gradient(to right, #86A3C3, #003152, #b19cd9, #6B3074, #B8B8B8);
+  }
+  60% {
+    background-image: -webkit-gradient(linear, left top, right top, from(#B8B8B8), color-stop(#86A3C3), color-stop(#003152), color-stop(#b19cd9), to(#6B3074));
+    background-image: linear-gradient(to right, #B8B8B8, #86A3C3, #003152, #b19cd9, #6B3074);
+  }
+  100% {
+    background-image: -webkit-gradient(linear, left top, right top, from(#6B3074), color-stop(#B8B8B8), color-stop(#86A3C3), color-stop(#003152), to(#b19cd9));
+    background-image: linear-gradient(to right, #6B3074, #B8B8B8, #86A3C3, #003152, #b19cd9);
   }
 }
 /*# sourceMappingURL=index.css.map */

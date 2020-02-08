@@ -37,8 +37,8 @@ class SignUp extends React.Component {
     })
     handleSubmit = event => {
         const dataSend = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
+            firstName: this.state.firstName.toLowerCase(),
+            lastName: this.state.lastName.toLowerCase(),
             username: this.state.username,
             id: this.state.username+'id=0'
         }

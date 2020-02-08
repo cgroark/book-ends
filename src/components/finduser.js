@@ -20,7 +20,6 @@ class FindUser extends React.Component {
 
     }
     componentDidMount = () =>{
-        console.log('find user', this.props.username)
         this.setState({
             username: this.props.username
         })
@@ -35,7 +34,6 @@ class FindUser extends React.Component {
             pickedUser: this.state.userLast,
             submitting: true
         })
-        console.log("user search was for ", this.state.pickedUser);
         fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351')
         .then( (response) => {
             return response.json()
@@ -44,7 +42,6 @@ class FindUser extends React.Component {
                 allData: json
             })
         }).then( () => {
-            console.log('over')
             this.setState({
                 showForm: false,
                 submitting: false,
@@ -59,23 +56,22 @@ class FindUser extends React.Component {
             friendData: []
         })
     }
-    friendsBooks(username){
-        let friendBooks = this.state.allData.filter(book => book.username === username);
+    friendsBooks(user){
+        let friendBooks = this.state.allData.filter(book => book.username === user);
+        console.log('username', user)
         this.setState({
             friendData: friendBooks,
             showResults: false
         })
-        console.log(username, this.setState.friendData);
     }
     renderFriend(){
-        console.log('friend name', this.state.pickedUser)
-        return this.state.allData.filter(friend => friend.lastName === this.state.pickedUser).map((each) => 
-        <React.Fragment>
-            <span key={each.id} className="found-friend">{each.firstName} {each.lastName}
-                <button type="submit" className="div-button friend" onClick={() => this.friendsBooks(each.username)} >View books
-            </button>   </span>
-        </React.Fragment>
-        
+        function capFirstLetter(string){
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        return this.state.allData.filter(friend => friend.lastName === this.state.pickedUser.toLowerCase()).map((each) => 
+            <div key={each.id} className="found-friend">{capFirstLetter(each.firstName)} {capFirstLetter(each.lastName)}
+                <button type="submit" className="div-button friend" onClick={() => this.friendsBooks(each.username)} >View books</button>   
+            </div>
         )
     }
 
@@ -83,10 +79,7 @@ class FindUser extends React.Component {
 
     render(){
         const {userLast, submitting, showForm, friendData, showResults, pickedUser, allData} = this.state;
-        console.log('last anem', allData.filter(friend => friend.lastName))
-        console.log('picked', pickedUser)
-        let numUsersFound =  allData.filter(friend => friend.lastName === pickedUser).length;
-        console.log('LENGGTH', friendData.length,  friendData)
+        let numUsersFound =  allData.filter(friend => friend.lastName === pickedUser.toLowerCase()).length;
         return(
             <div className="main-body">
                 <h2>Find your friends. Read their books.</h2>
@@ -110,7 +103,7 @@ class FindUser extends React.Component {
                 {numUsersFound === 1 && !showForm &&
                     <div className="friend-results">
                         {showResults &&
-                            <p><strong>Found user</strong>:&nbsp;<span>{this.renderFriend()}</span></p>
+                            <div><strong>Found user</strong>:&nbsp;<span>{this.renderFriend()}</span></div>
                         }
                         {friendData.length > 0 &&
                             <FriendData data={friendData}/>
@@ -119,8 +112,15 @@ class FindUser extends React.Component {
                 }
                  {numUsersFound >1  && !showForm &&
                     <div className="friend-results">
-                        <p><strong>Found users</strong>:/</p>
-                        {this.renderFriend()}
+                         {showResults &&
+                            <div><strong>Found users</strong>:
+                           
+                                {this.renderFriend()}
+                            </div>
+                         }
+                        {friendData.length > 1 &&
+                            <FriendData data={friendData}/>
+                        }
                     </div>  
                 }
                 {numUsersFound === 0 && !showForm &&
