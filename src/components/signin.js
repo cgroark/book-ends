@@ -14,7 +14,8 @@ class SignIn extends React.Component {
             done: false,
             usernamedone: '',
             usernamefound: false,
-            allData: []
+            allData: [],
+            searchloading: false
         }
     }
     componentDidMount = () => {
@@ -46,7 +47,7 @@ class SignIn extends React.Component {
     handleSubmit = event => {
         let allData = this.state.allData;
         this.setState({
-            submitting: true
+            searchloading: true
         })
         for(var i=0; i<allData.length; i++){
             console.log(allData[i].username)
@@ -58,12 +59,12 @@ class SignIn extends React.Component {
             }
         }
         this.setState({
-            submitting: false
+            searchloading: false
         })
     
     }
       render(){
-        const { username, usernamedone, savedusername, checkusername} = this.state;
+        const { username, usernamedone, savedusername, checkusername, searchloading, done, usernamefound} = this.state;
         const submitting = this.state.submitting;
         let pageContent;
         if(checkusername){
@@ -72,20 +73,17 @@ class SignIn extends React.Component {
                     <p>Looks like you are already signed in as {savedusername}</p>
                     <p>Not {savedusername} or want to sign up another user? Logout and then login or sign-up.</p>
             </div>
-        }else if(this.state.done){
+        }else if(done){
             pageContent = 
             <div className="login">
                         <p>Thanks for signing in {usernamedone}
                         </p>
             </div>
-        }else if(this.state.usernamefound){
+        }else if(usernamefound && !searchloading){
             pageContent = 
             <div className="login">
                         <h3>Welcome back {username}</h3>
-                        <p>Use the navigation to view your book list, make updates, add new books.</p>
-
-                        
-                        
+                        <p>Use the navigation to view your book list, make updates, add new books.</p>     
             </div>
         }
         else{
@@ -97,7 +95,7 @@ class SignIn extends React.Component {
                         <input type="text" name="username" value={username}  onChange={this.handleChange} />
                     </label>
                 </p>
-                <input type='submit' onClick={this.props.updateNav} disabled={submitting} value={submitting ? 'Loading...' : 'Sign In'}></input>
+                <input type='submit' onClick={this.props.updateNav} disabled={submitting} value='Sign In'></input>
             </form>
             </div>
         }
@@ -105,6 +103,12 @@ class SignIn extends React.Component {
             <div className="main-body">
                 <h2>User login</h2>
                 <hr  />
+                {searchloading && 
+                    <div class="progress-infinite">
+                        <div class="progress-bar3" >
+                        </div>                       
+                    </div> 
+                }
                 {pageContent} 
             </div>    
         )

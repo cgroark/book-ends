@@ -8,13 +8,15 @@ class FriendData extends React.Component {
     constructor(props){
         super(props);
         this.state={
-           friendData: []
+           friendData: [],
+           searchloading: true,
         }
 
     }
     componentDidMount =() => {
         this.setState({
-            friendData: this.props.data
+            friendData: this.props.data,
+            searchloading: false
         })
         console.log('new component', this.props.data)
     }
@@ -59,12 +61,18 @@ class FriendData extends React.Component {
         )
     }
     render(){
-    const { friendData} = this.state;
+    const { friendData, searchloading} = this.state;
     const allBooks = friendData;
     const bookCount = friendData.length;
     return(
             <div className="main-body">
-                {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
+                {searchloading && 
+                    <div class="progress-infinite">
+                        <div class="progress-bar3" >
+                        </div>                       
+                    </div> 
+                }
+                {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && !searchloading &&
                 <div>
                     <h3> {this.renderReading()}</h3>
                         <hr />

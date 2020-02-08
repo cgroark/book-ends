@@ -15,7 +15,8 @@ class FindUser extends React.Component {
             showResults: true,
             friendData: [],
             pickedUser: '',
-            submitting: false        
+            submitting: false,
+            searchloading: false     
         }
 
     }
@@ -32,7 +33,8 @@ class FindUser extends React.Component {
         event.preventDefault()
         this.setState({
             pickedUser: this.state.userLast,
-            submitting: true
+            searchloading: true,
+            showForm: false
         })
         fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351')
         .then( (response) => {
@@ -43,8 +45,7 @@ class FindUser extends React.Component {
             })
         }).then( () => {
             this.setState({
-                showForm: false,
-                submitting: false,
+                searchloading: false,
                 userLast: ''
             })
         })
@@ -78,26 +79,34 @@ class FindUser extends React.Component {
    
 
     render(){
-        const {userLast, submitting, showForm, friendData, showResults, pickedUser, allData} = this.state;
+        const {userLast, submitting, showForm, friendData, showResults, pickedUser, allData, searchloading} = this.state;
         let numUsersFound =  allData.filter(friend => friend.lastName === pickedUser.toLowerCase()).length;
         return(
             <div className="main-body">
                 <h2>Find your friends. Read their books.</h2>
                 <hr  />
-                {showForm &&
+                {searchloading && 
+                    <div class="progress-infinite">
+                        <div class="progress-bar3" >
+                        </div>                       
+                    </div> 
+                }
+                {showForm && !searchloading &&
                     <div>
                         <p><strong>Search for your friends by last name</strong></p>
+                        <div className="login">
                         <form onSubmit={this.handleSubmit} className={submitting ? 'loading' : 'submit-form'}>
                             <label >Last name:<br />
                                     <input type="text" name='userLast' value={userLast} onChange={this.handleChange} /> 
                             </label>
                             <div id="input-section">
-                                <input type='submit' disabled={submitting} value={submitting ? 'Searching..' : 'Search'}></input>
+                                <input type='submit' disabled={submitting} value='Search'></input>
                             </div>
                         </form>
+                        </div>
                     </div>
                 }
-                {!showForm &&
+                {!showForm && !searchloading &&
                      <div className="div-button" onClick={this.searchAgain}>Search again</div>   
                 }
                 {numUsersFound === 1 && !showForm &&
@@ -123,7 +132,7 @@ class FindUser extends React.Component {
                         }
                     </div>  
                 }
-                {numUsersFound === 0 && !showForm &&
+                {numUsersFound === 0 && !showForm && !searchloading &&
                     <div className="friend-results">
                         No users found
                     </div>  

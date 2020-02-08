@@ -12,7 +12,8 @@ class SignUp extends React.Component {
             savedusername: '',
             done: false,
             usernamedone: '',
-            bookid: ''
+            bookid: '',
+            searchloading: false
         }
 
     }
@@ -45,7 +46,7 @@ class SignUp extends React.Component {
         console.log(dataSend)
         event.preventDefault()
         this.setState({
-            submitting: true
+            searchloading: true
         })
         console.log('before fetch', this.state.submitting)
         fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351', {
@@ -58,7 +59,7 @@ class SignUp extends React.Component {
         }).then( (response) => {
             this.setState({
                 usernamedone: this.state.username,
-                submitting: false,
+                searchloading: false,
                 firstName: '',
                 lastName: '',
                 username: '',
@@ -72,22 +73,22 @@ class SignUp extends React.Component {
         });
       }
       render(){
-        const { firstName, lastName, username, usernamedone, savedusername, checkusername} = this.state;
+        const { firstName, lastName, username, usernamedone, savedusername, checkusername, searchloading, done} = this.state;
         const submitting = this.state.submitting;
         let pageContent;
         if(checkusername){
             pageContent = 
             <div className="login">
                     <p>Looks like you have already signed up as {savedusername}</p>
-                    <p>Not {savedusername} or want to sign up another user? <span onClick={this.handleClear}>View sign-up form</span></p>
+                    <p>Not {savedusername} or want to sign up another user? <span onClick={this.handleClear}>Logout and sign up as new user.</span></p>
             </div>
-        }else if(this.state.done){
+        }else if(done){
             pageContent = 
             <div className="login">
                         <p>Thanks for signing up {usernamedone}
                         </p>
             </div>
-        }else{
+        }else if(!done && !searchloading){
             pageContent =
             <div  className="login">
             <form onSubmit={this.handleSubmit} className={submitting ? 'loading' : 'submit-form'}>
@@ -106,7 +107,7 @@ class SignUp extends React.Component {
                         <input type="text" name="username" value={username}  onChange={this.handleChange} />
                     </label>
                 </p>
-                <input type='submit' disabled={submitting} value={submitting ? 'Loading...' : 'Submit'}></input>
+                <input type='submit' disabled={submitting} value='Submit'></input>
             </form>
             </div>
         }
@@ -114,6 +115,12 @@ class SignUp extends React.Component {
             <div className="main-body">
                 <h2>Sign up as a new user</h2>
                 <hr  />
+                {searchloading && 
+                    <div class="progress-infinite">
+                        <div class="progress-bar3" >
+                        </div>                       
+                    </div> 
+                }
                 {pageContent} 
             </div>    
         )

@@ -173,6 +173,11 @@ table{
   border: solid $color-lightgrey 1px;
   padding: 20px;
 }
+.login .submit-form{
+  text-align: center;
+  border: none;
+  padding: 20px;
+}
 form{
   .react-datepicker__input-container input{
     font-size: 1.5em;
@@ -231,12 +236,19 @@ input[type="submit"].delete{
   width: 110px;
   height: inherit;
   margin-top: -50px;
-
+}
+input[type="submit"].delete.check{
+  float: none;
+  display: inline-block;
+  margin: 20px;
 }
 input[type="submit"].delete:hover{
   color: #333;
   border: none;
   border-bottom: solid red 9px;
+}
+#delete-section{
+  text-align: center;
 }
 #close-button{
   text-align: right;

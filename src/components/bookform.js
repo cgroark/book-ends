@@ -31,9 +31,9 @@ class BookForm extends React.Component {
             books: true,
             description: '',
             imageUrl: '',
-            searchloading: false,
+            searchloading: true,
             currentlyReading: true,
-            searchButton: true
+            searchButton: false
         }
 
     }
@@ -48,6 +48,7 @@ class BookForm extends React.Component {
                 username: usernameProps
             })
             this.getAllData();
+            
         }
         else if(usernameData){
             this.setState({
@@ -55,7 +56,8 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameData
             })
-            this.getAllData();
+            this.getAllData()
+            
         }
         // this.setState({username: this.props.name});
         
@@ -83,6 +85,11 @@ class BookForm extends React.Component {
                     this.setState({currentID: newID})
                     console.log('the current id is', this.state.currentID)
                 }       
+            }).then( () => {
+                this.setState({
+                    searchloading: false,
+                    searchButton: true
+                });
             })
     }
     handleSearch = (e) =>{
@@ -257,7 +264,8 @@ class BookForm extends React.Component {
                     this.setState({
                         books: true,
                         searchloading: false,
-                        currentlyReading: true
+                        currentlyReading: true,
+                        searchButton: true
                     })
             }, 1000);
         })
@@ -291,7 +299,10 @@ class BookForm extends React.Component {
         e.preventDefault();
         console.log('delete', this.state.bookid, this.state.title)
         this.setState({
-            submitting: true
+            searchloading: true,
+            checking: false,
+            form: false,
+            editing: false
         })
         fetch("https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351/id/"+this.state.bookid, {
             headers: {
@@ -301,13 +312,14 @@ class BookForm extends React.Component {
             method: 'DELETE'  
         }).then( (response) => {
             console.log(response)
-            this.setState({
-                submitting: false
-            });
-            this.setState({checking: false, editing: false, form: false, books:true})
-            console.log('done with book delete')
             setTimeout(() =>{
                     this.getAllData();
+                    this.setState({
+                        searchloading: false,
+                        books:true,
+                        searchButton: true,
+                        currentlyReading: true
+                    })
             }, 1000);
         });
        
@@ -330,7 +342,8 @@ class BookForm extends React.Component {
             rating: '',
             editing: false,
             currentlyReading: true,
-            searchButton: true
+            searchButton: true,
+            checking: false
         })
     }
     renderSearchData(){
@@ -534,9 +547,9 @@ class BookForm extends React.Component {
                                 <div>
                                     <h3>Are you sure you want to delete {title} from your list?</h3>
                                     <label htmlFor="delete-yes"></label>
-                                    <input className="delete" type="submit" value="Yes" id="delete-yes" onClick={this.handleDeleteYes}></input>
+                                    <input className="delete check" type="submit" value="Yes" id="delete-yes" onClick={this.handleDeleteYes}></input>
                                     <label htmlFor="delete-no"></label>
-                                    <input className="delete" type="submit" value="No" id="delete-no" onClick={this.handleDeleteNo}></input>
+                                    <input className="delete check" type="submit" value="No" id="delete-no" onClick={this.handleDeleteNo}></input>
                                 </div>
                             </div>
                             }
