@@ -15,6 +15,7 @@ class BookForm extends React.Component {
             author: '', 
             title: '', 
             status: '', 
+            format: '',
             rating: '',
             bookid: '',
             editing: false,
@@ -130,6 +131,7 @@ class BookForm extends React.Component {
             author: '', 
             title: '', 
             status: 'select-status', 
+            format: 'select-format', 
             date: ''
         })
     }
@@ -170,6 +172,7 @@ class BookForm extends React.Component {
             username: this.state.username,
             title: this.state.title,
             status: this.state.status,
+            format: this.state.format,
             id: this.state.username+'id='+this.state.currentID,
             rating: this.state.rating,
             overview: this.state.description,
@@ -195,6 +198,7 @@ class BookForm extends React.Component {
                 author: '', 
                 title: '', 
                 status: 'select-status', 
+                format: 'select-format', 
                 date: '',
                 rating: '',
                 description: '',
@@ -223,6 +227,7 @@ class BookForm extends React.Component {
             author: each.author,
             title: each.title, 
             status: each.status, 
+            format: each.format,
             rating: each.rating,
             bookid: each.id
         })
@@ -233,6 +238,7 @@ class BookForm extends React.Component {
             title: this.state.title,
             rating: this.state.rating,
             status: this.state.status,
+            format: this.state.format,
             date: this.state.date
         }
         console.log(dataEdit)
@@ -254,6 +260,7 @@ class BookForm extends React.Component {
                 author: '', 
                 title: '', 
                 status: 'select-status', 
+                format: 'select-format', 
                 date: '',
                 editing: false
             })
@@ -280,6 +287,12 @@ class BookForm extends React.Component {
         console.log(e.target.value)
         this.setState({
             status: e.target.value
+        })
+    }
+    updateFormat = e => {
+        console.log(e.target.value)
+        this.setState({
+            format: e.target.value
         })
     }
     updateRating = (e) => {
@@ -338,6 +351,7 @@ class BookForm extends React.Component {
             author: '',
             title: '', 
             status: 'select-status', 
+            format: 'select-format', 
             date: '',
             rating: '',
             editing: false,
@@ -416,7 +430,11 @@ class BookForm extends React.Component {
             :
             ''
             }
-            </td><td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""}</td><td>{each.rating}</td>
+            </td>
+            <td className="format">
+            {each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}
+            </td>
+            <td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""}</td><td>{each.rating}</td>
             <td>
             {!this.state.form &&
                <div>
@@ -431,7 +449,7 @@ class BookForm extends React.Component {
     }
    
     render(){
-    const { checking, submitting, author, title, status, allData, date, query, editing, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
+    const { format, checking, submitting, author, title, status, allData, date, query, editing, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
     const allBooks = allData.filter(book => book.username === this.state.username)
     const bookCount = allData.filter(book => book.username === this.state.username).length;
     console.log('date', date)
@@ -493,9 +511,18 @@ class BookForm extends React.Component {
                                     <input type="text" name='title' value={title} onChange={this.handleChange} />
                                 </label>
                             </Col>
-                            <Col md={8}>
+                            <Col md={4}>
                                 <label >Author:<br />
                                     <input type="text" name='author' value={author} onChange={this.handleChange} /> 
+                                </label>
+                            </Col>
+                            <Col md={4}>
+                                    <label>Format: <br />
+                                    <select defaultValue={format} onChange={this.updateFormat}>>
+                                        <option value="select-format" disabled>Select format</option>
+                                        <option value="Audio">Audio</option>
+                                        <option value="Text">Text</option>
+                                    </select>
                                 </label>
                             </Col>
                         </Row>
@@ -565,6 +592,7 @@ class BookForm extends React.Component {
                             <tr>
                                 <th>Title</th>
                                 <th>&nbsp;</th>
+                                <th>Format</th>
                                 <th>Author</th>
                                 <th>Status</th>
                                 <th>Completed</th>

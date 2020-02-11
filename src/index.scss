@@ -152,10 +152,16 @@ table{
     padding: 4px 20px 0 0;
     font-size: 1.2rem;
     border-bottom: 1px solid $color-lightgrey;
+  
     img{
       width: 90PX;
       padding: 6px;
     }
+
+  }
+  td.format{
+    font-size: 2em;
+    text-align: center;
   }
   td.title-cell div{
     display: flex;
