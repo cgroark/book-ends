@@ -408,6 +408,7 @@ class BookForm extends React.Component {
         return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each) => 
             <tr key={each.id}><td className="title-cell">
             <div>
+            
             {each.title} 
             {each.overview ? 
             <Accordion defaultActiveKey="0">
@@ -435,6 +436,7 @@ class BookForm extends React.Component {
             {each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}
             </td>
             <td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""}</td><td>{each.rating}</td>
+            <td className="thrift-link"><a href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></td>
             <td>
             {!this.state.form &&
                <div>
@@ -597,6 +599,7 @@ class BookForm extends React.Component {
                                 <th>Status</th>
                                 <th>Completed</th>
                                 <th>Rating</th>
+                                <th>Find</th>
                                 {!this.state.form &&
                                     <th>&nbsp;</th>
                                 }

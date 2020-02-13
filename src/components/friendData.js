@@ -31,7 +31,7 @@ class FriendData extends React.Component {
         )
     }
     renderAllData(){
-        return this.state.friendData.map((each, index) => 
+        return this.state.friendData.filter(one => one.title).map((each, index) => 
         <tr key={each.id}><td className="title-cell">
             <div key={each.id}>
             {each.title} 
@@ -56,7 +56,12 @@ class FriendData extends React.Component {
         :
         ''
         }
-        </td><td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
+        </td>
+        <td className="format">
+            {each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}
+        </td>
+        <td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
+        <td className="thrift-link"><a href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></td>
             </tr>
         )
     }
@@ -83,10 +88,12 @@ class FriendData extends React.Component {
                         <tr>
                             <th>Title</th>
                             <th>&nbsp;</th>
+                            <th>Format</th>
                             <th>Author</th>
                             <th>Status</th>
                             <th>Completed</th>
                             <th>Rating</th>
+                            <th>Find</th>
                         </tr>
                     </thead>
                     <tbody>
