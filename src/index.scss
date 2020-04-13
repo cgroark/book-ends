@@ -126,54 +126,95 @@ a:hover{
   text-decoration: underline;
   
 }
-table{
+.book-card {
+  padding: 10px 15px;
+  border-bottom: solid 2px black;
   text-align: left;
-  width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
+  p{
+      margin-bottom: 0;
+  }
+  p.card-smaller{
+      font-size: 1.2rem;
+  }
+  img{
+    max-width: 90px;
+  }
+  .thrift-link{
+    font-size: 1.4em;
+    padding: 0;
+    color: #6B3074;
+    border-bottom: 2px solid white;
+  }
   .accordion {
     .card .card-header .btn-link{
       color: #666 !important;
-      font-size: 1rem;
+      font-size: 1.2rem;
       font-weight: 400;
-      margin: 3px 0 0 15px;
-
     }
     .card p{
       font-size: .8em;
     }
   }
-  th{
-    padding-right: 20px;
-    color: $color-purple;
-    font-size: 1.4rem;
-    border-bottom: 1px solid $color-purple;
+}
+#booklist h2{
+  text-align: left;
+  border-bottom: 2px solid $color-purple
+}
+.accordion{
+  .card{
+    border: none;
+    .card-header{
+      padding: 0;
+      background-color: transparent !important;
+      .btn{
+        padding: 0;
+      }
+      .btn-link{
+        color: #333 !important;
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+      button.btn:after{
+        content: '+'
+      }
+    }
   }
-  td{
-    padding: 4px 20px 0 0;
-    font-size: 1.2rem;
-    border-bottom: 1px solid $color-lightgrey;
+}
+// table{
   
-    img{
-      width: 90PX;
-      padding: 6px;
-    }
+//   th{
+//     padding-right: 20px;
+//     color: $color-purple;
+//     font-size: 1.4rem;
+//     border-bottom: 1px solid $color-purple;
+//   }
+//   td{
+//     padding: 4px 20px 0 0;
+//     font-size: 1.2rem;
+//     border-bottom: 1px solid $color-lightgrey;
+  
+//     img{
+//       width: 90PX;
+//       padding: 6px;
+//     }
 
-  }
-  td.format{
-    font-size: 2em;
-    text-align: center;
-  }
-  td.title-cell div{
-    display: flex;
-    flex-wrap: wrap;
-    p{
-      font-size: .8em;
-      margin: 3px 0 0 15px;
-      color: #666 !important;
-      font-weight: 400;
-    }
-}
-}
+//   }
+//   td.format{
+//     font-size: 2em;
+//     text-align: center;
+//   }
+//   td.title-cell div{
+//     display: flex;
+//     flex-wrap: wrap;
+//     p{
+//       font-size: .8em;
+//       margin: 3px 0 0 15px;
+//       color: #666 !important;
+//       font-weight: 400;
+//     }
+// }
+// }
 .submit-form{
   text-align: left;
   border: solid $color-lightgrey 1px;
@@ -361,30 +402,7 @@ form.search-form{
     margin: auto;
   }
 }
-#booklist h2{
-  text-align: left;
-  border-bottom: 2px solid $color-purple
-}
-.accordion{
-  .card{
-    border: none;
-    .card-header{
-      padding: 0;
-      background-color: transparent !important;
-      .btn{
-        padding: 0;
-      }
-      .btn-link{
-        color: #333 !important;
-        font-size: 1.2rem;
-        font-weight: 700;
-      }
-      button.btn:after{
-        content: '+'
-      }
-    }
-  }
-}
+
  
 @media only screen and (max-width: 768px) {
   .welcome{

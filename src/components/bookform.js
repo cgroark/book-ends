@@ -400,53 +400,58 @@ class BookForm extends React.Component {
         <div key={each.id} id="reading-now">
             <h3  >Currently reading:<br />
             <em>{each.title}</em></h3> 
+            {!this.state.form &&
+                                <div>
+                                    <label htmlFor="edit"></label>
+                                    <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
+                                </div>
+            }
             <span>{each.image ? <img src={each.image} alt={each.title} />  :''}</span>
         </div>
         )
     }
     renderAllData(){
         return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each) => 
-            <tr key={each.id}><td className="title-cell">
-            <div>
-            
-            {each.title} 
-            {each.overview ? 
-            <Accordion defaultActiveKey="0">
-                        <Card>
-                            <Card.Header>
-                                <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                    Read summary
-                                </Accordion.Toggle>
-                            </Card.Header>
-                            <Accordion.Collapse eventKey="1">
-                                <Card.Body><p>{each.overview}</p></Card.Body>
-                            </Accordion.Collapse>
-                        </Card>
-                    </Accordion>  
-             : <p>(No summary available)</p> }
-             </div>
-             </td>
-             <td> {each.image ?
-                <img src={each.image} alt={each.title} />
-            :
-            ''
-            }
-            </td>
-            <td className="format">
-            {each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}
-            </td>
-            <td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""}</td><td>{each.rating}</td>
-            <td className="thrift-link"><a href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></td>
-            <td>
-            {!this.state.form &&
-               <div>
-                <label htmlFor="edit"></label>
-                 <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
-               </div>
-            }
-            </td>
-            
-            </tr>
+                <Col key={each.id} className="book-card" md={4}>
+                     <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
+                    <Row>
+                        <Col md={8}>
+                            <p>{each.author}</p>
+                            <p className="card-smaller">{each.status}, {moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""} </p>
+                            <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            {!this.state.form &&
+                                <div>
+                                    <label htmlFor="edit"></label>
+                                    <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
+                                </div>
+                            }
+                        </Col>
+                        <Col md={4}>
+                            {each.image ?
+                                <img src={each.image} alt={each.title} />
+                                :
+                                ''
+                            }
+                            
+                        </Col>
+                        
+                    </Row>
+                    {each.overview ? 
+                        <Accordion defaultActiveKey="0">
+                                    <Card>
+                                        <Card.Header>
+                                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                Read summary
+                                            </Accordion.Toggle>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey="1">
+                                            <Card.Body><p>{each.overview}</p></Card.Body>
+                                        </Accordion.Collapse>
+                                    </Card>
+                        </Accordion>  
+                        : 
+                    <p>(No summary available)</p> }
+                </Col>
         )
     }
    
@@ -589,7 +594,8 @@ class BookForm extends React.Component {
                 {books && bookCount > 1 &&
                     
                     <div id="booklist"><h2>Your book list</h2>
-                    <table className="book-table">
+                    <Row>
+                    {/* <table className="book-table">
                         <thead>
                             <tr>
                                 <th>Title</th>
@@ -605,10 +611,11 @@ class BookForm extends React.Component {
                                 }
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody> */}
                         {this.renderAllData()}
-                        </tbody>
-                    </table>
+                        {/* </tbody>
+                    </table> */}
+                    </Row>
                     </div>
                 }
             </div>
