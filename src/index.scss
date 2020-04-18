@@ -23,7 +23,7 @@ div.App article{
   }
 }
 body {
-  
+  margin-bottom: 50px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -77,7 +77,7 @@ code {
   color: white;
 }
 .div-button.friend{
-  margin-left: 10px;
+  margin-left: 40px;
   padding: 4px 8px 6px;
   background-color: white;
   font-size: .8em;
@@ -128,17 +128,19 @@ a:hover{
 }
 .book-card {
   padding: 10px 15px;
-  border-bottom: solid 2px black;
+  border-bottom: dashed 1px black;
   text-align: left;
   margin-bottom: 10px;
   p{
       margin-bottom: 0;
+      font-size: 1.4rem;
   }
   p.card-smaller{
       font-size: 1.2rem;
   }
   img{
-    max-width: 90px;
+    max-width: 85px;
+    padding-right: 10px;
   }
   .thrift-link{
     font-size: 1.4em;
@@ -157,9 +159,20 @@ a:hover{
     }
   }
 }
-#booklist h2{
-  text-align: left;
-  border-bottom: 2px solid $color-purple
+@media only screen and (max-width: 576px) {
+  .book-card img{
+    max-width: unset;
+    margin-top: 10px;
+    padding: 0;
+  }
+}
+#booklist{
+  h3{
+    text-align: left;
+    border-bottom: 3px solid $color-purple;
+    margin: 10px -15px;
+    padding: 0 15px;
+  }
 }
 .accordion{
   .card{
@@ -359,17 +372,18 @@ input#edit:hover, input.add-button:hover{
   border: 3px solid $color-purple;
   cursor: pointer;
 }
-#reading-now{
-  max-width: 500px;
-  margin: auto;
-  display: flex;
+.reading-now{
   text-align: left;
   img{
-    width: 130px;
-    padding: 10px;
+    padding: 20px 0;
+    max-width: 110px;
   }
-  h3, h4{
-    margin: auto;
+}
+@media only screen and (max-width: 576px) {
+  .reading-now img{
+    max-width: unset;
+    margin: 10px auto;
+    display: block;
   }
 }
 .found-friend{

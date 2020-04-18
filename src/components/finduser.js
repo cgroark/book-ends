@@ -16,7 +16,8 @@ class FindUser extends React.Component {
             friendData: [],
             pickedUser: '',
             submitting: false,
-            searchloading: false     
+            searchloading: false,
+            selectedFirst: '',     
         }
 
     }
@@ -54,15 +55,17 @@ class FindUser extends React.Component {
         this.setState({
             showForm: true,
             showResults: true,
+            selectedFirst: '',
             friendData: []
         })
     }
-    friendsBooks(user){
+    friendsBooks(user, first){
         let friendBooks = this.state.allData.filter(book => book.username === user);
         console.log('username', user)
         this.setState({
             friendData: friendBooks,
-            showResults: false
+            showResults: false,
+            selectedFirst: first
         })
     }
     renderFriend(){
@@ -71,7 +74,7 @@ class FindUser extends React.Component {
         }
         return this.state.allData.filter(friend => friend.lastName === this.state.pickedUser.toLowerCase()).map((each) => 
             <div key={each.id} className="found-friend">{capFirstLetter(each.firstName)} {capFirstLetter(each.lastName)}
-                <button type="submit" className="div-button friend" onClick={() => this.friendsBooks(each.username)} >View books</button>   
+                <button type="submit" className="div-button friend" onClick={() => this.friendsBooks(each.username, each.firstName)} >View books</button>   
             </div>
         )
     }
@@ -79,7 +82,7 @@ class FindUser extends React.Component {
    
 
     render(){
-        const {userLast, submitting, showForm, friendData, showResults, pickedUser, allData, searchloading} = this.state;
+        const {userLast, submitting, showForm, friendData, showResults, pickedUser, allData, searchloading, selectedFirst} = this.state;
         let numUsersFound =  allData.filter(friend => friend.lastName === pickedUser.toLowerCase()).length;
         return(
             <div className="main-body">
@@ -112,23 +115,23 @@ class FindUser extends React.Component {
                 {numUsersFound === 1 && !showForm &&
                     <div className="friend-results">
                         {showResults &&
-                            <div><strong>Found user</strong>:&nbsp;<span>{this.renderFriend()}</span></div>
+                            <div><h3>Found user:</h3>&nbsp;<span>{this.renderFriend()}</span></div>
                         }
                         {friendData.length > 0 &&
-                            <FriendData data={friendData}/>
+                            <FriendData data={friendData} firstName={selectedFirst} />
                         }
                     </div>  
                 }
                  {numUsersFound >1  && !showForm &&
                     <div className="friend-results">
                          {showResults &&
-                            <div><strong>Found users</strong>:
+                            <div><h3>Found users:</h3>
                            
                                 {this.renderFriend()}
                             </div>
                          }
                         {friendData.length > 1 &&
-                            <FriendData data={friendData}/>
+                            <FriendData data={friendData} firstName={selectedFirst}/>
                         }
                     </div>  
                 }

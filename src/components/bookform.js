@@ -397,28 +397,36 @@ class BookForm extends React.Component {
     }
     renderReading(){
         return this.state.allData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
-        <div key={each.id} id="reading-now">
-            <h3  >Currently reading:<br />
-            <em>{each.title}</em></h3> 
-            {!this.state.form &&
-                                <div>
-                                    <label htmlFor="edit"></label>
-                                    <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
-                                </div>
-            }
-            <span>{each.image ? <img src={each.image} alt={each.title} />  :''}</span>
-        </div>
+            <Row className='reading-now'>
+                <Col sm={{ span: 4, offset: 3 }}>
+                <div key={each.id}>
+                    <h3  >Currently reading:<br />
+                    <em>{each.title}</em></h3> 
+                </div>
+                    {!this.state.form &&
+                        <div>
+                            <label htmlFor="edit"></label>
+                            <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
+                        </div>
+                    }
+               
+                </Col>
+                <Col sm={2}>
+                    <span>{each.image ? <img src={each.image} alt={each.title} />  :''}</span>
+                </Col>
+               
+            </Row>
         )
     }
-    renderAllData(){
-        return this.state.allData.filter(one => one.username === this.state.username && one.title).map((each) => 
+    renderFinishedData(){
+        return this.state.allData.filter(one => one.username === this.state.username && one.title && one.status === "Finished").map((each) => 
                 <Col key={each.id} className="book-card" md={4}>
-                     <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
+                     <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
                     <Row>
-                        <Col md={8}>
+                        <Col sm={8}>
                             <p>{each.author}</p>
-                            <p className="card-smaller">{each.status}, {moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""} </p>
-                            <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            <p className="card-smaller">{each.status} {moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""} </p>
+                            <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                             {!this.state.form &&
                                 <div>
                                     <label htmlFor="edit"></label>
@@ -426,7 +434,51 @@ class BookForm extends React.Component {
                                 </div>
                             }
                         </Col>
-                        <Col md={4}>
+                        <Col sm={4}>
+                            {each.image ?
+                                <img src={each.image} alt={each.title} />
+                                :
+                                ''
+                            }
+                            
+                        </Col>
+                        
+                    </Row>
+                    {each.overview ? 
+                        <Accordion defaultActiveKey="0">
+                                    <Card>
+                                        <Card.Header>
+                                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                Read summary
+                                            </Accordion.Toggle>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey="1">
+                                            <Card.Body><p>{each.overview}</p></Card.Body>
+                                        </Accordion.Collapse>
+                                    </Card>
+                        </Accordion>  
+                        : 
+                    <p>(No summary available)</p> }
+                </Col>
+        )
+    }
+    renderWantData(){
+        return this.state.allData.filter(one => one.username === this.state.username && one.title && one.status === "Want-to-read").map((each) => 
+                <Col key={each.id} className="book-card" md={4}>
+                     <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
+                    <Row>
+                        <Col sm={8}>
+                            <p>{each.author}</p>
+                            <p className="card-smaller">{each.status}</p>
+                            <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            {!this.state.form &&
+                                <div>
+                                    <label htmlFor="edit"></label>
+                                    <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
+                                </div>
+                            }
+                        </Col>
+                        <Col sm={4}>
                             {each.image ?
                                 <img src={each.image} alt={each.title} />
                                 :
@@ -475,8 +527,8 @@ class BookForm extends React.Component {
                     <input type='submit' className="add-button" value="Find a book" onClick={this.showSearchForm}></input>
                 }
                 {searchloading && 
-                    <div class="progress-infinite">
-                        <div class="progress-bar3" >
+                    <div className="progress-infinite">
+                        <div className="progress-bar3" >
                         </div>                       
                     </div> 
                 }
@@ -594,28 +646,23 @@ class BookForm extends React.Component {
                 {books && bookCount > 1 &&
                     
                     <div id="booklist"><h2>Your book list</h2>
-                    <Row>
-                    {/* <table className="book-table">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>&nbsp;</th>
-                                <th>Format</th>
-                                <th>Author</th>
-                                <th>Status</th>
-                                <th>Completed</th>
-                                <th>Rating</th>
-                                <th>Find</th>
-                                {!this.state.form &&
-                                    <th>&nbsp;</th>
-                                }
-                            </tr>
-                        </thead>
-                        <tbody> */}
-                        {this.renderAllData()}
-                        {/* </tbody>
-                    </table> */}
-                    </Row>
+                     {bookCount > 1 && allBooks.filter(book => book.status === "Finished").length > 0 &&
+                        <div>
+                            <h3>Finished books</h3>
+                            <Row>
+                                {this.renderFinishedData()}
+                            </Row>
+                        </div>
+                     }
+                      {bookCount > 1 && allBooks.filter(book => book.status === "Want-to-read").length > 0 &&
+                        <div>
+                            <h3>Books I want to read</h3>
+                            <Row>
+                                {this.renderWantData()}
+                            </Row>
+                        </div>
+                     }
+                    
                     </div>
                 }
             </div>

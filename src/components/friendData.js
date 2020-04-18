@@ -1,8 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import {Accordion, Card, Button } from 'react-bootstrap';
-
-
+import {Accordion, Card, Button, Col, Row } from 'react-bootstrap';
 
 class FriendData extends React.Component {
     constructor(props){
@@ -10,12 +8,14 @@ class FriendData extends React.Component {
         this.state={
            friendData: [],
            searchloading: true,
+           firstName: ''
         }
 
     }
     componentDidMount =() => {
         this.setState({
             friendData: this.props.data,
+            firstName: this.props.firstName,
             searchloading: false
         })
         console.log('new component', this.props.data)
@@ -23,19 +23,41 @@ class FriendData extends React.Component {
     
     renderReading(){
         return this.state.friendData.filter(book => book.status === "Currently-Reading").map((each) => 
-        <div id="reading-now">
-            <h3  key={each.id}>Currently reading:<br />
-            <em>{each.title}</em></h3> 
-            <span>{each.image ? <img src={each.image} alt={each.title} />  :''}</span>
-        </div>
+        <Row className='reading-now'>
+                <Col sm={{ span: 4, offset: 3 }}>
+                <div key={each.id}>
+                    <h3  >Currently reading:<br />
+                    <em>{each.title}</em></h3> 
+                </div>
+                </Col>
+                <Col sm={2}>
+                    <span>{each.image ? <img src={each.image} alt={each.title} />  :''}</span>
+                </Col>
+               
+            </Row>
         )
     }
-    renderAllData(){
-        return this.state.friendData.filter(one => one.title).map((each, index) => 
-        <tr key={each.id}><td className="title-cell">
-            <div key={each.id}>
-            {each.title} 
-            {each.overview ? 
+    renderFinishedData(){
+        return this.state.friendData.filter(one => one.title && one.status === "Finished").map((each, index) => 
+        <Col key={each.id} className="book-card" md={4}>
+        <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
+        <Row>
+            <Col sm={8}>
+                <p>{each.author}</p>
+                <p className="card-smaller">{each.status} {moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""} </p>
+                <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+            </Col>
+            <Col sm={4}>
+                {each.image ?
+                    <img src={each.image} alt={each.title} />
+                    :
+                    ''
+                }
+                
+            </Col>
+            
+        </Row>
+        {each.overview ? 
             <Accordion defaultActiveKey="0">
                         <Card>
                             <Card.Header>
@@ -47,26 +69,52 @@ class FriendData extends React.Component {
                                 <Card.Body><p>{each.overview}</p></Card.Body>
                             </Accordion.Collapse>
                         </Card>
-                    </Accordion>  
-            : <p>(No summary available)</p> }
-            </div>
-         </td>
-         <td> {each.image ?
-            <img src={each.image} alt={each.title} />
-        :
-        ''
-        }
-        </td>
-        <td className="format">
-            {each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}
-        </td>
-        <td>{each.author}</td><td>{each.status}</td><td>{moment(each.date).isValid() ? moment(each.date).format('MM/DD/YYYY'): ""}</td><td>{each.rating}</td>
-        <td className="thrift-link"><a href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></td>
-            </tr>
+            </Accordion>  
+            : 
+        <p>(No summary available)</p> }
+   </Col>
+        )
+    }
+    renderWantData(){
+        return this.state.allData.filter(one => one.username === this.state.username && one.title && one.status === "Want-to-read").map((each) => 
+                <Col key={each.id} className="book-card" md={4}>
+                     <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
+                    <Row>
+                        <Col sm={8}>
+                            <p>{each.author}</p>
+                            <p className="card-smaller">{each.status}</p>
+                            <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                        </Col>
+                        <Col sm={4}>
+                            {each.image ?
+                                <img src={each.image} alt={each.title} />
+                                :
+                                ''
+                            }
+                            
+                        </Col>
+                        
+                    </Row>
+                    {each.overview ? 
+                        <Accordion defaultActiveKey="0">
+                                    <Card>
+                                        <Card.Header>
+                                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                Read summary
+                                            </Accordion.Toggle>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey="1">
+                                            <Card.Body><p>{each.overview}</p></Card.Body>
+                                        </Accordion.Collapse>
+                                    </Card>
+                        </Accordion>  
+                        : 
+                    <p>(No summary available)</p> }
+                </Col>
         )
     }
     render(){
-    const { friendData, searchloading} = this.state;
+    const { friendData, searchloading, firstName} = this.state;
     const allBooks = friendData;
     const bookCount = friendData.length;
     return(
@@ -83,23 +131,26 @@ class FriendData extends React.Component {
                         <hr />
                 </div>
                 }
-                <table className="book-table">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>&nbsp;</th>
-                            <th>Format</th>
-                            <th>Author</th>
-                            <th>Status</th>
-                            <th>Completed</th>
-                            <th>Rating</th>
-                            <th>Find</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {this.renderAllData()}
-                    </tbody>
-                </table>
+                <div id="booklist"><h2>{firstName}'s book list</h2>
+                    {bookCount > 1 && allBooks.filter(book => book.status === "Finished").length > 0 &&
+                        <div>
+                            <h3>Finished books</h3>
+                            <Row>
+                                {this.renderFinishedData()}
+                            </Row>
+                        </div>
+                    }
+                    {bookCount > 1 && allBooks.filter(book => book.status === "Want-to-read").length > 0 &&
+                        <div>
+                            <h3>Books {firstName} want to read</h3>
+                            <Row>
+                                {this.renderWantData()}
+                            </Row>
+                        </div>
+                    }
+
+                </div>
+
             </div>
         )
     }
