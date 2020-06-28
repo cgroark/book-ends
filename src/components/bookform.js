@@ -34,7 +34,9 @@ class BookForm extends React.Component {
             imageUrl: '',
             searchloading: true,
             currentlyReading: true,
-            searchButton: false
+            searchButton: false,
+            googleAPIData: [],
+            sortedData : []
         }
 
     }
@@ -48,7 +50,8 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameProps
             })
-            this.getAllData();
+            // this.getAllData();
+            this.getGoogleAPI();
             
         }
         else if(usernameData){
@@ -57,11 +60,78 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameData
             })
-            this.getAllData()
-            
+            // this.getAllData();
+            this.getGoogleAPI();
         }
         // this.setState({username: this.props.name});
         
+    }
+    sortData = () =>{
+        const allDataSorted = [];
+        console.log('sort data reached');
+        console.log('data to sort', this.state.googleAPIData)
+        const firstName = this.state.googleAPIData.filter(firstName => firstName.gs$cell.col === "1");
+        const lastName = this.state.googleAPIData.filter(lastName => lastName.gs$cell.col ==="2");
+        const username = this.state.googleAPIData.filter(username => username.gs$cell.col ==="3");
+        const id = this.state.googleAPIData.filter(id => id.gs$cell.col ==="4");
+        const title = this.state.googleAPIData.filter(title => title.gs$cell.col ==="5");
+        const author = this.state.googleAPIData.filter(author => author.gs$cell.col ==="6");
+        const date = this.state.googleAPIData.filter(date => date.gs$cell.col ==="7");
+        const status = this.state.googleAPIData.filter(status => status.gs$cell.col ==="8");
+        const rating = this.state.googleAPIData.filter(rating => rating.gs$cell.col ==="9");
+        const overview = this.state.googleAPIData.filter(overview => overview.gs$cell.col ==="10");
+        const image = this.state.googleAPIData.filter(image => image.gs$cell.col ==="11"); 
+        const format = this.state.googleAPIData.filter(format => format.gs$cell.col ==="12");
+        for(let i=0; i<firstName.length; i++){
+            allDataSorted.push({
+                firstName: firstName[i].content.$t,              
+                lastName: lastName[i].content.$t,               
+                username: username[i].content.$t,              
+                id: id[i].content.$t,               
+                title: title[i].content.$t,               
+                author: author[i].content.$t,              
+                date: date[i].content.$t,               
+                status: status[i].content.$t,              
+                rating: rating[i].content.$t,              
+                overview: overview[i].content.$t,              
+                image: image[i].content.$t,               
+                format: format[i].content.$t   
+            })
+        }
+        this.setState({
+            sortedData: allDataSorted
+        });
+        console.log('new data sorted', this.state.sortedData);
+    }
+    getGoogleAPI = () => {
+        fetch('https://spreadsheets.google.com/feeds/cells/1HhGhrqm2vagTS5wKxNYp7rh89en4ZVNkLfPd4DYCcrI/1/public/full?alt=json')
+            .then( (response) => {
+                return response.json()
+            }).then( (json) => {
+                this.setState({
+                    googleAPIData: json.feed.entry
+                });
+                this.sortData();
+            }).then( () => {
+                let userData = this.state.allData.filter(one => one.username === this.state.username);
+                if(userData.length === 0){
+                    this.setState({currentID: 1});
+                }else{
+                    let allIDs =[];
+                    for(var b=0 ; b<userData.length ; b++){
+                        allIDs.push(parseInt(userData[b].id.split('id=')[1]));
+                    }
+                    let sortedIDs= allIDs.sort((b, a) => b - a)
+                    let newID = sortedIDs[allIDs.length -1] + 1;
+                    this.setState({currentID: newID})
+                    console.log('the current id is within reach', this.state.currentID)
+                }       
+            }).then( () => {
+                this.setState({
+                    searchloading: false,
+                    searchButton: true
+                });
+            })
     }
     getAllData = () => {
         fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351')
@@ -210,7 +280,7 @@ class BookForm extends React.Component {
                 searchButton: true
             })
             console.log('done with book');
-            this.getAllData();
+            this.getGoogleAPI();
             return response.json()  
         });
     }
@@ -222,7 +292,6 @@ class BookForm extends React.Component {
             form: true,
             searchButton: false
         })
-        console.log('data here', each.date, moment(each.date).format('MM/DD/YYYY'))
         this.setState({
             author: each.author,
             title: each.title, 
@@ -241,7 +310,6 @@ class BookForm extends React.Component {
             format: this.state.format,
             date: this.state.date
         }
-        console.log(dataEdit)
         event.preventDefault()
         this.setState({
             searchloading: true,
@@ -255,7 +323,6 @@ class BookForm extends React.Component {
             method: 'PATCH',
             body: JSON.stringify(dataEdit)
         }).then( (response) => {
-            console.log(response)
             this.setState({
                 author: '', 
                 title: '', 
@@ -265,9 +332,8 @@ class BookForm extends React.Component {
                 editing: false
             })
         }).then( () =>{
-            console.log('done with book edit')
             setTimeout(() =>{
-                    this.getAllData();
+                    this.getGoogleAPI();
                     this.setState({
                         books: true,
                         searchloading: false,
@@ -275,6 +341,7 @@ class BookForm extends React.Component {
                         searchButton: true
                     })
             }, 1000);
+           
         })
     }
     handleChange = e => this.setState({
@@ -326,7 +393,7 @@ class BookForm extends React.Component {
         }).then( (response) => {
             console.log(response)
             setTimeout(() =>{
-                    this.getAllData();
+                    this.getGoogleAPI();
                     this.setState({
                         searchloading: false,
                         books:true,
@@ -396,7 +463,7 @@ class BookForm extends React.Component {
         return currentBooks;
     }
     renderReading(){
-        return this.state.allData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
+        return this.state.sortedData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
             <Row className='reading-now'>
                 <Col sm={{ span: 4, offset: 3 }}>
                 <div key={each.id}>
@@ -419,7 +486,7 @@ class BookForm extends React.Component {
         )
     }
     renderFinishedData(){
-        return this.state.allData.filter(one => one.username === this.state.username && one.title && one.status === "Finished").map((each) => 
+        return this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished").map((each) => 
                 <Col key={each.id} className="book-card" md={4}>
                      <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
                     <Row>
@@ -463,7 +530,7 @@ class BookForm extends React.Component {
         )
     }
     renderWantData(){
-        return this.state.allData.filter(one => one.username === this.state.username && one.title && one.status === "Want-to-read").map((each) => 
+        return this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Want-to-read").map((each) => 
                 <Col key={each.id} className="book-card" md={4}>
                      <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
                     <Row>
@@ -508,9 +575,9 @@ class BookForm extends React.Component {
     }
    
     render(){
-    const { format, checking, submitting, author, title, status, allData, date, query, editing, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
-    const allBooks = allData.filter(book => book.username === this.state.username)
-    const bookCount = allData.filter(book => book.username === this.state.username).length;
+    const { format, checking, submitting, author, title, status, sortedData, date, query, editing, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
+    const allBooks = sortedData.filter(book => book.username === this.state.username)
+    const bookCount = sortedData.filter(book => book.username === this.state.username).length;
     console.log('date', date)
         return(
             <div className="main-body">
