@@ -5,8 +5,8 @@ div.App article {
 }
 
 div.App article h2 {
-  font-size: 2.5em;
-  margin: 20px 0;
+  font-size: 2.2em;
+  margin: 10px 0;
 }
 
 .welcome {
@@ -20,6 +20,7 @@ div.App article h2 {
 }
 
 body {
+  margin-bottom: 50px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -79,7 +80,7 @@ code {
 }
 
 .div-button.friend {
-  margin-left: 10px;
+  margin-left: 40px;
   padding: 4px 8px 6px;
   background-color: white;
   font-size: .8em;
@@ -137,59 +138,80 @@ a:hover {
   text-decoration: underline;
 }
 
-table {
+.book-card {
+  padding: 10px 15px;
+  border-bottom: dashed 1px black;
   text-align: left;
-  width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 
-table .accordion .card .card-header .btn-link {
-  color: #666 !important;
-  font-size: 1rem;
-  font-weight: 400;
-  margin: 3px 0 0 15px;
-}
-
-table .accordion .card p {
-  font-size: .8em;
-}
-
-table th {
-  padding-right: 20px;
-  color: #6B3074;
+.book-card p {
+  margin-bottom: 0;
   font-size: 1.4rem;
-  border-bottom: 1px solid #6B3074;
 }
 
-table td {
-  padding: 4px 20px 0 0;
+.book-card p.card-smaller {
   font-size: 1.2rem;
-  border-bottom: 1px solid #B8B8B8;
 }
 
-table td img {
-  width: 90PX;
-  padding: 6px;
+.book-card img {
+  max-width: 85px;
+  padding-right: 10px;
 }
 
-table td.format {
-  font-size: 2em;
-  text-align: center;
+.book-card .thrift-link {
+  font-size: 1.4em;
+  padding: 0;
+  color: #6B3074;
+  border-bottom: 2px solid white;
 }
 
-table td.title-cell div {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-}
-
-table td.title-cell div p {
-  font-size: .8em;
-  margin: 3px 0 0 15px;
+.book-card .accordion .card .card-header .btn-link {
   color: #666 !important;
+  font-size: 1.2rem;
   font-weight: 400;
+}
+
+.book-card .accordion .card p {
+  font-size: .8em;
+}
+
+@media only screen and (max-width: 576px) {
+  .book-card img {
+    max-width: unset;
+    margin-top: 10px;
+    padding: 0;
+  }
+}
+
+#booklist h3 {
+  text-align: left;
+  border-bottom: 3px solid #6B3074;
+  margin: 10px -15px;
+  padding: 0 15px;
+}
+
+.accordion .card {
+  border: none;
+}
+
+.accordion .card .card-header {
+  padding: 0;
+  background-color: transparent !important;
+}
+
+.accordion .card .card-header .btn {
+  padding: 0;
+}
+
+.accordion .card .card-header .btn-link {
+  color: #333 !important;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.accordion .card .card-header button.btn:after {
+  content: '+';
 }
 
 .submit-form {
@@ -353,22 +375,21 @@ input#edit:hover, input.add-button:hover {
   cursor: pointer;
 }
 
-#reading-now {
-  max-width: 500px;
-  margin: auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+.reading-now {
   text-align: left;
 }
 
-#reading-now img {
-  width: 130px;
-  padding: 10px;
+.reading-now img {
+  padding: 20px 0;
+  max-width: 110px;
 }
 
-#reading-now h3, #reading-now h4 {
-  margin: auto;
+@media only screen and (max-width: 576px) {
+  .reading-now img {
+    max-width: unset;
+    margin: 10px auto;
+    display: block;
+  }
 }
 
 .found-friend {
@@ -402,32 +423,11 @@ form.search-form input[type="text"] {
   margin: auto;
 }
 
-#booklist h2 {
-  text-align: left;
-  border-bottom: 2px solid #6B3074;
-}
-
-.accordion .card {
-  border: none;
-}
-
-.accordion .card .card-header {
-  padding: 0;
-  background-color: transparent !important;
-}
-
-.accordion .card .card-header .btn {
-  padding: 0;
-}
-
-.accordion .card .card-header .btn-link {
-  color: #333 !important;
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
-.accordion .card .card-header button.btn:after {
-  content: '+';
+.required {
+  color: red;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -438,12 +438,21 @@ form.search-form input[type="text"] {
     float: none;
   }
   .App-header {
-    padding-top: 5vh;
+    padding-top: 7vh;
     height: 200px;
   }
   .App-header h1 {
-    font-size: 4.5rem;
+    font-size: 3.9rem;
     text-shadow: 2px 2px black;
+  }
+  .navigation a {
+    margin: 0 2px;
+    font-size: 1em;
+    display: inline-block;
+    padding: 6px;
+    color: #6B3074;
+    border-bottom: 2px solid white;
+    text-decoration: none;
   }
 }
 

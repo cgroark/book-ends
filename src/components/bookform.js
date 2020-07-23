@@ -14,6 +14,7 @@ class BookForm extends React.Component {
             submitting: false,
             author: '', 
             title: '', 
+            test: '',
             status: '', 
             format: '',
             rating: '',
@@ -36,14 +37,16 @@ class BookForm extends React.Component {
             currentlyReading: true,
             searchButton: false,
             googleAPIData: [],
-            sortedData : []
+            sortedData : [],
+            firstName: '',
+            lastName: '',
+            required: false
         }
 
     }
     componentDidMount =() => {
         let usernameProps = this.props.name;
         let usernameData = localStorage.getItem('username');
-        console.log('props:', usernameProps, ' localstorage: ', usernameData)
         if(usernameProps){
             this.setState({
                 savedusername: usernameProps,
@@ -68,8 +71,6 @@ class BookForm extends React.Component {
     }
     sortData = () =>{
         const allDataSorted = [];
-        console.log('sort data reached');
-        console.log('data to sort', this.state.googleAPIData)
         const firstName = this.state.googleAPIData.filter(firstName => firstName.gs$cell.col === "1");
         const lastName = this.state.googleAPIData.filter(lastName => lastName.gs$cell.col ==="2");
         const username = this.state.googleAPIData.filter(username => username.gs$cell.col ==="3");
@@ -101,7 +102,6 @@ class BookForm extends React.Component {
         this.setState({
             sortedData: allDataSorted
         });
-        console.log('new data sorted', this.state.sortedData);
     }
     getGoogleAPI = () => {
         fetch('https://spreadsheets.google.com/feeds/cells/1HhGhrqm2vagTS5wKxNYp7rh89en4ZVNkLfPd4DYCcrI/1/public/full?alt=json')
@@ -113,7 +113,8 @@ class BookForm extends React.Component {
                 });
                 this.sortData();
             }).then( () => {
-                let userData = this.state.allData.filter(one => one.username === this.state.username);
+                let userData = this.state.sortedData.filter(one => one.username === this.state.username);
+                console.log('userdata', userData)
                 if(userData.length === 0){
                     this.setState({currentID: 1});
                 }else{
@@ -124,7 +125,6 @@ class BookForm extends React.Component {
                     let sortedIDs= allIDs.sort((b, a) => b - a)
                     let newID = sortedIDs[allIDs.length -1] + 1;
                     this.setState({currentID: newID})
-                    console.log('the current id is within reach', this.state.currentID)
                 }       
             }).then( () => {
                 this.setState({
@@ -141,7 +141,6 @@ class BookForm extends React.Component {
                 this.setState({
                     allData: json
                 })
-                console.log('data', this.state.allData)
             }).then( () => {
                 let userData = this.state.allData.filter(one => one.username === this.state.username);
                 if(userData.length === 0){
@@ -154,8 +153,7 @@ class BookForm extends React.Component {
                     let sortedIDs= allIDs.sort((b, a) => b - a)
                     let newID = sortedIDs[allIDs.length -1] + 1;
                     this.setState({currentID: newID})
-                    console.log('the current id is', this.state.currentID)
-                }       
+                } 
             }).then( () => {
                 this.setState({
                     searchloading: false,
@@ -165,7 +163,6 @@ class BookForm extends React.Component {
     }
     handleSearch = (e) =>{
         e.preventDefault()
-        console.log('query', this.state.query);
         this.setState({
             searchloading: true,
             searchError: false,
@@ -202,12 +199,14 @@ class BookForm extends React.Component {
             title: '', 
             status: 'select-status', 
             format: 'select-format', 
+            rating: 'select-rating', 
             date: ''
         })
     }
     addSearchResults = (title, author, description, image, e) => {
+        console.log('status is', this.state.status, 'rating is ', this.state.rating)
+        var currentDate = moment().toDate();
         e.preventDefault();
-        console.log("clicked", title, author, image)
         this.setState({
             searchComplete: false,
             searchForm: false,
@@ -217,7 +216,9 @@ class BookForm extends React.Component {
             title: title,
             author: author[0],
             description: description, 
-            imageUrl: image
+            imageUrl: image,
+            rating: 'select-rating',
+            date: currentDate
         })
     }
     searchAgain = () => {
@@ -236,7 +237,18 @@ class BookForm extends React.Component {
         })
     }
     handleSubmit = event => {
+        if(this.state.status === 'select-status'){
+            console.log('not filled out')
+            event.preventDefault()
+            this.setState({
+                required: true
+            })
+        }else{
+            console.log('done')
+            
         const dataSend = {
+            firstName: 'null',
+            lastName: 'null',
             date: this.state.date,
             author: this.state.author,
             username: this.state.username,
@@ -248,7 +260,6 @@ class BookForm extends React.Component {
             overview: this.state.description,
             image: this.state.imageUrl
         }
-        console.log(dataSend)
         event.preventDefault()
         this.setState({
             searchloading: true,
@@ -262,13 +273,13 @@ class BookForm extends React.Component {
             method: 'POST',
             body: JSON.stringify(dataSend)
         }).then( (response) => {
-            console.log(response)
             this.setState({
                 searchloading: false,
                 author: '', 
                 title: '', 
                 status: 'select-status', 
                 format: 'select-format', 
+                rating: 'select-rating', 
                 date: '',
                 rating: '',
                 description: '',
@@ -279,12 +290,16 @@ class BookForm extends React.Component {
                 currentlyReading: true,
                 searchButton: true
             })
-            console.log('done with book');
             this.getGoogleAPI();
             return response.json()  
         });
     }
-    updateBook = (each, e) =>{
+    }
+    updateBook = (each, e) =>{  
+        console.log('rating is ', each.rating)
+        var updateRating = each.rating === 'select-rating' ? 'select-rating' : each.rating;
+        var dateUpdating = each.status === 'Finished' ? moment(each.date).toDate() : moment().toDate();
+        console.log('updating ' + each.title + ' with status of '+ each.status + 'to date of ' + dateUpdating)
         this.setState({
             books: false,
             currentlyReading: false,
@@ -293,12 +308,14 @@ class BookForm extends React.Component {
             searchButton: false
         })
         this.setState({
+            date: dateUpdating,
             author: each.author,
             title: each.title, 
             status: each.status, 
             format: each.format,
-            rating: each.rating,
+            rating: updateRating,
             bookid: each.id
+            
         })
     }
     handleSubmitEdit = event => {
@@ -328,11 +345,12 @@ class BookForm extends React.Component {
                 title: '', 
                 status: 'select-status', 
                 format: 'select-format', 
+                rating: 'select-rating', 
                 date: '',
                 editing: false
             })
         }).then( () =>{
-            setTimeout(() =>{
+            
                     this.getGoogleAPI();
                     this.setState({
                         books: true,
@@ -340,7 +358,7 @@ class BookForm extends React.Component {
                         currentlyReading: true,
                         searchButton: true
                     })
-            }, 1000);
+            
            
         })
     }
@@ -351,33 +369,35 @@ class BookForm extends React.Component {
         this.setState({date: date})
     }
     updateStatus = e => {
-        console.log(e.target.value)
         this.setState({
-            status: e.target.value
+            status: e.target.value,
+            required: false
+        })
+        console.log('rating here', this.state.rating)
+    }
+    updateTest = e => {
+        this.setState({
+            test: e.target.value,
         })
     }
     updateFormat = e => {
-        console.log(e.target.value)
         this.setState({
             format: e.target.value
         })
     }
     updateRating = (e) => {
-        console.log(e.target.value)
         this.setState({
             rating: e.target.value
         })
     }
     checkDelete = (e)=> {
         e.preventDefault();
-        console.log('checking')
         this.setState({
             checking: true
         })
     }    
     handleDeleteYes = (e) =>{
         e.preventDefault();
-        console.log('delete', this.state.bookid, this.state.title)
         this.setState({
             searchloading: true,
             checking: false,
@@ -391,12 +411,11 @@ class BookForm extends React.Component {
             },
             method: 'DELETE'  
         }).then( (response) => {
-            console.log(response)
             setTimeout(() =>{
                     this.getGoogleAPI();
                     this.setState({
                         searchloading: false,
-                        books:true,
+                        books:true, 
                         searchButton: true,
                         currentlyReading: true
                     })
@@ -419,19 +438,19 @@ class BookForm extends React.Component {
             title: '', 
             status: 'select-status', 
             format: 'select-format', 
+            rating: 'select-rating', 
             date: '',
             rating: '',
             editing: false,
             currentlyReading: true,
             searchButton: true,
-            checking: false
+            checking: false,
+            required: false
         })
     }
     renderSearchData(){
         let submitting = this.state.submitting;
         let bookData = this.state.searchData;
-        console.log('alldata', bookData, bookData.items.length)
-        console.log('first book', bookData.items[0].volumeInfo)
         let currentBooks = [];
         for(var b=0; b < bookData.items.length; b++){
             let activeBook = bookData.items[b].volumeInfo;
@@ -467,8 +486,7 @@ class BookForm extends React.Component {
             <Row className='reading-now'>
                 <Col sm={{ span: 4, offset: 3 }}>
                 <div key={each.id}>
-                    <h3  >Currently reading:<br />
-                    <em>{each.title}</em></h3> 
+                    <h4><em>{each.title}</em></h4> 
                 </div>
                     {!this.state.form &&
                         <div>
@@ -486,14 +504,14 @@ class BookForm extends React.Component {
         )
     }
     renderFinishedData(){
-        return this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished").map((each) => 
+        return this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished").sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
                 <Col key={each.id} className="book-card" md={4}>
                      <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
                     <Row>
                         <Col sm={8}>
                             <p>{each.author}</p>
                             <p className="card-smaller">{each.status} {moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""} </p>
-                            <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            <p className="card-smaller">{each.rating === 'select-rating' ? '' : each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                             {!this.state.form &&
                                 <div>
                                     <label htmlFor="edit"></label>
@@ -536,8 +554,8 @@ class BookForm extends React.Component {
                     <Row>
                         <Col sm={8}>
                             <p>{each.author}</p>
-                            <p className="card-smaller">{each.status}</p>
-                            <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            
+                            <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                             {!this.state.form &&
                                 <div>
                                     <label htmlFor="edit"></label>
@@ -575,14 +593,16 @@ class BookForm extends React.Component {
     }
    
     render(){
-    const { format, checking, submitting, author, title, status, sortedData, date, query, editing, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
+    const { format, checking, submitting, author, title, test, status, sortedData, date, query, editing, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
     const allBooks = sortedData.filter(book => book.username === this.state.username)
     const bookCount = sortedData.filter(book => book.username === this.state.username).length;
-    console.log('date', date)
+    
         return(
             <div className="main-body">
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && currentlyReading &&
+                    
                     <div>
+                     <h2>Currently reading:</h2>
                       {this.renderReading()}
                             <hr />
                     </div>
@@ -644,7 +664,7 @@ class BookForm extends React.Component {
                             </Col>
                             <Col md={4}>
                                     <label>Format: <br />
-                                    <select defaultValue={format} onChange={this.updateFormat}>>
+                                    <select defaultValue={format} onChange={this.updateFormat}>
                                         <option value="select-format" disabled>Select format</option>
                                         <option value="Audio">Audio</option>
                                         <option value="Text">Text</option>
@@ -653,10 +673,12 @@ class BookForm extends React.Component {
                             </Col>
                         </Row>
                         <Row>
-                    
                             <Col md={4}>
-                                <label>Status: <br />
-                                    <select defaultValue={status} onChange={this.updateStatus}>>
+                                <label>Status*:  <br />
+                                    {this.state.required &&
+                                        <span className="required">This is required</span>
+                                    }
+                                    <select required defaultValue={status} onChange={this.updateStatus}>
                                         <option value="select-status" disabled>Select status</option>
                                         <option value="Finished">Finished</option>
                                         <option value="Currently-Reading">Currently reading</option>
@@ -668,7 +690,7 @@ class BookForm extends React.Component {
                             <React.Fragment>
                             <Col md={4}>
                                 <label>Recommendation: <br />
-                                    <select defaultValue={editing ? rating : "select-rating"} onChange={this.updateRating}>>
+                                    <select defaultValue={rating} onChange={this.updateRating}>
                                         <option value="select-rating" disabled>Select rating</option>
                                         <option value="Highly Recommend">Highly recommend</option>
                                         <option value="Recommend">Recommend</option>
