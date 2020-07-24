@@ -314,7 +314,7 @@ input[type="submit"].delete:hover {
 }
 
 #close-button button {
-  margin-bottom: -10px;
+  margin-bottom: 10px;
   border: solid 2px white;
   padding: 2px 15px 5px;
   background-color: #6B3074;
@@ -387,8 +387,6 @@ input#edit:hover, input.add-button:hover {
 @media only screen and (max-width: 576px) {
   .reading-now img {
     max-width: unset;
-    margin: 10px auto;
-    display: block;
   }
 }
 
@@ -453,6 +451,10 @@ form.search-form input[type="text"] {
     color: #6B3074;
     border-bottom: 2px solid white;
     text-decoration: none;
+  }
+  input[type="submit"].delete {
+    margin-top: 30px;
+    float: none;
   }
 }
 

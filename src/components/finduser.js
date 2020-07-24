@@ -112,7 +112,7 @@ class FindUser extends React.Component {
                 {!showForm && !searchloading &&
                      <div className="div-button" onClick={this.searchAgain}>Search again</div>   
                 }
-                {numUsersFound === 1 && !showForm &&
+                {numUsersFound === 1 && !showForm && !searchloading &&
                     <div className="friend-results">
                         {showResults &&
                             <div><h3>Found user:</h3>&nbsp;<span>{this.renderFriend()}</span></div>

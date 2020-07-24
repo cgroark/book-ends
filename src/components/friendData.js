@@ -38,7 +38,7 @@ class FriendData extends React.Component {
         )
     }
     renderFinishedData(){
-        return this.state.friendData.filter(one => one.title && one.status === "Finished").map((each, index) => 
+        return this.state.friendData.filter(one => one.title && one.status === "Finished").sort((a,b) => new moment(a.date) - new moment(b.date)).map((each, index) => 
         <Col key={each.id} className="book-card" md={4}>
         <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
         <Row>
@@ -76,7 +76,7 @@ class FriendData extends React.Component {
         )
     }
     renderWantData(){
-        return this.state.allData.filter(one => one.username === this.state.username && one.title && one.status === "Want-to-read").map((each) => 
+        return this.state.friendData.filter(one => one.title && one.status === "Want-to-read").map((each) => 
                 <Col key={each.id} className="book-card" md={4}>
                      <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
                     <Row>

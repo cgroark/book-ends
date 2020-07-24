@@ -484,7 +484,7 @@ class BookForm extends React.Component {
     renderReading(){
         return this.state.sortedData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
             <Row className='reading-now'>
-                <Col sm={{ span: 4, offset: 3 }}>
+                <Col sm={{ span: 3, offset: 4 }}>
                 <div key={each.id}>
                     <h4><em>{each.title}</em></h4> 
                 </div>
@@ -694,13 +694,13 @@ class BookForm extends React.Component {
                                         <option value="select-rating" disabled>Select rating</option>
                                         <option value="Highly Recommend">Highly recommend</option>
                                         <option value="Recommend">Recommend</option>
-                                        <option value="Do-not-Recommend">Don't recommend</option>
-                                        <option value="Do-not-read">Please do not read</option>
+                                        <option value="Do Not Recommend">Don't recommend</option>
+                                        <option value="Do Not Read">Please do not read</option>
                                     </select>
                                 </label>
                             </Col>
                             <Col md={4}>
-                                <label >Finished on:</label>
+                                <label >Finished on:</label><br />
                                 <DatePicker selected={date} onChange={this.handleDateChange}  />                                
                             </Col>
                             </React.Fragment>

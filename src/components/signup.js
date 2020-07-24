@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 class SignUp extends React.Component {
     constructor(props){
@@ -41,7 +42,15 @@ class SignUp extends React.Component {
             firstName: this.state.firstName.toLowerCase(),
             lastName: this.state.lastName.toLowerCase(),
             username: this.state.username,
-            id: this.state.username+'id=0'
+            id: this.state.username+'id=0',
+            date: moment().toDate(),
+            author: 'null',
+            title: 'null',
+            status: 'null',
+            format: 'null',
+            rating: 'null',
+            overview: 'null',
+            image: 'null'
         }
         console.log(dataSend)
         event.preventDefault()
