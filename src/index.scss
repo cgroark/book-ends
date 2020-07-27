@@ -17,9 +17,11 @@ div.App article{
 .welcome{
   margin-top: 50px !important;
   text-align: left;
-  .col-md-4 i{
-    float: right;
-    font-size: 200px;
+  h2{
+    margin-top: 0 !important;
+  }
+  img{
+    max-width: 100%;
   }
 }
 body {
@@ -98,7 +100,6 @@ code {
   margin-top: 35px;
 }
 .navigation{
-    text-align: right;
     a{
       margin: 0 4px;
       font-size: 1.3em;
@@ -373,9 +374,12 @@ input#edit:hover, input.add-button:hover{
   cursor: pointer;
 }
 .reading-now{
+  margin-top: 20px;
+  h4{
+    margin-top: 10%;
+  }
   text-align: left;
   img{
-    padding: 20px 0;
     max-width: 110px;
   }
 }

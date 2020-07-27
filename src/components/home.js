@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import homeImage from '../images/mug-book.png';
 
 class Home extends React.Component {
     constructor(props){
@@ -38,12 +39,12 @@ class Home extends React.Component {
         return(
             <article className="welcome">
                 <Row>
-                    <Col md={8}>
+                <Col md={{ span: 6, offset: 2 }}>
                         {welcomeContent}
-                    </Col>
-                    <Col md={4}>
+                </Col>
+                <Col md={{ span: 3, offset: 1 }}>
                         <div>
-                        <i className="fa fa-book" aria-hidden="true"></i>
+                        <img src={homeImage} />
                         </div>
                     </Col>
                 </Row>

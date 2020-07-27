@@ -15,7 +15,7 @@ class FriendData extends React.Component {
     componentDidMount =() => {
         this.setState({
             friendData: this.props.data,
-            firstName: this.props.firstName,
+            firstName: this.props.firstName[0].toUpperCase() + this.props.firstName.slice(1),
             searchloading: false
         })
         console.log('new component', this.props.data)
@@ -24,10 +24,9 @@ class FriendData extends React.Component {
     renderReading(){
         return this.state.friendData.filter(book => book.status === "Currently-Reading").map((each) => 
         <Row className='reading-now'>
-                <Col sm={{ span: 4, offset: 3 }}>
+                <Col sm={{ span: 3, offset: 4 }}>
                 <div key={each.id}>
-                    <h3  >Currently reading:<br />
-                    <em>{each.title}</em></h3> 
+                    <h4><em>{each.title}</em></h4> 
                 </div>
                 </Col>
                 <Col sm={2}>
@@ -82,8 +81,7 @@ class FriendData extends React.Component {
                     <Row>
                         <Col sm={8}>
                             <p>{each.author}</p>
-                            <p className="card-smaller">{each.status}</p>
-                            <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                         </Col>
                         <Col sm={4}>
                             {each.image ?
@@ -127,6 +125,7 @@ class FriendData extends React.Component {
                 }
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && !searchloading &&
                 <div>
+                    <h2>Currently reading:</h2>
                     <h3> {this.renderReading()}</h3>
                         <hr />
                 </div>
@@ -142,7 +141,7 @@ class FriendData extends React.Component {
                     }
                     {bookCount > 1 && allBooks.filter(book => book.status === "Want-to-read").length > 0 &&
                         <div>
-                            <h3>Books {firstName} want to read</h3>
+                            <h3>Books {firstName} wants to read</h3>
                             <Row>
                                 {this.renderWantData()}
                             </Row>

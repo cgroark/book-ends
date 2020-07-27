@@ -1,4 +1,5 @@
 import React from 'react';
+import openBook from '../images/open-book.png';
 
 
 class SignIn extends React.Component {
@@ -72,18 +73,20 @@ class SignIn extends React.Component {
             <div className="login">
                     <p>Looks like you are already signed in as {savedusername}</p>
                     <p>Not {savedusername} or want to sign up another user? Logout and then login or sign-up.</p>
+                    
             </div>
         }else if(done){
             pageContent = 
             <div className="login">
-                        <p>Thanks for signing in {usernamedone}
-                        </p>
+                        <p>Thanks for signing in {usernamedone}</p>
+                        
             </div>
         }else if(usernamefound && !searchloading){
             pageContent = 
             <div className="login">
                         <h3>Welcome back {username}</h3>
-                        <p>Use the navigation to view your book list, make updates, add new books.</p>     
+                        <p>Use the navigation to view your book list, make updates, add new books.</p>   
+                         
             </div>
         }
         else{

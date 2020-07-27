@@ -599,8 +599,7 @@ class BookForm extends React.Component {
     
         return(
             <div className="main-body">
-                {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && currentlyReading &&
-                    
+                {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && currentlyReading && 
                     <div>
                      <h2>Currently reading:</h2>
                       {this.renderReading()}
