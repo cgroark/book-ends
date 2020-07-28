@@ -1,5 +1,4 @@
 import React from 'react';
-import openBook from '../images/open-book.png';
 
 
 class SignIn extends React.Component {
@@ -22,7 +21,6 @@ class SignIn extends React.Component {
     componentDidMount = () => {
         this.getAllData()
         let usernameData = localStorage.getItem('username');
-        console.log(usernameData)
         if(usernameData){
             this.setState({
                 savedusername: usernameData,
@@ -38,7 +36,6 @@ class SignIn extends React.Component {
                 this.setState({
                     allData: json
                 })
-                console.log('data', this.state.allData)
             })
     }
     handleChange = e => this.setState({
@@ -51,9 +48,7 @@ class SignIn extends React.Component {
             searchloading: true
         })
         for(var i=0; i<allData.length; i++){
-            console.log(allData[i].username)
             if(allData[i].username === this.state.username){
-                console.log('we found ', this.state.username, ' and ', allData[i].username);
                 this.setState({usernamefound: true})
                 localStorage.setItem('username', this.state.username);
 

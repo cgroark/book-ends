@@ -26,7 +26,6 @@ class App extends React.Component {
       }
   }
   updateNav = () =>{
-    console.log('update nav')
     let usernameData = localStorage.getItem('username');
     this.setState({
       savedusername: usernameData,

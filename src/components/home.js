@@ -44,7 +44,7 @@ class Home extends React.Component {
                 </Col>
                 <Col md={{ span: 3 }}>
                         <div>
-                        <img src={homeImage} />
+                        <img src={homeImage} alt="hands reaching a book with a cup of coffee nearby" />
                         </div>
                     </Col>
                 </Row>

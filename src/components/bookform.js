@@ -114,7 +114,6 @@ class BookForm extends React.Component {
                 this.sortData();
             }).then( () => {
                 let userData = this.state.sortedData.filter(one => one.username === this.state.username);
-                console.log('userdata', userData)
                 if(userData.length === 0){
                     this.setState({currentID: 1});
                 }else{
@@ -204,11 +203,8 @@ class BookForm extends React.Component {
         })
     }
     addSearchResults = (title, author, description, image, e) => {
-        console.log('status is', this.state.status, 'rating is ', this.state.rating)
         var currentDate = moment().toDate();
-        console.log('image url',image)
         var newImage = 'https'+ image.slice(4);
-        console.log(newImage)
         e.preventDefault();
         this.setState({
             searchComplete: false,
@@ -241,28 +237,25 @@ class BookForm extends React.Component {
     }
     handleSubmit = event => {
         if(this.state.status === 'select-status'){
-            console.log('not filled out')
             event.preventDefault()
             this.setState({
                 required: true
             })
         }else{
-            console.log('done')
-            
-        const dataSend = {
-            firstName: 'null',
-            lastName: 'null',
-            date: this.state.date,
-            author: this.state.author,
-            username: this.state.username,
-            title: this.state.title,
-            status: this.state.status,
-            format: this.state.format,
-            id: this.state.username+'id='+this.state.currentID,
-            rating: this.state.rating,
-            overview: this.state.description,
-            image: this.state.imageUrl
-        }
+            const dataSend = {
+                firstName: 'null',
+                lastName: 'null',
+                date: this.state.date,
+                author: this.state.author,
+                username: this.state.username,
+                title: this.state.title,
+                status: this.state.status,
+                format: this.state.format,
+                id: this.state.username+'id='+this.state.currentID,
+                rating: this.state.rating,
+                overview: this.state.description,
+                image: this.state.imageUrl
+             }
         event.preventDefault()
         this.setState({
             searchloading: true,
@@ -284,7 +277,6 @@ class BookForm extends React.Component {
                 format: 'select-format', 
                 rating: 'select-rating', 
                 date: '',
-                rating: '',
                 description: '',
                 imageUrl: '',
                 adding: false,
@@ -299,7 +291,6 @@ class BookForm extends React.Component {
     }
     }
     updateBook = (each, e) =>{  
-        console.log('rating is ', each.rating)
         var updateRating = each.rating === 'select-rating' ? 'select-rating' : each.rating;
         var dateUpdating = each.status === 'Finished' ? moment(each.date).toDate() : moment().toDate();
         console.log('updating ' + each.title + ' with status of '+ each.status + 'to date of ' + dateUpdating)
@@ -376,7 +367,6 @@ class BookForm extends React.Component {
             status: e.target.value,
             required: false
         })
-        console.log('rating here', this.state.rating)
     }
     updateTest = e => {
         this.setState({
@@ -443,7 +433,6 @@ class BookForm extends React.Component {
             format: 'select-format', 
             rating: 'select-rating', 
             date: '',
-            rating: '',
             editing: false,
             currentlyReading: true,
             searchButton: true,
@@ -486,9 +475,9 @@ class BookForm extends React.Component {
     }
     renderReading(){
         return this.state.sortedData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
-            <Row className='reading-now'>
-                <Col sm={{ span: 3, offset: 4 }}>
-                <div key={each.id}>
+            <Row key={each.id} className='reading-now'>
+                <Col  sm={{ span: 3, offset: 4 }}>
+                <div >
                     <h4><em>{each.title}</em></h4> 
                 </div>
                     {!this.state.form &&
@@ -514,7 +503,7 @@ class BookForm extends React.Component {
                         <Col sm={8}>
                             <p>{each.author}</p>
                             <p className="card-smaller">{each.status} {moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""} </p>
-                            <p className="card-smaller">{each.rating === 'select-rating' ? '' : each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            <p className="card-smaller">{each.rating === 'select-rating' ? '' : each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} rel="noopener noreferrer" target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                             {!this.state.form &&
                                 <div>
                                     <label htmlFor="edit"></label>
@@ -558,7 +547,7 @@ class BookForm extends React.Component {
                         <Col sm={8}>
                             <p>{each.author}</p>
                             
-                            <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                             {!this.state.form &&
                                 <div>
                                     <label htmlFor="edit"></label>
@@ -596,7 +585,7 @@ class BookForm extends React.Component {
     }
    
     render(){
-    const { format, checking, submitting, author, title, test, status, sortedData, date, query, editing, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
+    const { format, checking, submitting, author, title, status, sortedData, date, query, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
     const allBooks = sortedData.filter(book => book.username === this.state.username)
     const bookCount = sortedData.filter(book => book.username === this.state.username).length;
     

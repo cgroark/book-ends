@@ -11,7 +11,6 @@ class SignOut extends React.Component {
     }
     componentDidMount = () => {
         let username = this.props.username;
-        console.log('username on signout', username)
         if(username){
             this.setState({
                 savedusername: username            })
@@ -19,7 +18,6 @@ class SignOut extends React.Component {
     }
     handleClear = () => {
         this.props.updateNav();
-        console.log('reached clear')
         localStorage.clear();
         this.setState({
             loggedout: true

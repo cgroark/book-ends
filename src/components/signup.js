@@ -19,9 +19,7 @@ class SignUp extends React.Component {
 
     }
     componentDidMount =() => {
-        console.log('mounted')
         let usernameData = localStorage.getItem('username');
-        console.log(usernameData)
         if(usernameData){
             this.setState({
                 savedusername: usernameData,
@@ -30,7 +28,6 @@ class SignUp extends React.Component {
         }
     }
     handleClear = () => {
-        console.log('reached clear')
         localStorage.clear();
         this.setState({checkusername: false})
     }
@@ -52,12 +49,10 @@ class SignUp extends React.Component {
             overview: 'null',
             image: 'null'
         }
-        console.log(dataSend)
         event.preventDefault()
         this.setState({
             searchloading: true
         })
-        console.log('before fetch', this.state.submitting)
         fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351', {
             headers: {
                 'Accept': 'application/json',
@@ -74,7 +69,6 @@ class SignUp extends React.Component {
                 username: '',
                 done: true
             })
-            console.log('done user', this.state.usernamedone)
             localStorage.setItem('username', this.state.usernamedone);
             this.props.updateNav();
             return response.json()

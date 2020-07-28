@@ -44,7 +44,7 @@ class FriendData extends React.Component {
             <Col sm={8}>
                 <p>{each.author}</p>
                 <p className="card-smaller">{each.status} {moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""} </p>
-                <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
             </Col>
             <Col sm={4}>
                 {each.image ?
@@ -81,7 +81,7 @@ class FriendData extends React.Component {
                     <Row>
                         <Col sm={8}>
                             <p>{each.author}</p>
-                            <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                         </Col>
                         <Col sm={4}>
                             {each.image ?
