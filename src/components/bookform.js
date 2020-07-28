@@ -206,6 +206,9 @@ class BookForm extends React.Component {
     addSearchResults = (title, author, description, image, e) => {
         console.log('status is', this.state.status, 'rating is ', this.state.rating)
         var currentDate = moment().toDate();
+        console.log('image url',image)
+        var newImage = 'https'+ image.slice(4);
+        console.log(newImage)
         e.preventDefault();
         this.setState({
             searchComplete: false,
@@ -216,7 +219,7 @@ class BookForm extends React.Component {
             title: title,
             author: author[0],
             description: description, 
-            imageUrl: image,
+            imageUrl: newImage,
             rating: 'select-rating',
             date: currentDate
         })
@@ -733,7 +736,7 @@ class BookForm extends React.Component {
                 }
                 {books && bookCount > 1 &&
                     
-                    <div id="booklist"><h2>Your book list</h2>
+                    <div id="booklist">
                      {bookCount > 1 && allBooks.filter(book => book.status === "Finished").length > 0 &&
                         <div>
                             <h3>Finished books</h3>

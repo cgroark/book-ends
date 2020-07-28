@@ -39,10 +39,10 @@ class Home extends React.Component {
         return(
             <article className="welcome">
                 <Row>
-                <Col md={{ span: 6, offset: 2 }}>
+                <Col md={{ span: 6, offset: 1 }}>
                         {welcomeContent}
                 </Col>
-                <Col md={{ span: 3, offset: 1 }}>
+                <Col md={{ span: 3 }}>
                         <div>
                         <img src={homeImage} />
                         </div>
