@@ -9,10 +9,6 @@ div.App article{
   max-width: 1100px;
   padding: 0 20px;
   margin: 0 auto;
-    h2{
-      font-size: 2.2em;
-      margin: 10px 0;
-    } 
 }
 .welcome{
   margin-top: 50px !important;
@@ -53,13 +49,17 @@ code {
 }
 .main-body{
   text-align: center;
-  margin-top: 40px;
+  margin-top: 20px;
   h3, h2{
     margin-top: 15px;
   }
   h2{
     color: $color-purple;
-    font-weight: 700;
+    font-size: 1.75rem;
+  }
+  .currently h2{
+    padding-top: 8px;
+    border-top: 2px solid purple;
   }
   hr{
     border-top: 2px solid $color-purple;
@@ -160,19 +160,25 @@ a:hover{
     }
   }
 }
+h2#friend-name{
+  font-size: 2rem;
+  border-top: none;
+  font-weight: 700;
+}
 @media only screen and (max-width: 576px) {
   .book-card img{
-    max-width: unset;
     margin-top: 10px;
     padding: 0;
   }
 }
 #booklist{
   h3{
-    text-align: left;
-    border-bottom: 3px solid $color-purple;
-    margin: 10px -15px;
-    padding: 0 15px;
+    text-align: center;
+    margin: 10px 0;
+    padding: 0 15px 5px 0;
+    color: $color-purple;
+    border-bottom: 1px solid $color-purple;
+
   }
 }
 .accordion{
@@ -267,7 +273,9 @@ form{
     border: 3px solid $color-purple;
     cursor: pointer;
   }
-
+  input[type="text"]{
+    width: 100%;
+  }
   label{
     text-align: left;
     color: $color-purple; 
@@ -453,10 +461,30 @@ form.search-form{
     input[type="submit"].delete{
       margin-top: 30px;
       float: none;
-    }
+  }
+  .reading-now img {
+    max-width: 80px;
+  }
+  .main-body h2, .main-body h3{
+    font-size: 1.5rem;
+  }
+  h4{
+    font-size: 1.2rem;
+  }
+  .row, h4, .accordion{
+    text-align: center;
+  }
 }
 
-
+footer{
+  height: 50px;
+  background: $color-purple;
+  margin-top: 50px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+}
 
 .progress-bar3 {
   height: 18px;

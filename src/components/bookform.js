@@ -591,18 +591,18 @@ class BookForm extends React.Component {
     
         return(
             <div className="main-body">
+                {searchButton && 
+                    <input type='submit' className="add-button" value="Find a book" onClick={this.showSearchForm}></input>
+                }
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && currentlyReading && 
-                    <div>
-                     <h2>Currently reading:</h2>
+                    <div className="currently">
+                     <h2>Currently reading</h2>
                       {this.renderReading()}
                             <hr />
                     </div>
                 }
                 {!books && !searchloading && !form &&
                     <div id="close-button"><button  onClick={this.removeForm}>x</button></div>
-                }
-                {searchButton && 
-                    <input type='submit' className="add-button" value="Find a book" onClick={this.showSearchForm}></input>
                 }
                 {searchloading && 
                     <div className="progress-infinite">

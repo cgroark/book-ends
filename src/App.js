@@ -72,8 +72,8 @@ class App extends React.Component {
           {mainNav}
         </div>
         </article>
-       
       </div>
+        
     
     )
   }

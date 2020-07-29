@@ -124,13 +124,14 @@ class FriendData extends React.Component {
                     </div> 
                 }
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && !searchloading &&
-                <div>
+                <div className="currently">
+                    <h2 id="friend-name">{firstName}'s book list</h2>
                     <h2>Currently reading:</h2>
                     <h3> {this.renderReading()}</h3>
                         <hr />
                 </div>
                 }
-                <div id="booklist"><h2>{firstName}'s book list</h2>
+                <div id="booklist">
                     {bookCount > 1 && allBooks.filter(book => book.status === "Finished").length > 0 &&
                         <div>
                             <h3>Finished books</h3>
