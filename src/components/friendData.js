@@ -28,9 +28,32 @@ class FriendData extends React.Component {
                 <div key={each.id}>
                     <h4><em>{each.title}</em></h4> 
                 </div>
+                <div className="summary-reading">
+                        {each.overview && each.overview !== 'null' ? 
+                                    <Accordion defaultActiveKey="0">
+                                                <Card>
+                                                    <Card.Header>
+                                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                            Read summary
+                                                        </Accordion.Toggle>
+                                                    </Card.Header>
+                                                    <Accordion.Collapse eventKey="1">
+                                                        <Card.Body><p>{each.overview}</p></Card.Body>
+                                                    </Accordion.Collapse>
+                                                </Card>
+                                    </Accordion>  
+                                    : 
+                                <p>(No summary available)</p> }
+                    </div>
                 </Col>
                 <Col sm={2}>
-                    <span>{each.image ? <img src={each.image} alt={each.title} />  :''}</span>
+                    <span>
+                    {each.image && each.image !== 'null' ?
+                                <img src={each.image} alt={each.title} />
+                                :
+                                <i class="fa fa-book" aria-hidden="true"></i>
+                    }
+                    </span>
                 </Col>
                
             </Row>
@@ -47,16 +70,15 @@ class FriendData extends React.Component {
                 <p className="card-smaller">{each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
             </Col>
             <Col sm={4}>
-                {each.image ?
+                {each.image && each.image !== 'null' ?
                     <img src={each.image} alt={each.title} />
                     :
-                    ''
+                    <i class="fa fa-book" aria-hidden="true"></i>
                 }
-                
             </Col>
             
         </Row>
-        {each.overview ? 
+        {each.overview && each.overview !== 'null' ? 
             <Accordion defaultActiveKey="0">
                         <Card>
                             <Card.Header>
@@ -84,16 +106,16 @@ class FriendData extends React.Component {
                             <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                         </Col>
                         <Col sm={4}>
-                            {each.image ?
+                            {each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
-                                ''
+                                <i class="fa fa-book" aria-hidden="true"></i>
                             }
                             
                         </Col>
                         
                     </Row>
-                    {each.overview ? 
+                    {each.overview && each.overview !== 'null' ? 
                         <Accordion defaultActiveKey="0">
                                     <Card>
                                         <Card.Header>

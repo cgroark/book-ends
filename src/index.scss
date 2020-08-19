@@ -149,6 +149,9 @@ a:hover{
     color: #6B3074;
     border-bottom: 2px solid white;
   }
+  .row .col-sm-4 i{
+    font-size: 85px;
+  }
   .accordion {
     .card .card-header .btn-link{
       color: #666 !important;
@@ -390,6 +393,21 @@ input#edit:hover, input.add-button:hover{
   img{
     max-width: 110px;
   }
+  .col-sm-2 i{
+    font-size: 85px;
+  }
+  .summary-reading{
+    button{
+      font-weight: 400;
+    }
+    p{
+      font-size: .6em;
+    }
+    .collapse p, .collapsing p{
+      font-size: 1em;
+    }
+  }
+
 }
 @media only screen and (max-width: 576px) {
   .reading-now img{

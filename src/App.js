@@ -59,7 +59,6 @@ class App extends React.Component {
                     <Route exact path="/sign-in"  render={() => <SignIn updateNav={this.updateNav}/>} />
                     <Route exact path="/"  render={() => <Home updateNav={this.updateNav}/>} />
                     <Route exact path="/friend-find" render={() => <FindUser username={savedusername}/>} />
-
                   </React.Fragment>
           </Router>
     return(

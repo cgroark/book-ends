@@ -40,7 +40,9 @@ class BookForm extends React.Component {
             sortedData : [],
             firstName: '',
             lastName: '',
-            required: false
+            requiredStatus: false,
+            requiredAuthor: false,
+            requiredTitle: false
         }
 
     }
@@ -204,7 +206,7 @@ class BookForm extends React.Component {
     }
     addSearchResults = (title, author, description, image, e) => {
         var currentDate = moment().toDate();
-        var newImage = 'https'+ image.slice(4);
+        // var newImage = 'https'+ image.slice(4);
         e.preventDefault();
         this.setState({
             searchComplete: false,
@@ -215,7 +217,7 @@ class BookForm extends React.Component {
             title: title,
             author: author[0],
             description: description, 
-            imageUrl: newImage,
+            imageUrl: image,
             rating: 'select-rating',
             date: currentDate
         })
@@ -236,12 +238,49 @@ class BookForm extends React.Component {
         })
     }
     handleSubmit = event => {
-        if(this.state.status === 'select-status'){
+        if(this.state.imageUrl === ''){
             event.preventDefault()
             this.setState({
-                required: true
+                imageUrl: 'null'
             })
-        }else{
+        }
+        if(this.state.imageUrl === ''){
+            event.preventDefault()
+            this.setState({
+                imageUrl: 'null'
+            })
+        }
+        if(this.state.description === ''){
+            event.preventDefault()
+            this.setState({
+                description: 'null'
+            })
+        }
+        if(this.state.date === ''){
+            event.preventDefault()
+            this.setState({
+                date: moment().toDate()
+            })
+        }
+        if(this.state.status === 'select-status' || this.state.title === '' || this.state.author === '' ){
+            event.preventDefault()
+            if(this.state.status === 'select-status'){
+                this.setState({
+                    requiredStatus: true
+                })
+            }
+            if(this.state.title === ''){
+                this.setState({
+                    requiredTitle: true
+                })
+            }
+            if(this.state.author === ''){
+                this.setState({
+                    requiredAuthor: true
+                })
+            }
+            
+        } else{
             const dataSend = {
                 firstName: 'null',
                 lastName: 'null',
@@ -356,9 +395,26 @@ class BookForm extends React.Component {
            
         })
     }
-    handleChange = e => this.setState({
-        [e.target.name]: e.target.value
-    })
+    handleChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+        if(this.state.status !== 'select-status'){
+            this.setState({
+                requiredStatus: false
+            })
+        }
+        if(this.state.title !== ''){
+            this.setState({
+                requiredTitle: false
+            })
+        }
+        if(this.state.author !== ''){
+            this.setState({
+                requiredAuthor: false
+            })
+        }
+    }
     handleDateChange = date => {
         this.setState({date: date})
     }
@@ -447,7 +503,7 @@ class BookForm extends React.Component {
         for(var b=0; b < bookData.items.length; b++){
             let activeBook = bookData.items[b].volumeInfo;
             let image;
-            activeBook.imageLinks ? image = activeBook.imageLinks.thumbnail : image = '';
+            activeBook.imageLinks ? image = 'https'+ activeBook.imageLinks.thumbnail.slice(4) : image = '';
             currentBooks.push(
             <Col key={bookData.items[b].id} md={6}>
             <div className="eachbook">
@@ -486,13 +542,35 @@ class BookForm extends React.Component {
                             <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
                         </div>
                     }
-               
+                    <div className="summary-reading">
+                        {each.overview && each.overview !== 'null' ? 
+                                    <Accordion defaultActiveKey="0">
+                                                <Card>
+                                                    <Card.Header>
+                                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                            Read summary
+                                                        </Accordion.Toggle>
+                                                    </Card.Header>
+                                                    <Accordion.Collapse eventKey="1">
+                                                        <Card.Body><p>{each.overview}</p></Card.Body>
+                                                    </Accordion.Collapse>
+                                                </Card>
+                                    </Accordion>  
+                                    : 
+                                <p>(No summary available)</p> }
+                    </div>
                 </Col>
                 <Col sm={2}>
-                    <span>{each.image ? <img src={each.image} alt={each.title} />  :''}</span>
+                    <span>{each.image && each.image !== 'null' ?
+                                <img src={each.image} alt={each.title} />
+                                :
+                                <i class="fa fa-book" aria-hidden="true"></i>
+                            }
+                    </span>
                 </Col>
                
             </Row>
+            
         )
     }
     renderFinishedData(){
@@ -512,16 +590,16 @@ class BookForm extends React.Component {
                             }
                         </Col>
                         <Col sm={4}>
-                            {each.image ?
+                            {each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
-                                ''
+                                <i class="fa fa-book" aria-hidden="true"></i>
                             }
                             
                         </Col>
                         
                     </Row>
-                    {each.overview ? 
+                    {each.overview && each.overview !== 'null' ? 
                         <Accordion defaultActiveKey="0">
                                     <Card>
                                         <Card.Header>
@@ -556,16 +634,16 @@ class BookForm extends React.Component {
                             }
                         </Col>
                         <Col sm={4}>
-                            {each.image ?
+                            {each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
-                                ''
+                                <i class="fa fa-book" aria-hidden="true"></i>
                             }
                             
                         </Col>
                         
                     </Row>
-                    {each.overview ? 
+                    {each.overview && each.overview !== 'null' ? 
                         <Accordion defaultActiveKey="0">
                                     <Card>
                                         <Card.Header>
@@ -645,11 +723,17 @@ class BookForm extends React.Component {
                         <Row>
                             <Col md={4}>
                                 <label >Title:<br />
+                                {this.state.requiredTitle &&
+                                        <span className="required">This is required</span>
+                                    }
                                     <input type="text" name='title' value={title} onChange={this.handleChange} />
                                 </label>
                             </Col>
                             <Col md={4}>
                                 <label >Author:<br />
+                                {this.state.requiredAuthor &&
+                                        <span className="required">This is required</span>
+                                    }
                                     <input type="text" name='author' value={author} onChange={this.handleChange} /> 
                                 </label>
                             </Col>
@@ -666,7 +750,7 @@ class BookForm extends React.Component {
                         <Row>
                             <Col md={4}>
                                 <label>Status*:  <br />
-                                    {this.state.required &&
+                                    {this.state.requiredStatus &&
                                         <span className="required">This is required</span>
                                     }
                                     <select required defaultValue={status} onChange={this.updateStatus}>
