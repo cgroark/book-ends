@@ -48,7 +48,7 @@ code {
   }
 }
 .main-body{
-  text-align: center;
+  padding: 0 10px;
   margin-top: 20px;
   h3, h2{
     margin-top: 15px;
@@ -56,16 +56,36 @@ code {
   h2{
     color: $color-purple;
     font-size: 1.75rem;
-  }
-  .currently h2{
-    padding-top: 8px;
-    border-top: 2px solid purple;
+    padding-top:30px;
   }
   hr{
     border-top: 2px solid $color-purple;
   }
 
 } 
+ul#page-nav{
+  list-style: none;
+  padding: 0;
+  position: sticky;
+  display: block;
+  top: 0;
+  background: white;
+  z-index: 1000;
+    li{
+      display: inline-block;
+      a{
+        padding: 0 10px 0 0;
+      }
+    }
+}
+
+@media only screen and (max-width: 550px){
+  ul#page-nav li a{
+          padding: 0 3px 0 0;
+          font-size: .9em;
+  }
+}
+
 .login{
   text-align: center;
 }
@@ -288,7 +308,8 @@ form{
 }
 input[type="submit"].manual{
   font-size: 1em;
-  margin-top: 20px;
+  margin: 20px auto;
+  display: block;
   background: transparent;
   border: none;
   text-decoration: underline;

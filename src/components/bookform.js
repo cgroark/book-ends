@@ -531,8 +531,10 @@ class BookForm extends React.Component {
     }
     renderReading(){
         return this.state.sortedData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
-            <Row key={each.id} className='reading-now'>
-                <Col  sm={{ span: 3, offset: 4 }}>
+          <Col sm={6} key={each.id} >
+              
+              <Row>
+                    <Col  sm={4}>
                 <div >
                     <h4><em>{each.title}</em></h4> 
                 </div>
@@ -568,8 +570,10 @@ class BookForm extends React.Component {
                             }
                     </span>
                 </Col>
+               </Row>
+          </Col>
                
-            </Row>
+           
             
         )
     }
@@ -669,24 +673,34 @@ class BookForm extends React.Component {
     
         return(
             <div className="main-body">
+                <h1>Your books</h1>
+                <p>Track your recent reads and search for new books below.</p>
+                <ul id="page-nav">
+                    <li><a href="#currently-reading">Current ></a></li>
+                    <li><a href="#finished">Finished ></a></li>
+                    <li><a href="#want-to-read">Book list ></a></li>
+                </ul>
                 {searchButton && 
                     <input type='submit' className="add-button" value="Find a book" onClick={this.showSearchForm}></input>
                 }
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && currentlyReading && 
                     <div className="currently">
-                     <h2>Currently reading</h2>
+                     <h2 id="currently-reading">Currently reading</h2>
+                     <Row  className='reading-now'>
                       {this.renderReading()}
+                    </Row>
                             <hr />
                     </div>
                 }
-                {!books && !searchloading && !form &&
-                    <div id="close-button"><button  onClick={this.removeForm}>x</button></div>
-                }
+              
                 {searchloading && 
                     <div className="progress-infinite">
                         <div className="progress-bar3" >
                         </div>                       
                     </div> 
+                }
+                {!books && !searchloading && !form &&
+                    <div id="close-button"><button  onClick={this.removeForm}>x</button></div>
                 }
                 {searchError &&
                         <div>
@@ -694,6 +708,7 @@ class BookForm extends React.Component {
                         </div>
                 }
                 {!searchComplete && searchForm &&
+                
                     <div>
                         <form onSubmit={this.handleSearch} className={submitting ? 'loading' : 'search-form'}>
                             <input placeholder="Search for books by title..." type="text" name='query' value={query} onChange={this.handleChange} />
@@ -812,7 +827,7 @@ class BookForm extends React.Component {
                     <div id="booklist">
                      {bookCount > 1 && allBooks.filter(book => book.status === "Finished").length > 0 &&
                         <div>
-                            <h3>Finished books</h3>
+                            <h2 id="finished">Finished books</h2>
                             <Row>
                                 {this.renderFinishedData()}
                             </Row>
@@ -820,7 +835,7 @@ class BookForm extends React.Component {
                      }
                       {bookCount > 1 && allBooks.filter(book => book.status === "Want-to-read").length > 0 &&
                         <div>
-                            <h3>Books I want to read</h3>
+                            <h2 id="want-to-read">Books I want to read</h2>
                             <Row>
                                 {this.renderWantData()}
                             </Row>
