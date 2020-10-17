@@ -17,20 +17,32 @@ class App extends React.Component {
         savedusername: ''    }
   }
   componentDidMount = () => {
+    if(localStorage.getItem('username')){
       let usernameData = localStorage.getItem('username');
-      if(usernameData){
-          this.setState({
-              savedusername: usernameData,
-              checkusername: true
-          })
-      }
+      this.setState({
+        savedusername: usernameData,
+        checkusername: true
+    })
+    }
+    else{
+      this.setState({
+        checkusername: false
+      })
+    }
   }
   updateNav = () =>{
-    let usernameData = localStorage.getItem('username');
-    this.setState({
-      savedusername: usernameData,
-      checkusername: !this.state.checkusername
-  })
+    if(localStorage.getItem('username')){
+      let usernameData = localStorage.getItem('username');
+      this.setState({
+        savedusername: usernameData,
+        checkusername: true
+      })
+    }
+    else{
+      this.setState({
+        checkusername: false
+      })
+    }
   }
   render(){
     const { checkusername, savedusername } = this.state;

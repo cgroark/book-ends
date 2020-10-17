@@ -1,8 +1,8 @@
-$color-purple: #6B3074;
+$color-purple: #834d8b;
 $color-blue: #86A3C3;
 $color-lightgrey: #B8B8B8;
 $color-lightpurple: #b19cd9;
-$color-darkblue: #003152;
+$color-darkblue: #4a7794;
 $color-darkgrey: #555555;
 
 div.App article{
@@ -50,20 +50,29 @@ code {
 .main-body{
   padding: 0 10px;
   margin-top: 20px;
-  h3, h2{
+  h1{
+    font-size: 3.5rem;
+    color: $color-purple;
+  }
+  h3{
     margin-top: 15px;
   }
   h2{
-    color: $color-purple;
-    font-size: 1.75rem;
-    padding-top:30px;
+    background-color: $color-darkblue;
+    color: white;
+    padding: 4px 12px 10px;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
   }
   hr{
     border-top: 2px solid $color-purple;
   }
+  #currently-reading,#finished, #want-to-read {
+    padding-top: 30px;
+  }
 
 } 
-ul#page-nav{
+#page-nav{
   list-style: none;
   padding: 0;
   position: sticky;
@@ -71,16 +80,30 @@ ul#page-nav{
   top: 0;
   background: white;
   z-index: 1000;
+  border-bottom: solid 5px $color-blue;
+  ul{
+    padding: 0;
+    margin-bottom: 0;
     li{
       display: inline-block;
       a{
         padding: 0 10px 0 0;
+        color: $color-darkblue;
+        border-bottom: none;
+        &:hover{
+          color: $color-blue;
+          border-bottom: none;
+        }
       }
     }
+    li.is-current a{
+      color: $color-purple;
+    }
+  } 
 }
 
 @media only screen and (max-width: 550px){
-  ul#page-nav li a{
+  #page-nav ul li a{
           padding: 0 3px 0 0;
           font-size: .9em;
   }
@@ -88,9 +111,14 @@ ul#page-nav{
 
 .login{
   text-align: center;
+  #error{
+    color: red;
+  }
 }
 .div-button{
-  display: inline-block;
+  text-align: center;
+  width: 230px;
+  margin: auto;
   padding: 10px 12px 12px;
   background-color: #6B3074;
   font-size: 1.3em;
@@ -118,8 +146,12 @@ ul#page-nav{
 }
 .friend-results{
   margin-top: 35px;
+  #results{
+    text-align: center;
+  }
 }
 .navigation{
+    margin-bottom: 300px;
     a{
       margin: 0 4px;
       font-size: 1.3em;
@@ -194,9 +226,11 @@ h2#friend-name{
     padding: 0;
   }
 }
+#friend-form{
+  text-align: center;
+}
 #booklist{
   h3{
-    text-align: center;
     margin: 10px 0;
     padding: 0 15px 5px 0;
     color: $color-purple;
@@ -204,6 +238,7 @@ h2#friend-name{
 
   }
 }
+
 .accordion{
   .card{
     border: none;
@@ -212,6 +247,7 @@ h2#friend-name{
       background-color: transparent !important;
       .btn{
         padding: 0;
+        text-align: left;
       }
       .btn-link{
         color: #333 !important;
@@ -224,40 +260,7 @@ h2#friend-name{
     }
   }
 }
-// table{
-  
-//   th{
-//     padding-right: 20px;
-//     color: $color-purple;
-//     font-size: 1.4rem;
-//     border-bottom: 1px solid $color-purple;
-//   }
-//   td{
-//     padding: 4px 20px 0 0;
-//     font-size: 1.2rem;
-//     border-bottom: 1px solid $color-lightgrey;
-  
-//     img{
-//       width: 90PX;
-//       padding: 6px;
-//     }
 
-//   }
-//   td.format{
-//     font-size: 2em;
-//     text-align: center;
-//   }
-//   td.title-cell div{
-//     display: flex;
-//     flex-wrap: wrap;
-//     p{
-//       font-size: .8em;
-//       margin: 3px 0 0 15px;
-//       color: #666 !important;
-//       font-weight: 400;
-//     }
-// }
-// }
 .submit-form{
   text-align: left;
   border: solid $color-lightgrey 1px;
@@ -345,7 +348,7 @@ input[type="submit"].delete:hover{
 }
 #close-button{
   text-align: right;
-  padding: 30px 20px 0;
+  padding: 0px 20px 0;
   button{
     margin-bottom: 10px;
     border: solid 2px white;
@@ -393,10 +396,24 @@ input#edit, input.add-button{
   color: white;
 }
 input.add-button{
-  display: inline-block;
-  margin: 10px auto;
+  display: block;
+  margin: 40px auto 20px;
   font-size: 1em;
   width: 200px;
+}
+div.search-bar{
+  text-align: center;
+  input{
+    padding: 6px 10px 8px;
+    background-color: $color-purple;
+    font-size: 0.8em;
+    font-weight: bold;
+    border: 3px solid white;
+    color: white;
+    margin: 10px auto 20px;
+    font-size: 1em;
+    width: 200px;
+  }
 }
 input.add-button.search{
   width: 100%;
@@ -407,14 +424,11 @@ input#edit:hover, input.add-button:hover{
 }
 .reading-now{
   margin-top: 20px;
-  h4{
-    margin-top: 10%;
-  }
   text-align: left;
   img{
     max-width: 110px;
   }
-  .col-sm-2 i{
+  .col-sm-5 i{
     font-size: 85px;
   }
   .summary-reading{
@@ -488,6 +502,7 @@ form.search-form{
       text-shadow: 2px 2px black;
     }
   } 
+
   .navigation a{
       margin: 0 2px;
       font-size: 1em;
@@ -497,21 +512,26 @@ form.search-form{
       border-bottom: 2px solid white;
       text-decoration: none;
     }
-    input[type="submit"].delete{
+  input[type="submit"].delete{
       margin-top: 30px;
       float: none;
   }
   .reading-now img {
     max-width: 80px;
   }
-  .main-body h2, .main-body h3{
-    font-size: 1.5rem;
-  }
-  h4{
-    font-size: 1.2rem;
-  }
-  .row, h4, .accordion{
-    text-align: center;
+ .main-body {
+    h1 {
+      font-size: 2.5rem;
+    }
+    h2 {
+      font-size: 1.8rem;
+    }
+    h3{
+      font-size: 1.5rem;
+    }
+    h4{
+      font-size: 1.2rem;
+    }
   }
 }
 

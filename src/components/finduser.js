@@ -86,7 +86,7 @@ class FindUser extends React.Component {
         let numUsersFound =  allData.filter(friend => friend.lastName === pickedUser.toLowerCase()).length;
         return(
             <div className="main-body">
-                <h2>Find your friends. Read their books.</h2>
+                <h1>Find your friends. Read their books.</h1>
                 <hr  />
                 {searchloading && 
                     <div class="progress-infinite">
@@ -94,8 +94,9 @@ class FindUser extends React.Component {
                         </div>                       
                     </div> 
                 }
+                
                 {showForm && !searchloading &&
-                    <div>
+                    <div id="friend-form">
                         <p><strong>Search for your friends by last name</strong></p>
                         <div className="login">
                         <form onSubmit={this.handleSubmit} className={submitting ? 'loading' : 'submit-form'}>
@@ -110,7 +111,7 @@ class FindUser extends React.Component {
                     </div>
                 }
                 {!showForm && !searchloading &&
-                     <div className="div-button" onClick={this.searchAgain}>Search again</div>   
+                        <div className="div-button" onClick={this.searchAgain}>Search again</div>   
                 }
                 {numUsersFound === 1 && !showForm && !searchloading &&
                     <div className="friend-results">
@@ -125,8 +126,7 @@ class FindUser extends React.Component {
                  {numUsersFound >1  && !showForm &&
                     <div className="friend-results">
                          {showResults &&
-                            <div><h3>Found users:</h3>
-                           
+                            <div id="results"><h3>Found users:</h3>
                                 {this.renderFriend()}
                             </div>
                          }

@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import Scrollspy from 'react-scrollspy';
 import {Accordion, Card, Button, Col, Row } from 'react-bootstrap';
 
 class FriendData extends React.Component {
@@ -145,26 +146,44 @@ class FriendData extends React.Component {
                         </div>                       
                     </div> 
                 }
+                {bookCount > 1 &&
+                    <h1 id="friend-name">{firstName}'s book list</h1>
+                }
+                <div id="page-nav">
+                    <Scrollspy items={ ['currently-reading', 'finished', 'want-to-read'] } currentClassName="is-current">
+                        {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
+                            <li><a href="#currently-reading">Current ></a></li>
+                        }   
+                        {bookCount > 1 && allBooks.filter(book => book.status === "Finished").length > 0 &&
+                            <li><a href="#finished">Finished ></a></li>
+                        }
+                        {bookCount > 1 && allBooks.filter(book => book.status === "Want-to-read").length > 0 &&
+                            <li><a href="#want-to-read">Book list ></a></li> 
+                        }
+                    </Scrollspy>
+                </div>
+                
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && !searchloading &&
-                <div className="currently">
-                    <h2 id="friend-name">{firstName}'s book list</h2>
+                <div className="currently" >
+                    <div id="currently-reading">
                     <h2>Currently reading:</h2>
                     <h3> {this.renderReading()}</h3>
                         <hr />
+                    </div>
                 </div>
                 }
                 <div id="booklist">
                     {bookCount > 1 && allBooks.filter(book => book.status === "Finished").length > 0 &&
-                        <div>
-                            <h3>Finished books</h3>
+                        <div id="finished">
+                            <h2>Finished books</h2>
                             <Row>
                                 {this.renderFinishedData()}
                             </Row>
                         </div>
                     }
                     {bookCount > 1 && allBooks.filter(book => book.status === "Want-to-read").length > 0 &&
-                        <div>
-                            <h3>Books {firstName} wants to read</h3>
+                        <div id="want-to-read">
+                            <h2>Books {firstName} wants to read</h2>
                             <Row>
                                 {this.renderWantData()}
                             </Row>

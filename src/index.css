@@ -4,19 +4,17 @@ div.App article {
   margin: 0 auto;
 }
 
-div.App article h2 {
-  font-size: 2.2em;
-  margin: 10px 0;
-}
-
 .welcome {
   margin-top: 50px !important;
   text-align: left;
 }
 
-.welcome .col-md-4 i {
-  float: right;
-  font-size: 200px;
+.welcome h2 {
+  margin-top: 0 !important;
+}
+
+.welcome img {
+  max-width: 100%;
 }
 
 body {
@@ -48,25 +46,83 @@ code {
 }
 
 .main-body {
-  text-align: center;
-  margin-top: 40px;
+  padding: 0 10px;
+  margin-top: 20px;
 }
 
-.main-body h3, .main-body h2 {
+.main-body h1 {
+  font-size: 3.5rem;
+  color: #834d8b;
+}
+
+.main-body h3 {
   margin-top: 15px;
 }
 
 .main-body h2 {
-  color: #6B3074;
-  font-weight: 700;
+  background-color: #4a7794;
+  color: white;
+  padding: 4px 12px 10px;
+  font-size: 2.2rem;
+  margin-bottom: 30px;
 }
 
 .main-body hr {
-  border-top: 2px solid #6B3074;
+  border-top: 2px solid #834d8b;
+}
+
+.main-body #currently-reading, .main-body #finished, .main-body #want-to-read {
+  padding-top: 30px;
+}
+
+#page-nav {
+  list-style: none;
+  padding: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  display: block;
+  top: 0;
+  background: white;
+  z-index: 1000;
+  border-bottom: solid 5px #86A3C3;
+}
+
+#page-nav ul {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+#page-nav ul li {
+  display: inline-block;
+}
+
+#page-nav ul li a {
+  padding: 0 10px 0 0;
+  color: #4a7794;
+}
+
+#page-nav ul li a:hover {
+  color: #86A3C3;
+  border-bottom: none;
+}
+
+#page-nav ul li.is-current a {
+  color: #834d8b;
+}
+
+@media only screen and (max-width: 550px) {
+  #page-nav ul li a {
+    padding: 0 3px 0 0;
+    font-size: .9em;
+  }
 }
 
 .login {
   text-align: center;
+}
+
+.login #error {
+  color: red;
 }
 
 .div-button {
@@ -90,7 +146,7 @@ code {
 }
 
 .div-button:hover {
-  border: 3px solid #6B3074;
+  border: 3px solid #834d8b;
   cursor: pointer;
 }
 
@@ -104,24 +160,20 @@ code {
   margin-top: 35px;
 }
 
-.navigation {
-  text-align: right;
-}
-
 .navigation a {
   margin: 0 4px;
   font-size: 1.3em;
   display: inline-block;
   padding: 10px;
-  color: #6B3074;
+  color: #834d8b;
   border-bottom: 2px solid white;
   text-decoration: none;
 }
 
 .navigation a:hover, .navigation a.active {
-  border-bottom: 2px solid #6B3074;
+  border-bottom: 2px solid #834d8b;
   text-decoration: none;
-  color: #6B3074;
+  color: #834d8b;
 }
 
 .navigation p {
@@ -166,6 +218,10 @@ a:hover {
   border-bottom: 2px solid white;
 }
 
+.book-card .row .col-sm-4 i {
+  font-size: 85px;
+}
+
 .book-card .accordion .card .card-header .btn-link {
   color: #666 !important;
   font-size: 1.2rem;
@@ -176,19 +232,24 @@ a:hover {
   font-size: .8em;
 }
 
+h2#friend-name {
+  font-size: 2rem;
+  border-top: none;
+  font-weight: 700;
+}
+
 @media only screen and (max-width: 576px) {
   .book-card img {
-    max-width: unset;
     margin-top: 10px;
     padding: 0;
   }
 }
 
 #booklist h3 {
-  text-align: left;
-  border-bottom: 3px solid #6B3074;
-  margin: 10px -15px;
-  padding: 0 15px;
+  margin: 10px 0;
+  padding: 0 15px 5px 0;
+  color: #834d8b;
+  border-bottom: 1px solid #834d8b;
 }
 
 .accordion .card {
@@ -202,6 +263,7 @@ a:hover {
 
 .accordion .card .card-header .btn {
   padding: 0;
+  text-align: left;
 }
 
 .accordion .card .card-header .btn-link {
@@ -247,7 +309,7 @@ form input[type="submit"] {
   margin: 30px auto 0;
   width: 200px;
   height: 3em;
-  background-color: #6B3074;
+  background-color: #834d8b;
   font-size: 1em;
   font-weight: bold;
   border: 3px solid white;
@@ -255,20 +317,25 @@ form input[type="submit"] {
 }
 
 form input[type="submit"]:hover {
-  border: 3px solid #6B3074;
+  border: 3px solid #834d8b;
   cursor: pointer;
+}
+
+form input[type="text"] {
+  width: 100%;
 }
 
 form label {
   text-align: left;
-  color: #6B3074;
+  color: #834d8b;
   font-size: 1.5rem;
   margin-bottom: 0;
 }
 
 input[type="submit"].manual {
   font-size: 1em;
-  margin-top: 20px;
+  margin: 20px auto;
+  display: block;
   background: transparent;
   border: none;
   text-decoration: underline;
@@ -310,19 +377,19 @@ input[type="submit"].delete:hover {
 
 #close-button {
   text-align: right;
-  padding: 30px 20px 0;
+  padding: 0px 20px 0;
 }
 
 #close-button button {
   margin-bottom: 10px;
   border: solid 2px white;
   padding: 2px 15px 5px;
-  background-color: #6B3074;
+  background-color: #834d8b;
   color: white;
 }
 
 #close-button button:hover {
-  border: solid 2px #6B3074;
+  border: solid 2px #834d8b;
 }
 
 #close-form {
@@ -333,12 +400,12 @@ input[type="submit"].delete:hover {
   margin-bottom: -10px;
   border: solid 2px white;
   padding: 2px 15px 5px;
-  background-color: #6B3074;
+  background-color: #834d8b;
   color: white;
 }
 
 #close-form button:hover {
-  border: solid 2px #6B3074;
+  border: solid 2px #834d8b;
 }
 
 form.loading label {
@@ -352,7 +419,7 @@ form.loading input[type="submit"] {
 
 input#edit, input.add-button {
   padding: 6px 10px 8px;
-  background-color: #6B3074;
+  background-color: #834d8b;
   font-size: 0.8em;
   font-weight: bold;
   border: 3px solid white;
@@ -360,8 +427,24 @@ input#edit, input.add-button {
 }
 
 input.add-button {
-  display: inline-block;
-  margin: 10px auto;
+  display: block;
+  margin: 40px auto 20px;
+  font-size: 1em;
+  width: 200px;
+}
+
+div.search-bar {
+  text-align: center;
+}
+
+div.search-bar input {
+  padding: 6px 10px 8px;
+  background-color: #834d8b;
+  font-size: 0.8em;
+  font-weight: bold;
+  border: 3px solid white;
+  color: white;
+  margin: 10px auto 20px;
   font-size: 1em;
   width: 200px;
 }
@@ -371,17 +454,33 @@ input.add-button.search {
 }
 
 input#edit:hover, input.add-button:hover {
-  border: 3px solid #6B3074;
+  border: 3px solid #834d8b;
   cursor: pointer;
 }
 
 .reading-now {
+  margin-top: 20px;
   text-align: left;
 }
 
 .reading-now img {
-  padding: 20px 0;
   max-width: 110px;
+}
+
+.reading-now .col-sm-2 i {
+  font-size: 85px;
+}
+
+.reading-now .summary-reading button {
+  font-weight: 400;
+}
+
+.reading-now .summary-reading p {
+  font-size: .6em;
+}
+
+.reading-now .summary-reading .collapse p, .reading-now .summary-reading .collapsing p {
+  font-size: 1em;
 }
 
 @media only screen and (max-width: 576px) {
@@ -397,11 +496,11 @@ input#edit:hover, input.add-button:hover {
 
 #search-results .col-md-6 div.eachbook {
   padding: 10px;
-  border-bottom: 2px solid #6B3074;
+  border-bottom: 2px solid #834d8b;
 }
 
 #search-results h3 {
-  color: #6B3074;
+  color: #834d8b;
   font-weight: 700;
 }
 
@@ -448,7 +547,7 @@ form.search-form input[type="text"] {
     font-size: 1em;
     display: inline-block;
     padding: 6px;
-    color: #6B3074;
+    color: #834d8b;
     border-bottom: 2px solid white;
     text-decoration: none;
   }
@@ -456,13 +555,38 @@ form.search-form input[type="text"] {
     margin-top: 30px;
     float: none;
   }
+  .reading-now img {
+    max-width: 80px;
+  }
+  .main-body h1 {
+    font-size: 2.5rem;
+  }
+  .main-body h2 {
+    font-size: 1.8rem;
+  }
+  .main-body h3 {
+    font-size: 1.5rem;
+  }
+  .main-body h4 {
+    font-size: 1.2rem;
+  }
+}
+
+footer {
+  height: 50px;
+  background: #834d8b;
+  margin-top: 50px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
 }
 
 .progress-bar3 {
   height: 18px;
   border-radius: 4px;
-  background-image: -webkit-gradient(linear, left top, right top, from(#6B3074), color-stop(#B8B8B8), to(#86A3C3));
-  background-image: linear-gradient(to right, #6B3074, #B8B8B8, #86A3C3);
+  background-image: -webkit-gradient(linear, left top, right top, from(#834d8b), color-stop(#B8B8B8), to(#86A3C3));
+  background-image: linear-gradient(to right, #834d8b, #B8B8B8, #86A3C3);
   -webkit-transition: 0.4s linear;
   transition: 0.4s linear;
   -webkit-transition-property: width, background-color;
@@ -471,55 +595,55 @@ form.search-form input[type="text"] {
 
 .progress-infinite .progress-bar3 {
   width: 100%;
-  background-image: -webkit-gradient(linear, left top, right top, from(#b19cd9), color-stop(#6B3074), color-stop(#B8B8B8), color-stop(#86A3C3), to(#003152));
-  background-image: linear-gradient(to right, #b19cd9, #6B3074, #B8B8B8, #86A3C3, #003152);
+  background-image: -webkit-gradient(linear, left top, right top, from(#b19cd9), color-stop(#834d8b), color-stop(#B8B8B8), color-stop(#86A3C3), to(#4a7794));
+  background-image: linear-gradient(to right, #b19cd9, #834d8b, #B8B8B8, #86A3C3, #4a7794);
   -webkit-animation: colorAnimation 1s infinite;
           animation: colorAnimation 1s infinite;
 }
 
 @-webkit-keyframes colorAnimation {
   0% {
-    background-image: -webkit-gradient(linear, left top, right top, from(#b19cd9), color-stop(#6B3074), color-stop(#B8B8B8), color-stop(#86A3C3), to(#003152));
-    background-image: linear-gradient(to right, #b19cd9, #6B3074, #B8B8B8, #86A3C3, #003152);
+    background-image: -webkit-gradient(linear, left top, right top, from(#b19cd9), color-stop(#834d8b), color-stop(#B8B8B8), color-stop(#86A3C3), to(#4a7794));
+    background-image: linear-gradient(to right, #b19cd9, #834d8b, #B8B8B8, #86A3C3, #4a7794);
   }
   20% {
-    background-image: -webkit-gradient(linear, left top, right top, from(#003152), color-stop(#b19cd9), color-stop(#6B3074), color-stop(#B8B8B8), to(#86A3C3));
-    background-image: linear-gradient(to right, #003152, #b19cd9, #6B3074, #B8B8B8, #86A3C3);
+    background-image: -webkit-gradient(linear, left top, right top, from(#4a7794), color-stop(#b19cd9), color-stop(#834d8b), color-stop(#B8B8B8), to(#86A3C3));
+    background-image: linear-gradient(to right, #4a7794, #b19cd9, #834d8b, #B8B8B8, #86A3C3);
   }
   40% {
-    background-image: -webkit-gradient(linear, left top, right top, from(#86A3C3), color-stop(#003152), color-stop(#b19cd9), color-stop(#6B3074), to(#B8B8B8));
-    background-image: linear-gradient(to right, #86A3C3, #003152, #b19cd9, #6B3074, #B8B8B8);
+    background-image: -webkit-gradient(linear, left top, right top, from(#86A3C3), color-stop(#4a7794), color-stop(#b19cd9), color-stop(#834d8b), to(#B8B8B8));
+    background-image: linear-gradient(to right, #86A3C3, #4a7794, #b19cd9, #834d8b, #B8B8B8);
   }
   60% {
-    background-image: -webkit-gradient(linear, left top, right top, from(#B8B8B8), color-stop(#86A3C3), color-stop(#003152), color-stop(#b19cd9), to(#6B3074));
-    background-image: linear-gradient(to right, #B8B8B8, #86A3C3, #003152, #b19cd9, #6B3074);
+    background-image: -webkit-gradient(linear, left top, right top, from(#B8B8B8), color-stop(#86A3C3), color-stop(#4a7794), color-stop(#b19cd9), to(#834d8b));
+    background-image: linear-gradient(to right, #B8B8B8, #86A3C3, #4a7794, #b19cd9, #834d8b);
   }
   100% {
-    background-image: -webkit-gradient(linear, left top, right top, from(#6B3074), color-stop(#B8B8B8), color-stop(#86A3C3), color-stop(#003152), to(#b19cd9));
-    background-image: linear-gradient(to right, #6B3074, #B8B8B8, #86A3C3, #003152, #b19cd9);
+    background-image: -webkit-gradient(linear, left top, right top, from(#834d8b), color-stop(#B8B8B8), color-stop(#86A3C3), color-stop(#4a7794), to(#b19cd9));
+    background-image: linear-gradient(to right, #834d8b, #B8B8B8, #86A3C3, #4a7794, #b19cd9);
   }
 }
 
 @keyframes colorAnimation {
   0% {
-    background-image: -webkit-gradient(linear, left top, right top, from(#b19cd9), color-stop(#6B3074), color-stop(#B8B8B8), color-stop(#86A3C3), to(#003152));
-    background-image: linear-gradient(to right, #b19cd9, #6B3074, #B8B8B8, #86A3C3, #003152);
+    background-image: -webkit-gradient(linear, left top, right top, from(#b19cd9), color-stop(#834d8b), color-stop(#B8B8B8), color-stop(#86A3C3), to(#4a7794));
+    background-image: linear-gradient(to right, #b19cd9, #834d8b, #B8B8B8, #86A3C3, #4a7794);
   }
   20% {
-    background-image: -webkit-gradient(linear, left top, right top, from(#003152), color-stop(#b19cd9), color-stop(#6B3074), color-stop(#B8B8B8), to(#86A3C3));
-    background-image: linear-gradient(to right, #003152, #b19cd9, #6B3074, #B8B8B8, #86A3C3);
+    background-image: -webkit-gradient(linear, left top, right top, from(#4a7794), color-stop(#b19cd9), color-stop(#834d8b), color-stop(#B8B8B8), to(#86A3C3));
+    background-image: linear-gradient(to right, #4a7794, #b19cd9, #834d8b, #B8B8B8, #86A3C3);
   }
   40% {
-    background-image: -webkit-gradient(linear, left top, right top, from(#86A3C3), color-stop(#003152), color-stop(#b19cd9), color-stop(#6B3074), to(#B8B8B8));
-    background-image: linear-gradient(to right, #86A3C3, #003152, #b19cd9, #6B3074, #B8B8B8);
+    background-image: -webkit-gradient(linear, left top, right top, from(#86A3C3), color-stop(#4a7794), color-stop(#b19cd9), color-stop(#834d8b), to(#B8B8B8));
+    background-image: linear-gradient(to right, #86A3C3, #4a7794, #b19cd9, #834d8b, #B8B8B8);
   }
   60% {
-    background-image: -webkit-gradient(linear, left top, right top, from(#B8B8B8), color-stop(#86A3C3), color-stop(#003152), color-stop(#b19cd9), to(#6B3074));
-    background-image: linear-gradient(to right, #B8B8B8, #86A3C3, #003152, #b19cd9, #6B3074);
+    background-image: -webkit-gradient(linear, left top, right top, from(#B8B8B8), color-stop(#86A3C3), color-stop(#4a7794), color-stop(#b19cd9), to(#834d8b));
+    background-image: linear-gradient(to right, #B8B8B8, #86A3C3, #4a7794, #b19cd9, #834d8b);
   }
   100% {
-    background-image: -webkit-gradient(linear, left top, right top, from(#6B3074), color-stop(#B8B8B8), color-stop(#86A3C3), color-stop(#003152), to(#b19cd9));
-    background-image: linear-gradient(to right, #6B3074, #B8B8B8, #86A3C3, #003152, #b19cd9);
+    background-image: -webkit-gradient(linear, left top, right top, from(#834d8b), color-stop(#B8B8B8), color-stop(#86A3C3), color-stop(#4a7794), to(#b19cd9));
+    background-image: linear-gradient(to right, #834d8b, #B8B8B8, #86A3C3, #4a7794, #b19cd9);
   }
 }
 /*# sourceMappingURL=index.css.map */

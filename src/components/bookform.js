@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Accordion, Card, Button } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
+import Scrollspy from 'react-scrollspy';
 import "react-datepicker/dist/react-datepicker.css";
 
 
@@ -531,10 +532,10 @@ class BookForm extends React.Component {
     }
     renderReading(){
         return this.state.sortedData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
-          <Col sm={6} key={each.id} >
+          <Col xs={6} key={each.id}  >
               
               <Row>
-                    <Col  sm={4}>
+                    <Col  sm={7}>
                 <div >
                     <h4><em>{each.title}</em></h4> 
                 </div>
@@ -562,7 +563,7 @@ class BookForm extends React.Component {
                                 <p>(No summary available)</p> }
                     </div>
                 </Col>
-                <Col sm={2}>
+                <Col sm={5}>
                     <span>{each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
@@ -579,7 +580,7 @@ class BookForm extends React.Component {
     }
     renderFinishedData(){
         return this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished").sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
-                <Col key={each.id} className="book-card" md={4}>
+                <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
                     <Row>
                         <Col sm={8}>
@@ -623,7 +624,7 @@ class BookForm extends React.Component {
     }
     renderWantData(){
         return this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Want-to-read").map((each) => 
-                <Col key={each.id} className="book-card" md={4}>
+                <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
                     <Row>
                         <Col sm={8}>
@@ -673,23 +674,39 @@ class BookForm extends React.Component {
     
         return(
             <div className="main-body">
-                <h1>Your books</h1>
-                <p>Track your recent reads and search for new books below.</p>
-                <ul id="page-nav">
-                    <li><a href="#currently-reading">Current ></a></li>
-                    <li><a href="#finished">Finished ></a></li>
-                    <li><a href="#want-to-read">Book list ></a></li>
-                </ul>
+                {searchButton &&
+                <div>
+                    <h1>Your books</h1>
+                    <p>Track your recent reads and search for new books below.</p>
+                </div>
+                }
+                {searchButton &&
+                <div id="page-nav">
+                    <Scrollspy items={ ['currently-reading', 'finished', 'want-to-read'] } currentClassName="is-current">
+                        {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
+                            <li><a href="#currently-reading">Current ></a></li>
+                        }
+                        {bookCount > 1 && allBooks.filter(book => book.status === "Finished").length > 0 &&
+                            <li><a href="#finished">Finished ></a></li>
+                        }
+                        {bookCount > 1 && allBooks.filter(book => book.status === "Want-to-read").length > 0 &&
+                            <li><a href="#want-to-read">Book list ></a></li> 
+                        }
+                    </Scrollspy>
+                </div>
+                }
                 {searchButton && 
-                    <input type='submit' className="add-button" value="Find a book" onClick={this.showSearchForm}></input>
+                    <div>
+                        <input type='submit' className="add-button" value="Find a book" onClick={this.showSearchForm}></input>
+                    
+                    </div>
                 }
                 {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 && currentlyReading && 
-                    <div className="currently">
-                     <h2 id="currently-reading">Currently reading</h2>
+                    <div id="currently-reading">
+                     <h2>Currently reading</h2>
                      <Row  className='reading-now'>
                       {this.renderReading()}
                     </Row>
-                            <hr />
                     </div>
                 }
               
@@ -700,7 +717,17 @@ class BookForm extends React.Component {
                     </div> 
                 }
                 {!books && !searchloading && !form &&
-                    <div id="close-button"><button  onClick={this.removeForm}>x</button></div>
+                    <div>
+                        {!searchComplete &&
+                         <h2>Search for books below</h2>
+                        }
+                        {searchComplete &&
+                        <h2>Found these results:</h2>
+                        }
+                        <p>Find books and add them to your booklist</p>
+                        <div id="close-button"><button  onClick={this.removeForm}>x</button>
+                        </div>
+                    </div>
                 }
                 {searchError &&
                         <div>
@@ -710,6 +737,7 @@ class BookForm extends React.Component {
                 {!searchComplete && searchForm &&
                 
                     <div>
+                       
                         <form onSubmit={this.handleSearch} className={submitting ? 'loading' : 'search-form'}>
                             <input placeholder="Search for books by title..." type="text" name='query' value={query} onChange={this.handleChange} />
                             <input type='submit' value="Search"></input>
@@ -721,8 +749,10 @@ class BookForm extends React.Component {
               
                 {searchComplete &&
                     <div id="search-results">
-                         <h3>Found these books:</h3>
-                         <input  type='submit' className="add-button" onClick={this.searchAgain}  value='Search again'></input>
+                         <div className="search-bar">
+                             <input  type='submit' onClick={this.searchAgain}  value='Search again'></input>
+                            <input  type='submit'  onClick={this.removeForm}  value='Back to my books'></input>
+                         </div>
                          <Row>
                         {this.renderSearchData()}
                         </Row>
@@ -826,16 +856,16 @@ class BookForm extends React.Component {
                     
                     <div id="booklist">
                      {bookCount > 1 && allBooks.filter(book => book.status === "Finished").length > 0 &&
-                        <div>
-                            <h2 id="finished">Finished books</h2>
+                        <div id="finished">
+                            <h2>Finished books</h2>
                             <Row>
                                 {this.renderFinishedData()}
                             </Row>
                         </div>
                      }
                       {bookCount > 1 && allBooks.filter(book => book.status === "Want-to-read").length > 0 &&
-                        <div>
-                            <h2 id="want-to-read">Books I want to read</h2>
+                        <div id="want-to-read">
+                            <h2 >Books I want to read</h2>
                             <Row>
                                 {this.renderWantData()}
                             </Row>

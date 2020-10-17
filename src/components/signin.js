@@ -15,13 +15,16 @@ class SignIn extends React.Component {
             usernamedone: '',
             usernamefound: false,
             allData: [],
-            searchloading: false
+            searchloading: false,
+            usernamenotfound: false
+
         }
     }
     componentDidMount = () => {
         this.getAllData()
         let usernameData = localStorage.getItem('username');
         if(usernameData){
+            console.log('username on load', usernameData)
             this.setState({
                 savedusername: usernameData,
                 checkusername: true
@@ -43,24 +46,29 @@ class SignIn extends React.Component {
     })
 
     handleSubmit = event => {
+        event.preventDefault();
         let allData = this.state.allData;
         this.setState({
             searchloading: true
         })
         for(var i=0; i<allData.length; i++){
             if(allData[i].username === this.state.username){
-                this.setState({usernamefound: true})
+                this.setState({
+                    usernamefound: true
+                })
                 localStorage.setItem('username', this.state.username);
-
+                this.props.updateNav();
+            }
+            else{
+                this.setState({usernamenotfound: true})
             }
         }
         this.setState({
             searchloading: false
         })
-    
     }
       render(){
-        const { username, usernamedone, savedusername, checkusername, searchloading, done, usernamefound} = this.state;
+        const { username, usernamedone, savedusername, checkusername, searchloading, done, usernamefound, usernamenotfound} = this.state;
         const submitting = this.state.submitting;
         let pageContent;
         if(checkusername){
@@ -93,8 +101,13 @@ class SignIn extends React.Component {
                         <input type="text" name="username" value={username}  onChange={this.handleChange} />
                     </label>
                 </p>
-                <input type='submit' onClick={this.props.updateNav} disabled={submitting} value='Sign In'></input>
+                {usernamenotfound &&
+                    <p id="error">Username not found. Search again.</p>
+                }
+                <input type='submit'  disabled={submitting} value='Sign In'></input>
+                
             </form>
+            
             </div>
         }
         return(

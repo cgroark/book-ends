@@ -17,8 +17,8 @@ class SignOut extends React.Component {
         }
     }
     handleClear = () => {
-        this.props.updateNav();
         localStorage.clear();
+        this.props.updateNav();
         this.setState({
             loggedout: true
         })
