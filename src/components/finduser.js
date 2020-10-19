@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col } from 'react-bootstrap';
 import FriendData from './friendData';
 
 
@@ -73,9 +74,14 @@ class FindUser extends React.Component {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
         return this.state.allData.filter(friend => friend.lastName === this.state.pickedUser.toLowerCase()).map((each) => 
-            <div key={each.id} className="found-friend">{capFirstLetter(each.firstName)} {capFirstLetter(each.lastName)}
-                <button type="submit" className="div-button friend" onClick={() => this.friendsBooks(each.username, each.firstName)} >View books</button>   
-            </div>
+            <Row key={each.id} className="found-friend">
+                <Col sm={3}>
+                <h4>{capFirstLetter(each.firstName)} {capFirstLetter(each.lastName)}</h4>
+                </Col>
+                <Col sm={3}>
+                <button type="submit" className="div-button friend" onClick={() => this.friendsBooks(each.username, each.firstName)} >View books</button>  
+                </Col> 
+            </Row>
         )
     }
 
@@ -116,7 +122,7 @@ class FindUser extends React.Component {
                 {numUsersFound === 1 && !showForm && !searchloading &&
                     <div className="friend-results">
                         {showResults &&
-                            <div><h3>Found user:</h3>&nbsp;<span>{this.renderFriend()}</span></div>
+                            <div><h2>Found user:</h2>&nbsp;<span>{this.renderFriend()}</span></div>
                         }
                         {friendData.length > 0 &&
                             <FriendData data={friendData} firstName={selectedFirst} />
@@ -126,7 +132,7 @@ class FindUser extends React.Component {
                  {numUsersFound >1  && !showForm &&
                     <div className="friend-results">
                          {showResults &&
-                            <div id="results"><h3>Found users:</h3>
+                            <div id="results"><h2>Found users:</h2>
                                 {this.renderFriend()}
                             </div>
                          }

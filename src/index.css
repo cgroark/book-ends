@@ -99,6 +99,7 @@ code {
 #page-nav ul li a {
   padding: 0 10px 0 0;
   color: #4a7794;
+  border-bottom: none;
 }
 
 #page-nav ul li a:hover {
@@ -126,7 +127,9 @@ code {
 }
 
 .div-button {
-  display: inline-block;
+  text-align: center;
+  width: 230px;
+  margin: auto;
   padding: 10px 12px 12px;
   background-color: #6B3074;
   font-size: 1.3em;
@@ -136,8 +139,8 @@ code {
 }
 
 .div-button.friend {
-  margin-left: 40px;
-  padding: 4px 8px 6px;
+  width: 200px;
+  padding: 4px 0 6px;
   background-color: white;
   font-size: .8em;
   font-weight: bold;
@@ -158,6 +161,10 @@ code {
 
 .friend-results {
   margin-top: 35px;
+}
+
+.navigation {
+  margin-bottom: 300px;
 }
 
 .navigation a {
@@ -188,6 +195,13 @@ a {
 a:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.summary-reading .thrift-link {
+  font-size: 1.4em;
+  padding: 0;
+  color: #6B3074;
+  border-bottom: 2px solid white;
 }
 
 .book-card {
@@ -232,10 +246,17 @@ a:hover {
   font-size: .8em;
 }
 
+.book-card .col-4 i {
+  font-size: 80px;
+}
+
 h2#friend-name {
-  font-size: 2rem;
+  font-size: 2.4rem;
   border-top: none;
   font-weight: 700;
+  background: none;
+  color: #4a7794;
+  padding: 0;
 }
 
 @media only screen and (max-width: 576px) {
@@ -245,11 +266,14 @@ h2#friend-name {
   }
 }
 
-#booklist h3 {
-  margin: 10px 0;
+#friend-form {
+  text-align: center;
+}
+
+#booklist h3, .friend-results h3, .reading-now h3 {
+  margin: 0 0 10px;
   padding: 0 15px 5px 0;
   color: #834d8b;
-  border-bottom: 1px solid #834d8b;
 }
 
 .accordion .card {
@@ -266,10 +290,19 @@ h2#friend-name {
   text-align: left;
 }
 
+.accordion .card .card-header .btn .focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.accordion .card .card-header .btn:focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
 .accordion .card .card-header .btn-link {
   color: #333 !important;
   font-size: 1.2rem;
-  font-weight: 700;
 }
 
 .accordion .card .card-header button.btn:after {
@@ -431,10 +464,13 @@ input.add-button {
   margin: 40px auto 20px;
   font-size: 1em;
   width: 200px;
+  white-space: normal;
 }
 
 div.search-bar {
   text-align: center;
+  border-bottom: 2px dashed black;
+  margin-bottom: 30px;
 }
 
 div.search-bar input {
@@ -453,7 +489,7 @@ input.add-button.search {
   width: 100%;
 }
 
-input#edit:hover, input.add-button:hover {
+input#edit:hover, input.add-button:hover, .search-bar input:hover {
   border: 3px solid #834d8b;
   cursor: pointer;
 }
@@ -463,11 +499,15 @@ input#edit:hover, input.add-button:hover {
   text-align: left;
 }
 
+.reading-now h3 {
+  margin-top: 0;
+}
+
 .reading-now img {
   max-width: 110px;
 }
 
-.reading-now .col-sm-2 i {
+.reading-now .col-5 i {
   font-size: 85px;
 }
 
@@ -476,7 +516,7 @@ input#edit:hover, input.add-button:hover {
 }
 
 .reading-now .summary-reading p {
-  font-size: .6em;
+  font-size: 1.2em;
 }
 
 .reading-now .summary-reading .collapse p, .reading-now .summary-reading .collapsing p {
@@ -510,7 +550,7 @@ input#edit:hover, input.add-button:hover {
 }
 
 #search-results img {
-  height: 180px;
+  max-width: 100%;
 }
 
 form.search-form input[type="text"] {
@@ -555,17 +595,22 @@ form.search-form input[type="text"] {
     margin-top: 30px;
     float: none;
   }
+  .reading-now .col-sm-6 {
+    border-bottom: dashed 1px black;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+  }
   .reading-now img {
     max-width: 80px;
   }
   .main-body h1 {
     font-size: 2.5rem;
   }
-  .main-body h2 {
-    font-size: 1.8rem;
+  .main-body h2, .main-body h2#friend-name {
+    font-size: 1.6rem;
   }
   .main-body h3 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
   .main-body h4 {
     font-size: 1.2rem;

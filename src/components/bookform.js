@@ -506,24 +506,31 @@ class BookForm extends React.Component {
             let image;
             activeBook.imageLinks ? image = 'https'+ activeBook.imageLinks.thumbnail.slice(4) : image = '';
             currentBooks.push(
-            <Col key={bookData.items[b].id} md={6}>
+            <Col key={bookData.items[b].id} sm={6}>
             <div className="eachbook">
-                    <p><strong>{activeBook.title}<em>{activeBook.subtitle ? ', '+activeBook.subtitle : '' }</em></strong></p>
-                    <p>{activeBook.authors}</p>
-                    <p>{activeBook.imageLinks ? <img src={image} alt={activeBook.title} /> : '' }</p>
-                    <Accordion defaultActiveKey="0">
-                        <Card>
-                            <Card.Header>
-                                <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                    Overview (see details)
-                                </Accordion.Toggle>
-                            </Card.Header>
-                            <Accordion.Collapse eventKey="1">
-                                <Card.Body><p>{activeBook.description}</p></Card.Body>
-                            </Accordion.Collapse>
-                        </Card>
-                    </Accordion>    
-                    <input type='submit' className="add-button search" disabled={submitting} onClick={(e) =>this.addSearchResults(activeBook.title, activeBook.authors, activeBook.description, image, e)} value={submitting ? 'Loading...' : 'Add '+activeBook.title}></input>
+                <Row>
+                    <Col  xs={7}>
+                        <p><strong>{activeBook.title}<em>{activeBook.subtitle ? ', '+activeBook.subtitle : '' }</em></strong></p>
+                        <p>{activeBook.authors}</p>
+                        <Accordion defaultActiveKey="0">
+                            <Card>
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                        Overview (see details)
+                                    </Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey="1">
+                                    <Card.Body><p>{activeBook.description}</p></Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                        </Accordion>  
+                    </Col>
+                    <Col  xs={5}>
+                        <p>{activeBook.imageLinks ? <img src={image} alt={activeBook.title} /> : '' }</p>
+                        
+                    </Col>  
+                        <input type='submit' className="add-button search" disabled={submitting} onClick={(e) =>this.addSearchResults(activeBook.title, activeBook.authors, activeBook.description, image, e)} value={submitting ? 'Loading...' : 'Add '+activeBook.title}></input>
+                 </Row>
             </div>
             </Col>
             )
@@ -532,12 +539,14 @@ class BookForm extends React.Component {
     }
     renderReading(){
         return this.state.sortedData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
-          <Col xs={6} key={each.id}  >
-              
+          <Col sm={6} key={each.id}  >
+              <div>
+                    <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3> 
+            </div>
               <Row>
-                    <Col  sm={7}>
+                    <Col  xs={7}>
                 <div >
-                    <h4><em>{each.title}</em></h4> 
+                    <h4>{each.author}</h4>
                 </div>
                     {!this.state.form &&
                         <div>
@@ -563,7 +572,7 @@ class BookForm extends React.Component {
                                 <p>(No summary available)</p> }
                     </div>
                 </Col>
-                <Col sm={5}>
+                <Col xs={5}>
                     <span>{each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
@@ -572,21 +581,18 @@ class BookForm extends React.Component {
                     </span>
                 </Col>
                </Row>
-          </Col>
-               
-           
-            
+          </Col> 
         )
     }
     renderFinishedData(){
         return this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished").sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
-                     <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
+                     <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
                     <Row>
-                        <Col sm={8}>
-                            <p>{each.author}</p>
+                        <Col xs={8}>
+                            <h4>{each.author}</h4>
                             <p className="card-smaller">{each.status} {moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""} </p>
-                            <p className="card-smaller">{each.rating === 'select-rating' ? '' : each.rating} <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} rel="noopener noreferrer" target="_blank"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            <p className="card-smaller">{each.rating === 'select-rating' ? '' : each.rating} </p>
                             {!this.state.form &&
                                 <div>
                                     <label htmlFor="edit"></label>
@@ -594,7 +600,7 @@ class BookForm extends React.Component {
                                 </div>
                             }
                         </Col>
-                        <Col sm={4}>
+                        <Col xs={4}>
                             {each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
@@ -625,11 +631,10 @@ class BookForm extends React.Component {
     renderWantData(){
         return this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Want-to-read").map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
-                     <h4><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h4>
+                     <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
                     <Row>
-                        <Col sm={8}>
-                            <p>{each.author}</p>
-                            
+                        <Col xs={8}>
+                            <h4>{each.author}</h4>
                             <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                             {!this.state.form &&
                                 <div>
@@ -638,7 +643,7 @@ class BookForm extends React.Component {
                                 </div>
                             }
                         </Col>
-                        <Col sm={4}>
+                        <Col xs={4}>
                             {each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
@@ -719,12 +724,12 @@ class BookForm extends React.Component {
                 {!books && !searchloading && !form &&
                     <div>
                         {!searchComplete &&
-                         <h2>Search for books below</h2>
+                         <div>
+                             <h2>Search for books below</h2>
+                            <p>Find books and add them to your booklist</p>
+                        </div>
                         }
-                        {searchComplete &&
-                        <h2>Found these results:</h2>
-                        }
-                        <p>Find books and add them to your booklist</p>
+                        
                         <div id="close-button"><button  onClick={this.removeForm}>x</button>
                         </div>
                     </div>
@@ -735,7 +740,6 @@ class BookForm extends React.Component {
                         </div>
                 }
                 {!searchComplete && searchForm &&
-                
                     <div>
                        
                         <form onSubmit={this.handleSearch} className={submitting ? 'loading' : 'search-form'}>

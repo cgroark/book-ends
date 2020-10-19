@@ -112,7 +112,7 @@ class SignIn extends React.Component {
         }
         return(
             <div className="main-body">
-                <h2>User login</h2>
+                <h1>User login</h1>
                 <hr  />
                 {searchloading && 
                     <div class="progress-infinite">

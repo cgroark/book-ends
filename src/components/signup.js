@@ -116,7 +116,7 @@ class SignUp extends React.Component {
         }
         return(
             <div className="main-body">
-                <h2>Sign up as a new user</h2>
+                <h1>Sign up as a new user</h1>
                 <hr  />
                 {searchloading && 
                     <div class="progress-infinite">

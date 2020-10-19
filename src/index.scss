@@ -127,8 +127,8 @@ code {
   color: white;
 }
 .div-button.friend{
-  margin-left: 40px;
-  padding: 4px 8px 6px;
+  width: 200px;
+  padding: 4px 0 6px;
   background-color: white;
   font-size: .8em;
   font-weight: bold;
@@ -146,9 +146,6 @@ code {
 }
 .friend-results{
   margin-top: 35px;
-  #results{
-    text-align: center;
-  }
 }
 .navigation{
     margin-bottom: 300px;
@@ -178,6 +175,12 @@ a:hover{
   cursor: pointer;
   text-decoration: underline;
   
+}
+.summary-reading .thrift-link{
+  font-size: 1.4em;
+  padding: 0;
+  color: #6B3074;
+  border-bottom: 2px solid white;
 }
 .book-card {
   padding: 10px 15px;
@@ -214,11 +217,17 @@ a:hover{
       font-size: .8em;
     }
   }
+  .col-4 i{
+    font-size: 80px;
+  }
 }
 h2#friend-name{
-  font-size: 2rem;
+  font-size: 2.4rem;
   border-top: none;
   font-weight: 700;
+  background: none;
+  color: $color-darkblue;
+  padding: 0;
 }
 @media only screen and (max-width: 576px) {
   .book-card img{
@@ -229,13 +238,11 @@ h2#friend-name{
 #friend-form{
   text-align: center;
 }
-#booklist{
+#booklist, .friend-results, .reading-now{
   h3{
-    margin: 10px 0;
+    margin: 0 0 10px;
     padding: 0 15px 5px 0;
     color: $color-purple;
-    border-bottom: 1px solid $color-purple;
-
   }
 }
 
@@ -248,11 +255,16 @@ h2#friend-name{
       .btn{
         padding: 0;
         text-align: left;
+        .focus{
+            box-shadow: none !important;
+        }
+        &:focus{   
+            box-shadow: none !important;
+        }
       }
       .btn-link{
         color: #333 !important;
         font-size: 1.2rem;
-        font-weight: 700;
       }
       button.btn:after{
         content: '+'
@@ -376,7 +388,6 @@ input[type="submit"].delete:hover{
   }
 }
 
-
 form.loading {
   label{
       color: $color-lightgrey;
@@ -400,9 +411,12 @@ input.add-button{
   margin: 40px auto 20px;
   font-size: 1em;
   width: 200px;
+  white-space: normal;
 }
 div.search-bar{
   text-align: center;
+  border-bottom: 2px dashed black;
+    margin-bottom: 30px;
   input{
     padding: 6px 10px 8px;
     background-color: $color-purple;
@@ -418,17 +432,20 @@ div.search-bar{
 input.add-button.search{
   width: 100%;
 }
-input#edit:hover, input.add-button:hover{
+input#edit:hover, input.add-button:hover, .search-bar input:hover{
   border: 3px solid $color-purple;
   cursor: pointer;
 }
 .reading-now{
   margin-top: 20px;
   text-align: left;
+  h3{
+    margin-top: 0;
+  }
   img{
     max-width: 110px;
   }
-  .col-sm-5 i{
+  .col-5 i{
     font-size: 85px;
   }
   .summary-reading{
@@ -436,7 +453,7 @@ input#edit:hover, input.add-button:hover{
       font-weight: 400;
     }
     p{
-      font-size: .6em;
+      font-size: 1.2em;
     }
     .collapse p, .collapsing p{
       font-size: 1em;
@@ -444,6 +461,7 @@ input#edit:hover, input.add-button:hover{
   }
 
 }
+
 @media only screen and (max-width: 576px) {
   .reading-now img{
     max-width: unset;
@@ -459,7 +477,6 @@ input#edit:hover, input.add-button:hover{
     padding: 10px;
     border-bottom: 2px solid $color-purple;
   }
- 
   h3{
     color: $color-purple;
     font-weight: 700;
@@ -469,7 +486,7 @@ input#edit:hover, input.add-button:hover{
     margin-bottom: 0.5rem;
   }
   img{
-    height: 180px;
+    max-width: 100%;
   }
 }
 form.search-form{
@@ -502,7 +519,6 @@ form.search-form{
       text-shadow: 2px 2px black;
     }
   } 
-
   .navigation a{
       margin: 0 2px;
       font-size: 1em;
@@ -516,18 +532,26 @@ form.search-form{
       margin-top: 30px;
       float: none;
   }
-  .reading-now img {
-    max-width: 80px;
-  }
+  .reading-now{
+    .col-sm-6{
+      border-bottom: dashed 1px black;
+      padding-bottom: 20px;
+      margin-bottom: 10px;
+    }
+    img {
+      max-width: 80px;
+    }
+  } 
  .main-body {
     h1 {
       font-size: 2.5rem;
     }
-    h2 {
-      font-size: 1.8rem;
+    h2, h2#friend-name {
+      font-size: 1.6rem;
     }
+   
     h3{
-      font-size: 1.5rem;
+      font-size: 1.4rem;
     }
     h4{
       font-size: 1.2rem;
