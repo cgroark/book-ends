@@ -25,7 +25,7 @@ class Home extends React.Component {
         if(checkusername){
           welcomeContent = 
             <div>
-                <h3>Welcome back {savedusername} </h3>
+                <h2>Welcome back {savedusername} </h2>
                 <p>Use the navigation to view your book list, make updates, add new books.</p>
             </div>
         }else{

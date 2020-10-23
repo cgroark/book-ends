@@ -5,19 +5,33 @@ $color-lightpurple: #b19cd9;
 $color-darkblue: #4a7794;
 $color-darkgrey: #555555;
 
-div.App article{
-  max-width: 1100px;
-  padding: 0 20px;
-  margin: 0 auto;
+@media screen and (prefers-reduced-motion: no-preference){
+  html, body {
+      scroll-behavior: smooth;
+  }
+}
+div.App {
+  article{
+    max-width: 1100px;
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+  article#layout{
+    min-height: 59vh;
+  }
 }
 .welcome{
   margin-top: 50px !important;
   text-align: left;
   h2{
+    font-size: 2.2em;
     margin-top: 0 !important;
   }
   img{
     max-width: 100%;
+  }
+  p{
+    font-size: 1.3em
   }
 }
 body {
@@ -60,7 +74,7 @@ code {
   h2{
     background-color: $color-darkblue;
     color: white;
-    padding: 4px 12px 10px;
+    padding: 7px 12px 10px;
     font-size: 2.2rem;
     margin-bottom: 30px;
   }
@@ -69,6 +83,9 @@ code {
   }
   #currently-reading,#finished, #want-to-read {
     padding-top: 30px;
+  }
+  p{
+    font-size: 1.5em;
   }
 
 } 
@@ -90,9 +107,11 @@ code {
         padding: 0 10px 0 0;
         color: $color-darkblue;
         border-bottom: none;
+        font-size: 1.25em;
         &:hover{
           color: $color-blue;
           border-bottom: none;
+          text-decoration: none;
         }
       }
     }
@@ -148,7 +167,6 @@ code {
   margin-top: 35px;
 }
 .navigation{
-    margin-bottom: 300px;
     a{
       margin: 0 4px;
       font-size: 1.3em;
@@ -162,9 +180,6 @@ code {
       border-bottom: 2px solid $color-purple;
       text-decoration: none;
       color: $color-purple;
-    }
-    p{
-      font-size: 1.5em;
     }
 }
 a{
@@ -565,12 +580,17 @@ form.search-form{
 }
 footer{
   height: 50px;
-  background: $color-purple;
-  margin-top: 50px;
+  background: $color-darkblue;
   left: 0;
   bottom: 0;
+  margin-top: 50px;
   width: 100%;
   color: white;
+  text-align: right;
+  font-size: 1.3em;
+  .footer div{
+    padding: 10px 0;
+  }
 }
 
 .progress-bar3 {

@@ -1,7 +1,17 @@
+@media screen and (prefers-reduced-motion: no-preference) {
+  html, body {
+    scroll-behavior: smooth;
+  }
+}
+
 div.App article {
   max-width: 1100px;
   padding: 0 20px;
   margin: 0 auto;
+}
+
+div.App article#layout {
+  min-height: 59vh;
 }
 
 .welcome {
@@ -10,11 +20,16 @@ div.App article {
 }
 
 .welcome h2 {
+  font-size: 2.2em;
   margin-top: 0 !important;
 }
 
 .welcome img {
   max-width: 100%;
+}
+
+.welcome p {
+  font-size: 1.3em;
 }
 
 body {
@@ -62,7 +77,7 @@ code {
 .main-body h2 {
   background-color: #4a7794;
   color: white;
-  padding: 4px 12px 10px;
+  padding: 7px 12px 10px;
   font-size: 2.2rem;
   margin-bottom: 30px;
 }
@@ -73,6 +88,10 @@ code {
 
 .main-body #currently-reading, .main-body #finished, .main-body #want-to-read {
   padding-top: 30px;
+}
+
+.main-body p {
+  font-size: 1.5em;
 }
 
 #page-nav {
@@ -100,11 +119,13 @@ code {
   padding: 0 10px 0 0;
   color: #4a7794;
   border-bottom: none;
+  font-size: 1.25em;
 }
 
 #page-nav ul li a:hover {
   color: #86A3C3;
   border-bottom: none;
+  text-decoration: none;
 }
 
 #page-nav ul li.is-current a {
@@ -163,10 +184,6 @@ code {
   margin-top: 35px;
 }
 
-.navigation {
-  margin-bottom: 300px;
-}
-
 .navigation a {
   margin: 0 4px;
   font-size: 1.3em;
@@ -181,10 +198,6 @@ code {
   border-bottom: 2px solid #834d8b;
   text-decoration: none;
   color: #834d8b;
-}
-
-.navigation p {
-  font-size: 1.5em;
 }
 
 a {
@@ -624,12 +637,18 @@ form.search-form input[type="text"] {
 
 footer {
   height: 50px;
-  background: #834d8b;
-  margin-top: 50px;
+  background: #4a7794;
   left: 0;
   bottom: 0;
+  margin-top: 50px;
   width: 100%;
   color: white;
+  text-align: right;
+  font-size: 1.3em;
+}
+
+footer .footer div {
+  padding: 10px 0;
 }
 
 .progress-bar3 {

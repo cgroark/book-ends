@@ -50,19 +50,23 @@ class App extends React.Component {
         mainNav =
           <Router>
                 {checkusername &&
-                  <React.Fragment>
+                  <article className="navigation">
+                    <React.Fragment>
                     <NavLink exact activeClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
                     <NavLink exact activeClassName="active" to="/sign-out">Logout</NavLink>
                     <NavLink exact activeClassName="active" to="/books" >Your books</NavLink>
                     <NavLink exact activeClassName="active" to="/friend-find" ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends' Books</NavLink>
                   </React.Fragment>
+                  </article>
                 }
                   {!checkusername &&
-                  <React.Fragment>
-                    <NavLink exact activeClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
-                    <NavLink exact activeClassName="active" to="/sign-up">Sign Up</NavLink>
-                    <NavLink exact activeClassName="active" to="/sign-in" >Login</NavLink>
-                  </React.Fragment>
+                  <article className="navigation">
+                    <React.Fragment>
+                      <NavLink exact activeClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
+                      <NavLink exact activeClassName="active" to="/sign-up">Sign Up</NavLink>
+                      <NavLink exact activeClassName="active" to="/sign-in" >Login</NavLink>
+                    </React.Fragment>
+                  </article>
                   }
                    <React.Fragment>
                     <Route exact path="/sign-out" render={() => <SignOut updateNav={this.updateNav} username={savedusername}/>} />
@@ -78,11 +82,16 @@ class App extends React.Component {
         <header className="App-header" >
           <h1>Book Ends</h1>
         </header>
-        <article>
-        <div className="navigation">
+        <article  id="layout">
+        <div >
           {mainNav}
         </div>
         </article>
+        <footer>
+          <article className="footer">
+            <div>&copy; 2020</div>
+          </article>
+        </footer>
       </div>
         
     

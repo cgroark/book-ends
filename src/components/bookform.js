@@ -518,18 +518,22 @@ class BookForm extends React.Component {
                         <p>{activeBook.imageLinks ? <img src={image} alt={activeBook.title} /> : '' }</p>
                         
                     </Col>  
-                    <Accordion defaultActiveKey="0">
-                            <Card>
-                                <Card.Header>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                        Overview (see details)
-                                    </Accordion.Toggle>
-                                </Card.Header>
-                                <Accordion.Collapse eventKey="1">
-                                    <Card.Body><p>{activeBook.description}</p></Card.Body>
-                                </Accordion.Collapse>
-                            </Card>
-                    </Accordion>  
+                    
+                        <Col  xs={12}>
+                            <Accordion defaultActiveKey="0">
+                                    <Card>
+                                        <Card.Header>
+                                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                Overview (see details)
+                                            </Accordion.Toggle>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey="1">
+                                            <Card.Body><p>{activeBook.description}</p></Card.Body>
+                                        </Accordion.Collapse>
+                                    </Card>
+                            </Accordion>  
+                        </Col>
+                   
                         <input type='submit' className="add-button search" disabled={submitting} onClick={(e) =>this.addSearchResults(activeBook.title, activeBook.authors, activeBook.description, image, e)} value={submitting ? 'Loading...' : 'Add '+activeBook.title}></input>
                  </Row>
             </div>
