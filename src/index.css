@@ -523,12 +523,6 @@ input#edit:hover, input.add-button:hover, .search-bar input:hover {
   font-size: 1em;
 }
 
-@media only screen and (max-width: 576px) {
-  .reading-now img {
-    max-width: unset;
-  }
-}
-
 .found-friend {
   margin-bottom: 20px;
   font-size: 1.3em;
@@ -614,6 +608,17 @@ form.search-form input[type="text"] {
   }
   .main-body h4 {
     font-size: 1.2rem;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .reading-now img {
+    max-width: unset;
+  }
+  .navigation a {
+    margin: 0px 1.6px 0 0;
+    font-size: 1em;
+    padding: 3px;
   }
 }
 

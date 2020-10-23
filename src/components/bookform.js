@@ -512,7 +512,13 @@ class BookForm extends React.Component {
                     <Col  xs={7}>
                         <p><strong>{activeBook.title}<em>{activeBook.subtitle ? ', '+activeBook.subtitle : '' }</em></strong></p>
                         <p>{activeBook.authors}</p>
-                        <Accordion defaultActiveKey="0">
+                       
+                    </Col>
+                    <Col  xs={5}>
+                        <p>{activeBook.imageLinks ? <img src={image} alt={activeBook.title} /> : '' }</p>
+                        
+                    </Col>  
+                    <Accordion defaultActiveKey="0">
                             <Card>
                                 <Card.Header>
                                     <Accordion.Toggle as={Button} variant="link" eventKey="1">
@@ -523,12 +529,7 @@ class BookForm extends React.Component {
                                     <Card.Body><p>{activeBook.description}</p></Card.Body>
                                 </Accordion.Collapse>
                             </Card>
-                        </Accordion>  
-                    </Col>
-                    <Col  xs={5}>
-                        <p>{activeBook.imageLinks ? <img src={image} alt={activeBook.title} /> : '' }</p>
-                        
-                    </Col>  
+                    </Accordion>  
                         <input type='submit' className="add-button search" disabled={submitting} onClick={(e) =>this.addSearchResults(activeBook.title, activeBook.authors, activeBook.description, image, e)} value={submitting ? 'Loading...' : 'Add '+activeBook.title}></input>
                  </Row>
             </div>
@@ -540,11 +541,12 @@ class BookForm extends React.Component {
     renderReading(){
         return this.state.sortedData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 
           <Col sm={6} key={each.id}  >
-              <div>
-                    <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3> 
-            </div>
+             
               <Row>
-                    <Col  xs={7}>
+                <Col  xs={7}>
+                <div>
+                    <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3> 
+                </div>
                 <div >
                     <h4>{each.author}</h4>
                 </div>
@@ -554,7 +556,18 @@ class BookForm extends React.Component {
                             <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
                         </div>
                     }
-                    <div className="summary-reading">
+                    
+                </Col>
+                <Col xs={5}>
+                    <span>{each.image && each.image !== 'null' ?
+                                <img src={each.image} alt={each.title} />
+                                :
+                                <i class="fa fa-book" aria-hidden="true"></i>
+                            }
+                    </span>
+                </Col>
+                </Row>
+                <div className="summary-reading">
                         {each.overview && each.overview !== 'null' ? 
                                     <Accordion defaultActiveKey="0">
                                                 <Card>
@@ -570,18 +583,8 @@ class BookForm extends React.Component {
                                     </Accordion>  
                                     : 
                                 <p>(No summary available)</p> }
-                    </div>
-                </Col>
-                <Col xs={5}>
-                    <span>{each.image && each.image !== 'null' ?
-                                <img src={each.image} alt={each.title} />
-                                :
-                                <i class="fa fa-book" aria-hidden="true"></i>
-                            }
-                    </span>
-                </Col>
-               </Row>
-          </Col> 
+                </div>
+            </Col>
         )
     }
     renderFinishedData(){

@@ -462,12 +462,7 @@ input#edit:hover, input.add-button:hover, .search-bar input:hover{
 
 }
 
-@media only screen and (max-width: 576px) {
-  .reading-now img{
-    max-width: unset;
 
-  }
-}
 .found-friend{
   margin-bottom: 20px;
   font-size: 1.3em;
@@ -503,7 +498,7 @@ form.search-form{
     font-weight: bold;
     font-size: 18px;
 }
- 
+
 @media only screen and (max-width: 768px) {
   .welcome{
     margin-top: 20px !important;
@@ -558,7 +553,16 @@ form.search-form{
     }
   }
 }
-
+@media only screen and (max-width: 576px) {
+  .reading-now img{
+    max-width: unset;
+  }
+  .navigation a{
+    margin: 0px 1.6px 0 0;
+    font-size: 1em;
+    padding: 3px;
+  }
+}
 footer{
   height: 50px;
   background: $color-purple;
