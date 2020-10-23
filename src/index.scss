@@ -17,7 +17,7 @@ div.App {
     margin: 0 auto;
   }
   article#layout{
-    min-height: 59vh;
+    min-height: 60vh;
   }
 }
 .welcome{
@@ -574,15 +574,13 @@ form.search-form{
   }
   .navigation a{
     margin: 0px 1.6px 0 0;
-    font-size: 1em;
+    font-size: .9em;
     padding: 3px;
   }
 }
 footer{
   height: 50px;
   background: $color-darkblue;
-  left: 0;
-  bottom: 0;
   margin-top: 50px;
   width: 100%;
   color: white;
