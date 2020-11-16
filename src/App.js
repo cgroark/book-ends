@@ -14,7 +14,9 @@ class App extends React.Component {
     super(props);
     this.state={
         checkusername: false,
-        savedusername: ''    }
+        savedusername: '',
+        signOut: false    
+      }
   }
   componentDidMount = () => {
     if(localStorage.getItem('username')){
@@ -44,8 +46,14 @@ class App extends React.Component {
       })
     }
   }
+  showSignout = () => {
+    console.log('show sign out');
+    this.setState({
+      signOut: !this.state.signOut
+    })
+  }
   render(){
-    const { checkusername, savedusername } = this.state;
+    const { checkusername, savedusername, signOut } = this.state;
         let mainNav;
         mainNav =
           <Router>
@@ -53,9 +61,10 @@ class App extends React.Component {
                   <article className="navigation">
                     <React.Fragment>
                     <NavLink exact activeClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
-                    <NavLink exact activeClassName="active" to="/sign-out">Logout</NavLink>
                     <NavLink exact activeClassName="active" to="/books" >Your books</NavLink>
                     <NavLink exact activeClassName="active" to="/friend-find" ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends' Books</NavLink>
+                    <a onClick={this.showSignout} >Sign out</a>
+                    {/* <NavLink exact activeClassName="active" to="/sign-out">Logout</NavLink> */}
                   </React.Fragment>
                   </article>
                 }
@@ -69,7 +78,7 @@ class App extends React.Component {
                   </article>
                   }
                    <React.Fragment>
-                    <Route exact path="/sign-out" render={() => <SignOut updateNav={this.updateNav} username={savedusername}/>} />
+                    {/* <Route exact path="/sign-out" render={() => <SignOut updateNav={this.updateNav} username={savedusername}/>} /> */}
                     <Route exact path="/books" render={() => <BookForm name={this.state.savedusername} />} />
                     <Route exact path="/sign-up" render={() => <SignUp updateNav={this.updateNav}/>}  />
                     <Route exact path="/sign-in"  render={() => <SignIn updateNav={this.updateNav}/>} />
@@ -85,6 +94,9 @@ class App extends React.Component {
         <article  id="layout">
         <div >
           {mainNav}
+          {signOut &&
+              <SignOut updateNav={this.updateNav} username={savedusername}/>
+          }
         </div>
         </article>
         <footer>

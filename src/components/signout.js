@@ -43,9 +43,9 @@ class SignOut extends React.Component {
         }
         return(
             <div className="main-body">
-            <h1>User logout</h1>
-            < hr />
-            {pageContent}
+                <div id="sign-out-widget">
+                    {pageContent}
+                </div>
             </div>
         )
     }
