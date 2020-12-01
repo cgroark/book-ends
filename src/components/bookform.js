@@ -577,7 +577,7 @@ class BookForm extends React.Component {
                                                 <Card>
                                                     <Card.Header>
                                                         <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                                            Read summary
+                                                            Summary
                                                         </Accordion.Toggle>
                                                     </Card.Header>
                                                     <Accordion.Collapse eventKey="1">
@@ -622,7 +622,7 @@ class BookForm extends React.Component {
                                     <Card>
                                         <Card.Header>
                                             <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                                Read summary
+                                                Summary
                                             </Accordion.Toggle>
                                         </Card.Header>
                                         <Accordion.Collapse eventKey="1">
@@ -665,7 +665,7 @@ class BookForm extends React.Component {
                                     <Card>
                                         <Card.Header>
                                             <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                                Read summary
+                                                Summary
                                             </Accordion.Toggle>
                                         </Card.Header>
                                         <Accordion.Collapse eventKey="1">

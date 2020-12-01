@@ -4,6 +4,7 @@ $color-lightgrey: #B8B8B8;
 $color-lightpurple: #b19cd9;
 $color-darkblue: #4a7794;
 $color-darkgrey: #555555;
+$color-lightergrey: #dedcdce6;
 
 @media screen and (prefers-reduced-motion: no-preference){
   html, body {
@@ -32,6 +33,12 @@ div.App {
   }
   p{
     font-size: 1.3em
+  }
+  .bestsellers{
+    font-size: .8rem;
+    p{
+      margin-bottom: 0;
+    }
   }
 }
 body {
@@ -87,21 +94,27 @@ code {
   p{
     font-size: 1.5em;
   }
-  #sign-out-widget{
+  .sign-widget{
     position: absolute;
-    top: 345px;
-    right: 122px;
+    top: 356px;
+    right: calc(((100vw - 1100px) / 2) + 35px);
     padding: 20px;
     border: solid 2px black;
-    width: 200px;
-    background-color: $color-lightgrey;
+    width: 270px;
+    background-color: $color-lightergrey;
+    .submit-form{
+      padding: 0;
+      label{
+        text-align: center;
+      }
+    }
     p{
       font-size: 1.2em;
     }
     .div-button{
       width: 130px;
       font-size: 1em;
-      border: 3px solid $color-lightgrey; 
+      border: 3px solid $color-lightergrey; 
     }
     .div-button:hover{
       width: 130px;
@@ -188,12 +201,13 @@ code {
   margin-top: 35px;
 }
 .navigation{
+    text-align: right;
     a{
       margin: 0 4px;
       font-size: 1.3em;
       display: inline-block;
       padding: 10px;
-      color: $color-purple;
+      color: $color-purple !important;
       border-bottom: 2px solid white;
       text-decoration: none;
     }
@@ -201,9 +215,6 @@ code {
       border-bottom: 2px solid $color-purple;
       text-decoration: none;
       color: $color-purple;
-    }
-    a:last-of-type{
-      float: right;
     }
 }
 a{
@@ -215,7 +226,7 @@ a:hover{
   text-decoration: underline;
   
 }
-.summary-reading .thrift-link{
+.thrift-link{
   font-size: 1.4em;
   padding: 0;
   color: #6B3074;
@@ -259,6 +270,9 @@ a:hover{
   .col-4 i{
     font-size: 80px;
   }
+}
+.card .card-body{
+  padding: 0.25rem !important;
 }
 h2#friend-name{
   font-size: 2.4rem;
@@ -537,7 +551,13 @@ form.search-form{
     font-weight: bold;
     font-size: 18px;
 }
-
+@media only screen and (max-width: 1170px) {
+  .main-body{
+    .sign-widget{
+      right: 42px;
+    }
+  }
+}
 @media only screen and (max-width: 768px) {
   .welcome{
     margin-top: 20px !important;
@@ -590,7 +610,7 @@ form.search-form{
     h4{
       font-size: 1.2rem;
     }
-    #sign-out-widget{
+    .sign-widget{
       top: 240px;
     }
   }

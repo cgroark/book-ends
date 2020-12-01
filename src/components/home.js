@@ -1,17 +1,18 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import homeImage from '../images/mug-book.png';
+import Bestsellers from './bestsellers'
 
 class Home extends React.Component {
     constructor(props){
         super(props);
         this.state={
             checkusername: false,
-            savedusername: ''        }
+            savedusername: ''
+        }
     }
     componentDidMount = () => {
         let usernameData = localStorage.getItem('username');
-        console.log('local storage', usernameData)
         if(usernameData){
             this.setState({
                 savedusername: usernameData,
@@ -19,16 +20,24 @@ class Home extends React.Component {
             })
         }
     }
+
     render(){
-        const { savedusername, checkusername } = this.state;
+        const { savedusername, checkusername, nytFiction, nytnonFiction } = this.state;
         let welcomeContent;
-        if(checkusername){
+        if(this.props.customHome && !this.props.newUser){
           welcomeContent = 
             <div>
-                <h2>Welcome back {savedusername} </h2>
+                <h2>Welcome back {this.props.username} </h2>
+                <p>Use the navigation to view your book list, make updates, add new books.</p>
+                
+            </div>
+        }else if(this.props.newUser)
+            welcomeContent =
+            <div >
+                <h2>Welcome to Book Ends {this.props.username} </h2>
                 <p>Use the navigation to view your book list, make updates, add new books.</p>
             </div>
-        }else{
+        else{
           welcomeContent =
             <div >
                 <h2>Welcome to your new favorite reading tracker</h2>
@@ -39,15 +48,16 @@ class Home extends React.Component {
         return(
             <article className="welcome">
                 <Row>
-                <Col md={{ span: 6, offset: 1 }}>
+                <Col md={8}>
                         {welcomeContent}
                 </Col>
-                <Col md={{ span: 3 }}>
+                <Col md={4}>
                         <div>
                         <img src={homeImage} alt="hands reaching a book with a cup of coffee nearby" />
                         </div>
                     </Col>
                 </Row>
+                <Bestsellers />
             </article>
            
         )

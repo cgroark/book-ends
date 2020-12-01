@@ -22,14 +22,15 @@ class SignIn extends React.Component {
     }
     componentDidMount = () => {
         this.getAllData()
-        let usernameData = localStorage.getItem('username');
-        if(usernameData){
-            console.log('username on load', usernameData)
-            this.setState({
-                savedusername: usernameData,
-                checkusername: true
-            })
-        }
+        // let usernameData = localStorage.getItem('username');
+        let usernameData = this.props.username;
+        // if(usernameData){
+        //     console.log('username on load', usernameData)
+        //     this.setState({
+        //         savedusername: usernameData,
+        //         checkusername: true
+        //     })
+        // }
     }
     getAllData = () => {
         fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351')
@@ -58,6 +59,7 @@ class SignIn extends React.Component {
                 })
                 localStorage.setItem('username', this.state.username);
                 this.props.updateNav();
+                this.props.showSignin();
             }
             else{
                 this.setState({usernamenotfound: true})
@@ -112,15 +114,15 @@ class SignIn extends React.Component {
         }
         return(
             <div className="main-body">
-                <h1>User login</h1>
-                <hr  />
                 {searchloading && 
                     <div class="progress-infinite">
                         <div class="progress-bar3" >
                         </div>                       
                     </div> 
-                }
-                {pageContent} 
+                } 
+                <div className="sign-widget">
+                    {pageContent} 
+                </div>
             </div>    
         )
     }

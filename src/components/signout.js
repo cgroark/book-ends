@@ -4,8 +4,7 @@ class SignOut extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            username: '',
-            loggedout: false
+            username: ''
         }
 
     }
@@ -19,9 +18,7 @@ class SignOut extends React.Component {
     handleClear = () => {
         localStorage.clear();
         this.props.updateNav();
-        this.setState({
-            loggedout: true
-        })
+        this.props.showSignout();
     }
     handleChange = e => this.setState({
         [e.target.name]: e.target.value
@@ -29,21 +26,14 @@ class SignOut extends React.Component {
     render(){
         const {loggedout} = this.state;
         let pageContent;
-        if(loggedout){
-            pageContent = 
-            <div className="login">
-                    <p>You've been logged out. Get back to your book.</p>
-            </div>
-        }else{
             pageContent = 
             <div className="login">
                 <p><strong>Are you sure you want to sign out?</strong></p> 
                 <div className="div-button" onClick={this.handleClear}>Sign me out</div>       
             </div>
-        }
         return(
             <div className="main-body">
-                <div id="sign-out-widget">
+                <div className="sign-widget">
                     {pageContent}
                 </div>
             </div>

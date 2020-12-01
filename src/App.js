@@ -15,7 +15,11 @@ class App extends React.Component {
     this.state={
         checkusername: false,
         savedusername: '',
-        signOut: false    
+        signOut: false,
+        signIn: false,
+        signup: false,
+        newUser: false,
+        customHome: false    
       }
   }
   componentDidMount = () => {
@@ -23,7 +27,8 @@ class App extends React.Component {
       let usernameData = localStorage.getItem('username');
       this.setState({
         savedusername: usernameData,
-        checkusername: true
+        checkusername: true,
+        customHome: true
     })
     }
     else{
@@ -37,23 +42,40 @@ class App extends React.Component {
       let usernameData = localStorage.getItem('username');
       this.setState({
         savedusername: usernameData,
-        checkusername: true
+        checkusername: true,
+        customHome: true
       })
     }
     else{
       this.setState({
-        checkusername: false
+        checkusername: false,
+        customHome: false,
+        savedusername: '',
       })
     }
   }
   showSignout = () => {
-    console.log('show sign out');
     this.setState({
       signOut: !this.state.signOut
     })
   }
+  showSignin = () => {
+    this.setState({
+      signIn: !this.state.signIn
+    })
+  }
+  showSignup = () => {
+    this.setState({
+      signup: !this.state.signup
+    })
+  }
+  newUser = () => {
+    this.setState({
+      newUser: true
+    })
+  }
   render(){
-    const { checkusername, savedusername, signOut } = this.state;
+    const { checkusername, savedusername, signOut, signIn, signup, customHome, newUser } = this.state;
         let mainNav;
         mainNav =
           <Router>
@@ -64,7 +86,6 @@ class App extends React.Component {
                     <NavLink exact activeClassName="active" to="/books" >Your books</NavLink>
                     <NavLink exact activeClassName="active" to="/friend-find" ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends' Books</NavLink>
                     <a onClick={this.showSignout} >Sign out</a>
-                    {/* <NavLink exact activeClassName="active" to="/sign-out">Logout</NavLink> */}
                   </React.Fragment>
                   </article>
                 }
@@ -72,17 +93,14 @@ class App extends React.Component {
                   <article className="navigation">
                     <React.Fragment>
                       <NavLink exact activeClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
-                      <NavLink exact activeClassName="active" to="/sign-up">Sign Up</NavLink>
-                      <NavLink exact activeClassName="active" to="/sign-in" >Login</NavLink>
+                      <a onClick={this.showSignin} >Login</a>
+                      <a onClick={this.showSignup} >Sign up</a>
                     </React.Fragment>
                   </article>
                   }
                    <React.Fragment>
-                    {/* <Route exact path="/sign-out" render={() => <SignOut updateNav={this.updateNav} username={savedusername}/>} /> */}
-                    <Route exact path="/books" render={() => <BookForm name={this.state.savedusername} />} />
-                    <Route exact path="/sign-up" render={() => <SignUp updateNav={this.updateNav}/>}  />
-                    <Route exact path="/sign-in"  render={() => <SignIn updateNav={this.updateNav}/>} />
-                    <Route exact path="/"  render={() => <Home updateNav={this.updateNav}/>} />
+                    <Route exact path="/books" render={() => <BookForm name={this.state.savedusername}  />} />
+                    <Route exact path="/"  render={() => <Home customHome={customHome} newUser={newUser} username={this.state.savedusername}/>} />
                     <Route exact path="/friend-find" render={() => <FindUser username={savedusername}/>} />
                   </React.Fragment>
           </Router>
@@ -95,7 +113,13 @@ class App extends React.Component {
         <div >
           {mainNav}
           {signOut &&
-              <SignOut updateNav={this.updateNav} username={savedusername}/>
+                <SignOut updateNav={this.updateNav} showSignout={this.showSignout} username={savedusername}/>
+          }
+          {signIn &&
+                <SignIn updateNav={this.updateNav} showSignin={this.showSignin} username={savedusername}/>
+          }
+          {signup &&
+                <SignUp updateNav={this.updateNav}  newUser={this.newUser} showSignup={this.showSignup} username={savedusername}/>
           }
         </div>
         </article>
