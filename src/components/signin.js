@@ -115,8 +115,8 @@ class SignIn extends React.Component {
         return(
             <div className="main-body">
                 {searchloading && 
-                    <div class="progress-infinite">
-                        <div class="progress-bar3" >
+                    <div className="progress-infinite">
+                        <div className="progress-bar3" >
                         </div>                       
                     </div> 
                 } 

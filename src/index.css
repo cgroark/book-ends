@@ -20,8 +20,11 @@ div.App article#layout {
 }
 
 .welcome h2 {
-  font-size: 2.2em;
-  margin-top: 0 !important;
+  background-color: #4a7794;
+  color: white;
+  padding: 7px 12px 10px;
+  font-size: 2.2rem;
+  margin: 30px 0;
 }
 
 .welcome img {
@@ -32,12 +35,9 @@ div.App article#layout {
   font-size: 1.3em;
 }
 
-.welcome .bestsellers {
-  font-size: .8rem;
-}
-
 .welcome .bestsellers p {
   margin-bottom: 0;
+  font-size: .9rem;
 }
 
 body {
@@ -103,6 +103,7 @@ code {
 }
 
 .main-body .sign-widget {
+  z-index: 2000;
   position: absolute;
   top: 356px;
   right: calc(((100vw - 1100px) / 2) + 35px);
@@ -223,7 +224,8 @@ code {
 }
 
 .friend-results {
-  margin-top: 35px;
+  margin-top: 15px;
+  text-align: center;
 }
 
 .navigation {

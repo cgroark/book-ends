@@ -6,6 +6,7 @@ import SignIn from './components/signin';
 import SignOut from './components/signout';
 import BookForm from './components/bookform';
 import FindUser from './components/finduser';
+import history from './history';
 
 
 
@@ -19,7 +20,7 @@ class App extends React.Component {
         signIn: false,
         signup: false,
         newUser: false,
-        customHome: false    
+        customHome: false, 
       }
   }
   componentDidMount = () => {
@@ -75,7 +76,7 @@ class App extends React.Component {
     })
   }
   render(){
-    const { checkusername, savedusername, signOut, signIn, signup, customHome, newUser } = this.state;
+    const { checkusername, savedusername, signOut, signIn, signup, customHome, newUser, friendForm, friendUser } = this.state;
         let mainNav;
         mainNav =
           <Router>
@@ -84,7 +85,8 @@ class App extends React.Component {
                     <React.Fragment>
                     <NavLink exact activeClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
                     <NavLink exact activeClassName="active" to="/books" >Your books</NavLink>
-                    <NavLink exact activeClassName="active" to="/friend-find" ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends' Books</NavLink>
+                    <NavLink exact activeClassName="active" to="/friendsbooks" ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends</NavLink>
+                    {/* <a onClick={this.showFriendform} ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends</a> */}
                     <a onClick={this.showSignout} >Sign out</a>
                   </React.Fragment>
                   </article>
@@ -99,9 +101,9 @@ class App extends React.Component {
                   </article>
                   }
                    <React.Fragment>
-                    <Route exact path="/books" render={() => <BookForm name={this.state.savedusername}  />} />
+                    <Route exact path="/books" render={() => <BookForm name={savedusername}  />} />
+                    <Route exact path="/friendsbooks" render={() => <FindUser currentusername={savedusername}/>}/>
                     <Route exact path="/"  render={() => <Home customHome={customHome} newUser={newUser} username={this.state.savedusername}/>} />
-                    <Route exact path="/friend-find" render={() => <FindUser username={savedusername}/>} />
                   </React.Fragment>
           </Router>
     return(
@@ -121,6 +123,7 @@ class App extends React.Component {
           {signup &&
                 <SignUp updateNav={this.updateNav}  newUser={this.newUser} showSignup={this.showSignup} username={savedusername}/>
           }
+        
         </div>
         </article>
         <footer>

@@ -245,12 +245,6 @@ class BookForm extends React.Component {
                 imageUrl: 'null'
             })
         }
-        if(this.state.imageUrl === ''){
-            event.preventDefault()
-            this.setState({
-                imageUrl: 'null'
-            })
-        }
         if(this.state.description === ''){
             event.preventDefault()
             this.setState({
@@ -294,7 +288,8 @@ class BookForm extends React.Component {
                 id: this.state.username+'id='+this.state.currentID,
                 rating: this.state.rating,
                 overview: this.state.description,
-                image: this.state.imageUrl
+                image: this.state.imageUrl,
+                friends: 'null'
              }
         event.preventDefault()
         this.setState({
@@ -384,16 +379,13 @@ class BookForm extends React.Component {
                 editing: false
             })
         }).then( () =>{
-            
-                    this.getGoogleAPI();
-                    this.setState({
-                        books: true,
-                        searchloading: false,
-                        currentlyReading: true,
-                        searchButton: true
-                    })
-            
-           
+            this.getGoogleAPI();
+            this.setState({
+                books: true,
+                searchloading: false,
+                currentlyReading: true,
+                searchButton: true
+            })
         })
     }
     handleChange = e => {
@@ -566,7 +558,7 @@ class BookForm extends React.Component {
                     <span>{each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
-                                <i class="fa fa-book" aria-hidden="true"></i>
+                                <i className="fa fa-book" aria-hidden="true"></i>
                             }
                     </span>
                 </Col>
@@ -611,7 +603,7 @@ class BookForm extends React.Component {
                             {each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
-                                <i class="fa fa-book" aria-hidden="true"></i>
+                                <i className="fa fa-book" aria-hidden="true"></i>
                             }
                             
                         </Col>
@@ -654,7 +646,7 @@ class BookForm extends React.Component {
                             {each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
-                                <i class="fa fa-book" aria-hidden="true"></i>
+                                <i className="fa fa-book" aria-hidden="true"></i>
                             }
                             
                         </Col>

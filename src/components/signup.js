@@ -47,7 +47,8 @@ class SignUp extends React.Component {
             format: 'null',
             rating: 'null',
             overview: 'null',
-            image: 'null'
+            image: 'null',
+            friends: 'null'
         }
         event.preventDefault()
         this.setState({
@@ -106,8 +107,8 @@ class SignUp extends React.Component {
         }else if(searchloading){
             pageContent = 
             <div><p>Adding new user...</p>
-                <div class="progress-infinite">
-                    <div class="progress-bar3" ></div>
+                <div className="progress-infinite">
+                    <div className="progress-bar3" ></div>
                 </div>
             </div>                
         }

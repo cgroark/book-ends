@@ -1,8 +1,8 @@
 import React from 'react';
+import { Route, NavLink, withRouter, useHistory, BrowserRouter as Router } from 'react-router-dom';
+import history from '../history';
 import { Row, Col } from 'react-bootstrap';
 import FriendData from './friendData';
-
-
 
 class FindUser extends React.Component {
     constructor(props){
@@ -24,7 +24,7 @@ class FindUser extends React.Component {
     }
     componentDidMount = () =>{
         this.setState({
-            username: this.props.username
+            username: this.props.currentusername
         })
     }
 
@@ -60,50 +60,80 @@ class FindUser extends React.Component {
             friendData: []
         })
     }
-    friendsBooks(user, first){
+    friendsBooks(user, first, last){
         let friendBooks = this.state.allData.filter(book => book.username === user);
         console.log('username', user)
         this.setState({
             friendData: friendBooks,
             showResults: false,
             selectedFirst: first
-        })
+        });
+        // this.props.history.push('/friendsbooks')
+    }
+    friendAdd(user, first, currentusername){
+        console.log('username to follow', user, currentusername);
+            const dataSend = {
+                firstName: 'null',
+                lastName: 'null',
+                username: currentusername,
+                id: 'null',
+                date: 'null',
+                author: 'null',
+                title: 'null',
+                status: 'null',
+                format: 'null',
+                rating: 'null',
+                overview: 'null',
+                image: 'null',
+                friends: user
+            }
+            this.setState({
+                searchloading: true
+            })
+            fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(dataSend)
+            }).then( (response) => {
+                this.setState({
+                    searchloading: false,
+                    done: true
+                })
+                
+                return response.json()
+               
+            });
     }
     renderFriend(){
         function capFirstLetter(string){
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
         return this.state.allData.filter(friend => friend.lastName === this.state.pickedUser.toLowerCase()).map((each) => 
-            <Row key={each.id} className="found-friend">
-                <Col sm={3}>
+            <div key={each.id} className="found-friend">
                 <h4>{capFirstLetter(each.firstName)} {capFirstLetter(each.lastName)}</h4>
-                </Col>
-                <Col sm={3}>
-                <button type="submit" className="div-button friend" onClick={() => this.friendsBooks(each.username, each.firstName)} >View books</button>  
-                </Col> 
-            </Row>
+                <button type="submit" className="div-button friend" onClick={() => this.friendsBooks(each.username, each.firstName, each.lastName, this.props.currentusername)} >View books</button>  
+                <button type="submit" className="div-button friend" onClick={() => this.friendAdd(each.username, each.firstName, this.props.currentusername)} >Follow {capFirstLetter(each.firstName)}</button>  
+            </div>
         )
     }
-
-   
-
     render(){
         const {userLast, submitting, showForm, friendData, showResults, pickedUser, allData, searchloading, selectedFirst} = this.state;
         let numUsersFound =  allData.filter(friend => friend.lastName === pickedUser.toLowerCase()).length;
         return(
             <div className="main-body">
-                <h1>Find your friends. Read their books.</h1>
-                <hr  />
+                <div className="searchfriend-widget">
                 {searchloading && 
-                    <div class="progress-infinite">
-                        <div class="progress-bar3" >
+                    <div className="progress-infinite">
+                        <div className="progress-bar3" >
                         </div>                       
                     </div> 
                 }
-                
                 {showForm && !searchloading &&
                     <div id="friend-form">
-                        <p><strong>Search for your friends by last name</strong></p>
+                        <p><strong>Search for friends by last name</strong></p>
                         <div className="login">
                         <form onSubmit={this.handleSubmit} className={submitting ? 'loading' : 'submit-form'}>
                             <label >Last name:<br />
@@ -117,29 +147,15 @@ class FindUser extends React.Component {
                     </div>
                 }
                 {!showForm && !searchloading &&
-                        <div className="div-button" onClick={this.searchAgain}>Search again</div>   
-                }
-                {numUsersFound === 1 && !showForm && !searchloading &&
                     <div className="friend-results">
                         {showResults &&
-                            <div><h2>Found user:</h2>&nbsp;<span>{this.renderFriend()}</span></div>
+                            <div>{this.renderFriend()}</div>
                         }
-                        {friendData.length > 0 &&
-                            <FriendData data={friendData} firstName={selectedFirst} />
-                        }
+                        
                     </div>  
                 }
-                 {numUsersFound >1  && !showForm &&
-                    <div className="friend-results">
-                         {showResults &&
-                            <div id="results"><h2>Found users:</h2>
-                                {this.renderFriend()}
-                            </div>
-                         }
-                        {friendData.length > 1 &&
-                            <FriendData data={friendData} firstName={selectedFirst}/>
-                        }
-                    </div>  
+                {!showForm && !searchloading &&
+                        <div className="div-button" onClick={this.searchAgain}>Search again</div>   
                 }
                 {numUsersFound === 0 && !showForm && !searchloading &&
                     <div className="friend-results">
@@ -147,7 +163,10 @@ class FindUser extends React.Component {
                     </div>  
                 }
                  
-            
+                </div>
+                {friendData.length > 0 && 
+                            <FriendData data={friendData} firstName={selectedFirst} />
+                        }
             </div>
         )
     }

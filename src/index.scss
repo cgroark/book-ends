@@ -25,8 +25,11 @@ div.App {
   margin-top: 50px !important;
   text-align: left;
   h2{
-    font-size: 2.2em;
-    margin-top: 0 !important;
+    background-color: $color-darkblue;
+    color: white;
+    padding: 7px 12px 10px;
+    font-size: 2.2rem;
+    margin: 30px 0;
   }
   img{
     max-width: 100%;
@@ -35,9 +38,9 @@ div.App {
     font-size: 1.3em
   }
   .bestsellers{
-    font-size: .8rem;
     p{
       margin-bottom: 0;
+      font-size: .9rem;
     }
   }
 }
@@ -95,6 +98,7 @@ code {
     font-size: 1.5em;
   }
   .sign-widget{
+    z-index: 2000;
     position: absolute;
     top: 356px;
     right: calc(((100vw - 1100px) / 2) + 35px);
@@ -123,6 +127,17 @@ code {
     }
   }
 } 
+.feed-section{
+  padding: 10px;
+  border-bottom: 3px solid purple;
+  margin-bottom: 20px;
+  .row{
+    margin-bottom: 15px;
+    img{
+      max-width: 70%;
+    }
+  }
+}
 #page-nav{
   list-style: none;
   padding: 0;
@@ -173,7 +188,7 @@ code {
   width: 230px;
   margin: auto;
   padding: 10px 12px 12px;
-  background-color: #6B3074;
+  background-color: $color-purple;
   font-size: 1.3em;
   font-weight: bold;
   border: 3px solid white;
@@ -185,20 +200,21 @@ code {
   background-color: white;
   font-size: .8em;
   font-weight: bold;
-  border: 3px solid #6B3074;
-  color: #6B3074;
+  border: 3px solid $color-purple;
+  color: $color-purple;
+  margin: 20px 10px;
 }
 .div-button:hover{
   border: 3px solid $color-purple;
   cursor: pointer;
 }
 .div-button.friend:hover{
-  background-color: #6B3074;
-  border: 3px solid white;
+  background-color: $color-purple;
   color: white;
 }
 .friend-results{
-  margin-top: 35px;
+  margin-top: 15px;
+  text-align: center;
 }
 .navigation{
     text-align: right;
@@ -229,7 +245,7 @@ a:hover{
 .thrift-link{
   font-size: 1.4em;
   padding: 0;
-  color: #6B3074;
+  color: $color-purple;
   border-bottom: 2px solid white;
 }
 .book-card {
@@ -251,7 +267,7 @@ a:hover{
   .thrift-link{
     font-size: 1.4em;
     padding: 0;
-    color: #6B3074;
+    color: $color-purple;
     border-bottom: 2px solid white;
   }
   .row .col-sm-4 i{
