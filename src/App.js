@@ -1,11 +1,12 @@
 import React from 'react';
-import { Route, NavLink, BrowserRouter as Router } from 'react-router-dom';
+import { Route, NavLink, Switch, BrowserRouter as Router } from 'react-router-dom';
 import Home from './components/home';
 import SignUp from './components/signup';
 import SignIn from './components/signin';
 import SignOut from './components/signout';
 import BookForm from './components/bookform';
 import FindUser from './components/finduser';
+import FriendData from './components/friendData';
 import history from './history';
 
 
@@ -100,11 +101,12 @@ class App extends React.Component {
                     </React.Fragment>
                   </article>
                   }
-                   <React.Fragment>
+                   <Switch>
                     <Route exact path="/books" render={() => <BookForm name={savedusername}  />} />
                     <Route exact path="/friendsbooks" render={() => <FindUser currentusername={savedusername}/>}/>
+                    <Route exact path="/friendsbooks/friend/:id" exact component={FriendData}/>
                     <Route exact path="/"  render={() => <Home customHome={customHome} newUser={newUser} username={this.state.savedusername}/>} />
-                  </React.Fragment>
+                  </Switch>
           </Router>
     return(
       <div className="App">

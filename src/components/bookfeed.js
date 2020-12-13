@@ -1,8 +1,12 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import { Route, NavLink, Link, BrowserRouter as Router } from 'react-router-dom';
+import moment from 'moment';
 import homeImage from '../images/mug-book.png';
 import Bestsellers from './bestsellers'
-import moment from 'moment';
+import FindUser from './finduser';
+import FriendData from './friendData';
+
 
 class Bookfeed extends React.Component {
     constructor(props){
@@ -47,8 +51,9 @@ class Bookfeed extends React.Component {
         let feedData = []
         for(let j=0;j<feed.length; j++){
             var firstNameFind = feed[j].filter(each => each.firstName !== 'null');
-            let firstName = firstNameFind[0].firstName
-            let lastName = firstNameFind[0].lastName
+            let firstName = firstNameFind[0].firstName;
+            let lastName = firstNameFind[0].lastName;
+            let userName = firstNameFind[0].username;
             var findReading = feed[j].filter(each => each.status === "Currently-Reading");
             let currentlyReading;
             let currentAuthor; 
@@ -80,7 +85,9 @@ class Bookfeed extends React.Component {
                     lastTitle: lastTitle,
                     lastAuthor: lastAuthor,
                     lastImg: lastImage,
-                    lastRec: lastRec
+                    lastRec: lastRec,
+                    username: userName,
+                    index: j
                 }
             )
         }
@@ -100,12 +107,15 @@ class Bookfeed extends React.Component {
                     <Col xs={9} >
                     <h4>{each.first} last read:</h4>
                         <p><em>{each.lastTitle}</em> by {each.lastAuthor}</p>
-                        <p>({each.lastRec})</p>
+                        <p>{each.first}'s rating: ({each.lastRec})</p>
                     </Col>
                     <Col xs={3}>
                         <img src={each.lastImg} alt={each.lastTitle} />
                     </Col>
                 </Row>  
+                <Link to={'/friendsbooks/friend/'+each.first+'-'+each.last}>
+                    View {each.first}'s books
+                </Link>
             </div>
     )
     }

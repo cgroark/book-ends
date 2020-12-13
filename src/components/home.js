@@ -31,6 +31,7 @@ class Home extends React.Component {
             <div>
                 <h1>Welcome back {this.props.username} </h1>
                 <p>View your <Link to='/books'>book list</Link> to make updates and add new books.</p>
+                <p><Link to={'/friendsbooks'}>Find friends</Link> to see what they're reading and recommend. </p>
                 
             </div>
         }else if(this.props.newUser)

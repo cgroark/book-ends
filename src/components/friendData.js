@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { Route, NavLink, Link, withRouter, useHistory, BrowserRouter as Router } from 'react-router-dom';
 import Scrollspy from 'react-scrollspy';
 import {Accordion, Card, Button, Col, Row } from 'react-bootstrap';
 
@@ -7,21 +8,44 @@ class FriendData extends React.Component {
     constructor(props){
         super(props);
         this.state={
-           friendData: [],
-           searchloading: true,
-           firstName: ''
+            allData: [],
+            friendData: [],
+            searchloading: true,
+            friendString:'',
+            firstName: ''
         }
 
     }
-    componentDidMount =() => {
+    componentDidMount =(props) => {
+        const {id} = this.props.match.params
+        console.log(id.toLowerCase().split('-')[0])
         this.setState({
-            friendData: this.props.data,
-            firstName: this.props.firstName[0].toUpperCase() + this.props.firstName.slice(1),
+            friendString: id.toLowerCase(),
+            firstName: (id.toLowerCase().split('-')[0])[0].toUpperCase() + id.toLowerCase().split('-')[0].slice(1),
             searchloading: false
         })
-        console.log('new component', this.props.data)
+        this.getAllData();
     }
-    
+    getAllData = () => {
+        fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351')
+            .then( (response) => {
+                return response.json()
+            }).then( (json) => {
+                this.setState({
+                    allData: json
+                })
+            }).then( () => {
+                let first = this.state.friendString.split('-')[0];
+                let last = this.state.friendString.split('-')[1];
+                let friendFirst = this.state.allData.filter(one => one.firstName === first && one.lastName === last);
+                let friendId = friendFirst[0].username;
+                console.log(friendId);
+                let friendData = this.state.allData.filter(one => one.username === friendId);
+                this.setState({
+                    friendData: friendData
+                });
+            })
+    }
     renderReading(){
         return this.state.friendData.filter(book => book.status === "Currently-Reading").map((each) => 
         <Col sm={6} key={each.id}  >
@@ -152,7 +176,12 @@ class FriendData extends React.Component {
                     </div> 
                 }
                 {bookCount > 1 &&
-                    <h2 id="friend-name">{firstName}'s book list</h2>
+                    <div>
+                        <Link to={'/friendsbooks'}>
+                            Find another friend
+                        </Link>
+                        <h2 id="friend-name">{firstName}'s book list</h2>
+                    </div>
                 }
                 <div id="page-nav">
                     <Scrollspy items={ ['currently-reading', 'finished', 'want-to-read'] } currentClassName="is-current">

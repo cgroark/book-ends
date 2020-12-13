@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, NavLink, withRouter, useHistory, BrowserRouter as Router } from 'react-router-dom';
+import { Route, NavLink, Link, withRouter, useHistory, BrowserRouter as Router } from 'react-router-dom';
 import history from '../history';
 import { Row, Col } from 'react-bootstrap';
 import FriendData from './friendData';
@@ -60,16 +60,6 @@ class FindUser extends React.Component {
             friendData: []
         })
     }
-    friendsBooks(user, first, last){
-        let friendBooks = this.state.allData.filter(book => book.username === user);
-        console.log('username', user)
-        this.setState({
-            friendData: friendBooks,
-            showResults: false,
-            selectedFirst: first
-        });
-        // this.props.history.push('/friendsbooks')
-    }
     friendAdd(user, first, currentusername){
         console.log('username to follow', user, currentusername);
             const dataSend = {
@@ -114,7 +104,9 @@ class FindUser extends React.Component {
         return this.state.allData.filter(friend => friend.lastName === this.state.pickedUser.toLowerCase()).map((each) => 
             <div key={each.id} className="found-friend">
                 <h4>{capFirstLetter(each.firstName)} {capFirstLetter(each.lastName)}</h4>
-                <button type="submit" className="div-button friend" onClick={() => this.friendsBooks(each.username, each.firstName, each.lastName, this.props.currentusername)} >View books</button>  
+                <Link to={'/friendsbooks/friend/'+each.firstName+'-'+each.lastName}>
+                    View {each.firstName.charAt(0).toUpperCase() + each.firstName.slice(1)}'s books
+                </Link>
                 <button type="submit" className="div-button friend" onClick={() => this.friendAdd(each.username, each.firstName, this.props.currentusername)} >Follow {capFirstLetter(each.firstName)}</button>  
             </div>
         )
