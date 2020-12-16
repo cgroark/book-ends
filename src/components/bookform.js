@@ -48,6 +48,7 @@ class BookForm extends React.Component {
 
     }
     componentDidMount =() => {
+        this.props.pathname(window.location.pathname)
         let usernameProps = this.props.name;
         let usernameData = localStorage.getItem('username');
         if(usernameProps){
@@ -107,7 +108,7 @@ class BookForm extends React.Component {
         });
     }
     getGoogleAPI = () => {
-        fetch('https://spreadsheets.google.com/feeds/cells/1HhGhrqm2vagTS5wKxNYp7rh89en4ZVNkLfPd4DYCcrI/1/public/full?alt=json')
+        fetch('https://spreadsheets.google.com/feeds/cells/11zB8deXSzMsPUlBUMwmv5MpHIuDPjGvjtr5qawIVq-A/1/public/full?alt=json')
             .then( (response) => {
                 return response.json()
             }).then( (json) => {
@@ -136,7 +137,7 @@ class BookForm extends React.Component {
             })
     }
     getAllData = () => {
-        fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351')
+        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98')
             .then( (response) => {
                 return response.json()
             }).then( (json) => {
@@ -296,7 +297,7 @@ class BookForm extends React.Component {
             searchloading: true,
             form: false,
         })
-        fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351', {
+        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98', {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -361,7 +362,7 @@ class BookForm extends React.Component {
             searchloading: true,
             form: false
         })
-        fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351/id/'+this.state.bookid, {
+        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98/id/'+this.state.bookid, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -446,7 +447,7 @@ class BookForm extends React.Component {
             form: false,
             editing: false
         })
-        fetch("https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351/id/"+this.state.bookid, {
+        fetch("https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98/id/"+this.state.bookid, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

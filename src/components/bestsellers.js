@@ -45,6 +45,24 @@ class Bestsellers extends React.Component {
                     <img src={each.book_image} alt={each.title} />
                     <p><strong><em>{each.title}</em></strong></p>
                     <p>By {each.author}</p>
+                    <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                    <div className="summary-reading">
+                        {each.description && each.description !== 'null' ? 
+                                    <Accordion defaultActiveKey="0">
+                                                <Card>
+                                                    <Card.Header>
+                                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                            Summary
+                                                        </Accordion.Toggle>
+                                                    </Card.Header>
+                                                    <Accordion.Collapse eventKey="1">
+                                                        <Card.Body><p>{each.description}</p></Card.Body>
+                                                    </Accordion.Collapse>
+                                                </Card>
+                                    </Accordion>  
+                                    : 
+                                <p>(No summary available)</p> }
+                    </div>
                 </Col>
             )
         }
@@ -79,7 +97,7 @@ class Bestsellers extends React.Component {
                                     </Accordion>  
                                     : 
                                 <p>(No summary available)</p> }
-                </div>
+                    </div>
                 </Col>
             )
         }
@@ -167,7 +185,7 @@ class Bestsellers extends React.Component {
                         <Accordion defaultActiveKey="0">
                                                 <Card>
                                                     <Card.Header>
-                                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                        <Accordion.Toggle className="view-more" as={Button} variant="link" eventKey="1">
                                                             View more...
                                                         </Accordion.Toggle>
                                                     </Card.Header>
@@ -188,7 +206,7 @@ class Bestsellers extends React.Component {
                         <Accordion defaultActiveKey="0">
                                                 <Card>
                                                     <Card.Header>
-                                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                        <Accordion.Toggle className="view-more" as={Button} variant="link" eventKey="1">
                                                             View more...
                                                         </Accordion.Toggle>
                                                     </Card.Header>

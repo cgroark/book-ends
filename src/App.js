@@ -7,9 +7,6 @@ import SignOut from './components/signout';
 import BookForm from './components/bookform';
 import FindUser from './components/finduser';
 import FriendData from './components/friendData';
-import history from './history';
-
-
 
 class App extends React.Component {
   constructor(props){
@@ -22,9 +19,14 @@ class App extends React.Component {
         signup: false,
         newUser: false,
         customHome: false, 
+        pathname: ''
       }
   }
   componentDidMount = () => {
+    const pathname = window.location.pathname;
+    this.setState({
+      pathname: pathname
+    })
     if(localStorage.getItem('username')){
       let usernameData = localStorage.getItem('username');
       this.setState({
@@ -56,6 +58,11 @@ class App extends React.Component {
       })
     }
   }
+  getPathName = (pathname) => {
+    this.setState({
+      pathname: pathname
+    })
+  }
   showSignout = () => {
     this.setState({
       signOut: !this.state.signOut
@@ -77,7 +84,7 @@ class App extends React.Component {
     })
   }
   render(){
-    const { checkusername, savedusername, signOut, signIn, signup, customHome, newUser, friendForm, friendUser } = this.state;
+    const { checkusername, savedusername, signOut, signIn, signup, customHome, newUser, pathname} = this.state;
         let mainNav;
         mainNav =
           <Router>
@@ -87,8 +94,9 @@ class App extends React.Component {
                     <NavLink exact activeClassName="active" to="/">  <i className="fa fa-book" aria-hidden="true"></i></NavLink>
                     <NavLink exact activeClassName="active" to="/books" >Your books</NavLink>
                     <NavLink exact activeClassName="active" to="/friendsbooks" ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends</NavLink>
-                    {/* <a onClick={this.showFriendform} ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends</a> */}
-                    <a onClick={this.showSignout} >Sign out</a>
+                    {pathname === '/' &&
+                      <a onClick={this.showSignout} >Sign out</a>
+                    }
                   </React.Fragment>
                   </article>
                 }
@@ -102,10 +110,10 @@ class App extends React.Component {
                   </article>
                   }
                    <Switch>
-                    <Route exact path="/books" render={() => <BookForm name={savedusername}  />} />
-                    <Route exact path="/friendsbooks" render={() => <FindUser currentusername={savedusername}/>}/>
-                    <Route exact path="/friendsbooks/friend/:id" exact component={FriendData}/>
-                    <Route exact path="/"  render={() => <Home customHome={customHome} newUser={newUser} username={this.state.savedusername}/>} />
+                    <Route exact path="/books" render={() => <BookForm name={savedusername} pathname={this.getPathName}  />} />
+                    <Route exact path="/friendsbooks" render={() => <FindUser currentusername={savedusername} pathname={this.getPathName}/>}/>
+                    <Route exact path="/friendsbooks/friend/:id" exact component={FriendData} pathname={this.getPathName}/>
+                    <Route exact path="/"  render={() => <Home customHome={customHome} newUser={newUser} username={this.state.savedusername} pathname={this.getPathName}/>} />
                   </Switch>
           </Router>
     return(

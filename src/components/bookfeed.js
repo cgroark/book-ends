@@ -1,11 +1,8 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { Route, NavLink, Link, BrowserRouter as Router } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import moment from 'moment';
-import homeImage from '../images/mug-book.png';
-import Bestsellers from './bestsellers'
-import FindUser from './finduser';
-import FriendData from './friendData';
+
 
 
 class Bookfeed extends React.Component {
@@ -19,7 +16,7 @@ class Bookfeed extends React.Component {
         }
     }
     getAllData = () => {
-        fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351')
+        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98')
             .then( (response) => {
                 return response.json()
             }).then( (json) => {
@@ -73,7 +70,6 @@ class Bookfeed extends React.Component {
                 lastAuthor = allDone[allDone.length-1].author;
                 lastImage = allDone[allDone.length-1].image;
                 lastRec = allDone[allDone.length-1].rating;
-                console.log(lastTitle, lastAuthor, lastImage)
             }
             feedData.push(
                 {
@@ -91,31 +87,42 @@ class Bookfeed extends React.Component {
                 }
             )
         }
-        console.log('feed after', feedData)
         return feedData.map((each) => 
             <div key={each.first} className="feed-section">
                 <Row>
-                    <Col xs={9} >
+                    <Col xs={8} >
                     <h4>{each.first} {each.last} is reading:</h4>
                         <p><em>{each.currentTitle}</em> by {each.currentAuthor}</p>
                     </Col>
-                    <Col xs={3}>
-                        <img src={each.currentImg} alt={each.currentTitle} />
+                    <Col xs={4}>
+                        <span>{each.currentImg && each.currentImg !== 'null' ?
+                                    <img src={each.currentImg} alt={each.currentTitle} />
+                                    :
+                                    <i className="fa fa-book" aria-hidden="true"></i>
+                                }
+                        </span>
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={9} >
+                    <Col xs={8} >
                     <h4>{each.first} last read:</h4>
                         <p><em>{each.lastTitle}</em> by {each.lastAuthor}</p>
                         <p>{each.first}'s rating: ({each.lastRec})</p>
                     </Col>
-                    <Col xs={3}>
-                        <img src={each.lastImg} alt={each.lastTitle} />
+                    <Col xs={4}>
+                        <span>{each.lastImg && each.lastImg !== 'null' ?
+                                    <img src={each.lastImg} alt={each.lastTitle} />
+                                    :
+                                    <i className="fa fa-book" aria-hidden="true"></i>
+                                }
+                        </span>
                     </Col>
                 </Row>  
-                <Link to={'/friendsbooks/friend/'+each.first+'-'+each.last}>
-                    View {each.first}'s books
-                </Link>
+                <div className="feed-friend">
+                    <Link to={'/friendsbooks/friend/'+each.first+'-'+each.last}>
+                        View {each.first}'s books
+                    </Link>
+                </div>
             </div>
     )
     }
@@ -123,9 +130,10 @@ class Bookfeed extends React.Component {
         const { userData } = this.state;
         return(
             <div>
-                <h2>Book feed</h2>
+                
                 {userData.length > 0 &&
                 <div>
+                    <h2>Book feed</h2>
                     {this.renderBookFeed()}
                 </div>
                 }

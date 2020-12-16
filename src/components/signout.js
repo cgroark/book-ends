@@ -24,7 +24,6 @@ class SignOut extends React.Component {
         [e.target.name]: e.target.value
     })
     render(){
-        const {loggedout} = this.state;
         let pageContent;
             pageContent = 
             <div className="login">

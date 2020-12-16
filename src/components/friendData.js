@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Route, NavLink, Link, withRouter, useHistory, BrowserRouter as Router } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import Scrollspy from 'react-scrollspy';
 import {Accordion, Card, Button, Col, Row } from 'react-bootstrap';
 
@@ -17,8 +17,8 @@ class FriendData extends React.Component {
 
     }
     componentDidMount =(props) => {
+        // this.props.pathname(window.location.pathname)
         const {id} = this.props.match.params
-        console.log(id.toLowerCase().split('-')[0])
         this.setState({
             friendString: id.toLowerCase(),
             firstName: (id.toLowerCase().split('-')[0])[0].toUpperCase() + id.toLowerCase().split('-')[0].slice(1),
@@ -27,7 +27,7 @@ class FriendData extends React.Component {
         this.getAllData();
     }
     getAllData = () => {
-        fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351')
+        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98')
             .then( (response) => {
                 return response.json()
             }).then( (json) => {
@@ -39,7 +39,6 @@ class FriendData extends React.Component {
                 let last = this.state.friendString.split('-')[1];
                 let friendFirst = this.state.allData.filter(one => one.firstName === first && one.lastName === last);
                 let friendId = friendFirst[0].username;
-                console.log(friendId);
                 let friendData = this.state.allData.filter(one => one.username === friendId);
                 this.setState({
                     friendData: friendData
@@ -81,7 +80,7 @@ class FriendData extends React.Component {
                     {each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
-                                <i class="fa fa-book" aria-hidden="true"></i>
+                                <i className="fa fa-book" aria-hidden="true"></i>
                     }
                     </span>
                 </Col>
@@ -103,7 +102,7 @@ class FriendData extends React.Component {
                 {each.image && each.image !== 'null' ?
                     <img src={each.image} alt={each.title} />
                     :
-                    <i class="fa fa-book" aria-hidden="true"></i>
+                    <i className="fa fa-book" aria-hidden="true"></i>
                 }
             </Col>
             
@@ -139,7 +138,7 @@ class FriendData extends React.Component {
                             {each.image && each.image !== 'null' ?
                                 <img src={each.image} alt={each.title} />
                                 :
-                                <i class="fa fa-book" aria-hidden="true"></i>
+                                <i className="fa fa-book" aria-hidden="true"></i>
                             }
                             
                         </Col>
@@ -170,16 +169,18 @@ class FriendData extends React.Component {
     return(
             <div className="main-body">
                 {searchloading && 
-                    <div class="progress-infinite">
-                        <div class="progress-bar3" >
+                    <div className="progress-infinite">
+                        <div className="progress-bar3" >
                         </div>                       
                     </div> 
                 }
                 {bookCount > 1 &&
-                    <div>
-                        <Link to={'/friendsbooks'}>
-                            Find another friend
-                        </Link>
+                    <div className="find-again">
+                        <div>
+                            <Link to={'/friendsbooks'}>
+                                Find another friend
+                            </Link>
+                        </div>
                         <h2 id="friend-name">{firstName}'s book list</h2>
                     </div>
                 }

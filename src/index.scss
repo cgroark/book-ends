@@ -29,6 +29,8 @@ div.App {
     color: white;
     padding: 7px 12px 10px;
     font-size: 2.2rem;
+  }
+  .col-md-7 h2{
     margin: 30px 0;
   }
   img{
@@ -37,11 +39,24 @@ div.App {
   p{
     font-size: 1.3em
   }
+  a{
+    color: $color-darkblue;
+    text-decoration: underline;
+  }
   .bestsellers{
     p{
       margin-bottom: 0;
       font-size: .9rem;
     }
+  }
+  #current-home > div{
+    padding: 10px 15px;
+  }
+  .accordion .card .card-header .btn-link.view-more{
+    color: $color-darkblue !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-top: 20px;
   }
 }
 body {
@@ -126,15 +141,47 @@ code {
       border: 3px solid $color-purple; 
     }
   }
+  div.find-again div {
+    text-align: center;
+    margin: 20px;
+    a{
+      background-color: $color-purple;
+      color: white;
+      padding: 6px 10px 8px;
+      text-decoration: none;
+      border: 2px solid white;
+      &:hover{
+        border: 2px solid $color-purple;
+        color: white;
+        text-decoration: none;
+      }
+    }
+  }
 } 
 .feed-section{
   padding: 10px;
-  border-bottom: 3px solid purple;
+  border-bottom: 3px solid $color-purple;
   margin-bottom: 20px;
   .row{
     margin-bottom: 15px;
-    img{
-      max-width: 70%;
+    i.fa{
+      font-size: 5rem;
+    }
+  }
+  .feed-friend{
+    text-align: center;
+    margin-bottom: 10px;
+    a{
+      background-color: $color-darkblue;
+      color: white;
+      padding: 6px 10px 8px;
+      text-decoration: none;
+      border: 2px solid white;
+      &:hover{
+        border: 2px solid $color-darkblue;
+        color: white;
+        text-decoration: none;
+      }
     }
   }
 }
@@ -194,23 +241,25 @@ code {
   border: 3px solid white;
   color: white;
 }
-.div-button.friend{
-  width: 200px;
-  padding: 4px 0 6px;
+.found-friend button, .found-friend a{
+  width: 230px;
+  display: inline-block;
+  padding: 4px 20px 6px;
   background-color: white;
   font-size: .8em;
   font-weight: bold;
-  border: 3px solid $color-purple;
-  color: $color-purple;
+  border: 3px solid #834d8b;
+  color: #834d8b;
   margin: 20px 10px;
 }
 .div-button:hover{
   border: 3px solid $color-purple;
   cursor: pointer;
 }
-.div-button.friend:hover{
+.found-friend button:hover, .found-friend a:hover{
   background-color: $color-purple;
   color: white;
+  text-decoration: none;
 }
 .friend-results{
   margin-top: 15px;
@@ -302,6 +351,7 @@ h2#friend-name{
   .book-card img{
     margin-top: 10px;
     padding: 0;
+    max-width: 100%;
   }
 }
 #friend-form{
@@ -530,11 +580,19 @@ input#edit:hover, input.add-button:hover, .search-bar input:hover{
   }
 
 }
-
+.searchfriend-widget h2{
+  text-align: center;
+}
 
 .found-friend{
   margin-bottom: 20px;
   font-size: 1.3em;
+  p{
+      font-size: 1em;
+  }
+  hr{
+    width: 70%;
+  }
 }
 #search-results{
   .col-md-6 div.eachbook{
@@ -633,13 +691,14 @@ form.search-form{
 }
 @media only screen and (max-width: 576px) {
   .reading-now img{
-    max-width: unset;
+    max-width: 100%;
   }
   .navigation a{
     margin: 0px 1.6px 0 0;
     font-size: .9em;
     padding: 3px;
   }
+  
 }
 footer{
   height: 50px;

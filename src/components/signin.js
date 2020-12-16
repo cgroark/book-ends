@@ -23,7 +23,7 @@ class SignIn extends React.Component {
     componentDidMount = () => {
         this.getAllData()
         // let usernameData = localStorage.getItem('username');
-        let usernameData = this.props.username;
+        //let usernameData = this.props.username;
         // if(usernameData){
         //     console.log('username on load', usernameData)
         //     this.setState({
@@ -33,7 +33,7 @@ class SignIn extends React.Component {
         // }
     }
     getAllData = () => {
-        fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351')
+        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98')
             .then( (response) => {
                 return response.json()
             }).then( (json) => {

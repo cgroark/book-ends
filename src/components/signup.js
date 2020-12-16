@@ -54,7 +54,7 @@ class SignUp extends React.Component {
         this.setState({
             searchloading: true
         })
-        fetch('https://sheet.best/api/sheets/f1c6e2c7-2b3d-4f85-8e10-39c1cf415351', {
+        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98', {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ class SignUp extends React.Component {
         });
       }
       render(){
-        const { firstName, lastName, username, usernamedone, savedusername, checkusername, searchloading, done} = this.state;
+        const { firstName, lastName, username, searchloading, done} = this.state;
         const submitting = this.state.submitting;
         let pageContent;
         if(!done && !searchloading){
