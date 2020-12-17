@@ -57,7 +57,7 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameProps
             })
-            // this.getAllData();
+            this.getAllData();
             this.getGoogleAPI();
             
         }
@@ -67,7 +67,7 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameData
             })
-            // this.getAllData();
+            this.getAllData();
             this.getGoogleAPI();
         }
         // this.setState({username: this.props.name});
@@ -145,7 +145,7 @@ class BookForm extends React.Component {
                     allData: json
                 })
             }).then( () => {
-                let userData = this.state.allData.filter(one => one.username === this.state.username);
+                let userData = this.state.allData.filter(one => one.username === this.state.username && one.id !== 'null');
                 if(userData.length === 0){
                     this.setState({currentID: 1});
                 }else{
