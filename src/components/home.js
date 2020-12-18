@@ -85,7 +85,7 @@ class Home extends React.Component {
         if(this.props.customHome && !this.props.newUser){
           welcomeContent = 
             <div className="welcome-top">
-                <h1>Welcome back {this.props.username} </h1>
+                <h1>Welcome back </h1>
                 <p>View your <Link to='/books'>book list</Link> to make updates and add new books.</p>
                 <p><Link to={'/friendsbooks'}>Find friends and follow</Link> to see what they're reading and recommend. </p>
             </div>
@@ -93,7 +93,7 @@ class Home extends React.Component {
         }else if(this.props.newUser){
             welcomeContent =
                 <div className="welcome-top">
-                    <h1>Welcome to Book Ends {this.props.username} </h1>
+                    <h1>Welcome to Book Ends  </h1>
                     <p>View your <Link to='/books'>book list</Link> to make updates and add new books.</p>
                     <p><Link to={'/friendsbooks'}>Find friends and follow</Link> to see what they're reading and recommend. </p>
                 </div>
@@ -110,8 +110,9 @@ class Home extends React.Component {
                 <Row>
                 <Col md={7}>
                         {welcomeContent}
-                        {sideContent}
                         {homepageBreadcrumbs}
+                        {sideContent}
+                        
                         {this.props.customHome &&
                             <Bookfeed currentuser={savedusername}/>
                         }

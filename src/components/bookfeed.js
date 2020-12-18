@@ -90,11 +90,11 @@ class Bookfeed extends React.Component {
         return feedData.map((each) => 
             <div key={each.first} className="feed-section">
                 <Row>
-                    <Col xs={8} className="reading-now">
+                    <Col md={8} xs={7} className="reading-now">
                     <h4>{each.first} {each.last} is reading:</h4>
                         <p><em>{each.currentTitle}</em> by {each.currentAuthor}</p>
                     </Col>
-                    <Col xs={4}>
+                    <Col md={4} xs={5}>
                         <span>{each.currentImg && each.currentImg !== 'null' ?
                                     <img src={each.currentImg} alt={each.currentTitle} />
                                     :
@@ -104,12 +104,12 @@ class Bookfeed extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={8} className="last-read">
+                    <Col md={8} xs={7} className="last-read">
                     <h4>{each.first} last read:</h4>
                         <p><em>{each.lastTitle}</em> by {each.lastAuthor}</p>
                         <p>{each.first}'s rating: ({each.lastRec})</p>
                     </Col>
-                    <Col xs={4}>
+                    <Col md={4} xs={5}>
                         <span>{each.lastImg && each.lastImg !== 'null' ?
                                     <img src={each.lastImg} alt={each.lastTitle} />
                                     :
