@@ -707,6 +707,7 @@ form.search-form{
     display: none;
   }
 }
+
 @media only screen and (max-width: 768px) {
   
   .welcome{
@@ -788,7 +789,14 @@ form.search-form{
   .reading-now img{
     max-width: 100%;
   }
+  .App-header{   
+    height: 100px; 
+    h1{
+      font-size: 2.9rem;
+    }
+  } 
 }
+
 @media only screen and (max-width: 462px) {
   .navigation a{
     margin: 0px 8.6px 0 0;
