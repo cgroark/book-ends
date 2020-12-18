@@ -133,7 +133,12 @@ class FindUser extends React.Component {
             <div className="main-body">
                 
                 <div className="searchfriend-widget">
-                <h2>Search for friends</h2>
+                    <div className="main-top-section" >
+                        <div id="friends">
+                        <h1>Search for friends</h1>
+                        <p>View their books or follow them to keep track</p>
+                        </div>
+                    </div>
                 {searchloading && 
                     <div className="progress-infinite">
                         <div className="progress-bar3" >

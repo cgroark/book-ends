@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import Bestsellers from './bestsellers';
 import Bookfeed from './bookfeed';
+import Scrollspy from 'react-scrollspy';
 
 class Home extends React.Component {
     constructor(props){
@@ -42,41 +43,49 @@ class Home extends React.Component {
     }
     renderReading(){
         return this.state.allData.filter(each => each.username === this.props.username && each.status === "Currently-Reading").map((each) => 
-            <Row  key={each.id}>
-                <Col  xs={7}>
-                <div>
-                    <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3> 
-                </div>
-                <div >
-                    <h4>{each.author}</h4>
-                </div>
-                </Col>
-                <Col xs={5}>
-                    <span>{each.image && each.image !== 'null' ?
-                                <img src={each.image} alt={each.title} />
-                                :
-                                <i className="fa fa-book" aria-hidden="true"></i>
-                            }
-                    </span>
-                </Col>
-            </Row>
+            <Col key={each.id} xs={6}>
+                <span>{each.image && each.image !== 'null' ?
+                            <img src={each.image} alt={each.title} />
+                            :
+                            <i className="fa fa-book" aria-hidden="true"></i>
+                        }
+                </span>
+            </Col>
+        
         )
     }
     render(){
         const { savedusername} = this.state;
         let currentRead = this.state.allData.filter(each => each.username === this.props.username && each.status === "Currently-Reading");
+        let friendsNum = this.state.allData.filter(each => each.username === this.props.username && each.friends !== "null");
+        console.log('friends num', friendsNum)
         let welcomeContent;
         let sideContent;
+        let homepageBreadcrumbs = 
+            <div id="home-breadcrumbs">
+                <div className="page-nav">
+                    <Scrollspy items={ ['book-feed', 'best-sellers'] } currentClassName="is-current">
+                        {friendsNum.length > 1 &&
+                            <li><a href="#book-feed">Connections ></a></li>
+                        }
+                        <li><a href="#best-sellers">Bestsellers ></a></li>
+                    </Scrollspy>
+                </div>
+            </div>
         if(currentRead.length > 0 && this.props.customHome){
             sideContent =     
                 <div id="current-home">
-                    <h2>Currently reading</h2>
-                    {this.renderReading()}
+                    <Row>
+                        <Col xs={6}>
+                        <h3>You're currently reading:</h3>
+                        </Col>
+                        {this.renderReading()}
+                    </Row>
                 </div>
         }
         if(this.props.customHome && !this.props.newUser){
           welcomeContent = 
-            <div>
+            <div className="welcome-top">
                 <h1>Welcome back {this.props.username} </h1>
                 <p>View your <Link to='/books'>book list</Link> to make updates and add new books.</p>
                 <p><Link to={'/friendsbooks'}>Find friends and follow</Link> to see what they're reading and recommend. </p>
@@ -84,7 +93,7 @@ class Home extends React.Component {
             
         }else if(this.props.newUser){
             welcomeContent =
-                <div >
+                <div className="welcome-top">
                     <h1>Welcome to Book Ends {this.props.username} </h1>
                     <p>View your <Link to='/books'>book list</Link> to make updates and add new books.</p>
                     <p><Link to={'/friendsbooks'}>Find friends and follow</Link> to see what they're reading and recommend. </p>
@@ -92,7 +101,7 @@ class Home extends React.Component {
             
         }else{
             welcomeContent =
-                <div >
+                <div className="welcome-top">
                     <h1>Welcome to your new favorite reading tracker</h1>
                     <p>Login to view your books or sign-up to create an account and start your list of books.</p>
                 </div>
@@ -103,6 +112,7 @@ class Home extends React.Component {
                 <Col md={7}>
                         {welcomeContent}
                         {sideContent}
+                        {homepageBreadcrumbs}
                         {this.props.customHome &&
                             <Bookfeed currentuser={savedusername}/>
                         }

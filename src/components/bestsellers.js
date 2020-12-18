@@ -36,7 +36,7 @@ class Bestsellers extends React.Component {
         let fictionBests = this.state.nytFiction;
         let fictionSix = [];
         if(fictionBests.length>0){
-            for(var i=0;i<3;i++){
+            for(var i=0;i<6;i++){
                 fictionSix.push(fictionBests[i])
             }
        
@@ -72,7 +72,7 @@ class Bestsellers extends React.Component {
         let nonfictionSix = [];
         let nonfictionRest = [];
         if(nonfictionBests.length>0){
-            for(var i=0;i<3;i++){
+            for(var i=0;i<6;i++){
                 nonfictionSix.push(nonfictionBests[i])
             }
             return nonfictionSix.map((each) => 
@@ -106,7 +106,7 @@ class Bestsellers extends React.Component {
         let nonfictionBests = this.state.nytnonFiction;
         let nonfictionRest = [];
         if(nonfictionBests.length>0){
-            for(let i=3;i<15;i++){
+            for(let i=6;i<15;i++){
                 nonfictionRest.push(nonfictionBests[i])
             }
             return nonfictionRest.map((each) => 
@@ -140,7 +140,7 @@ class Bestsellers extends React.Component {
         let fictionBests = this.state.nytFiction;
         let fictionRest = [];
         if(fictionBests.length>0){
-            for(let i=3;i<15;i++){
+            for(let i=6;i<15;i++){
                 fictionRest.push(fictionBests[i])
             }
             return fictionRest.map((each) => 
@@ -176,8 +176,8 @@ class Bestsellers extends React.Component {
         return(
           <div>
                 {nytFiction && nytnonFiction &&
-                    <div>
-                        <h2>Current Bestsellers</h2>
+                    <div id="best-sellers">
+                        <h2>Bestsellers</h2>
                         <h3>Non-fiction</h3>
                         <Row>
                         {this.renderBestSellersnonFiction()}

@@ -184,7 +184,7 @@ class FriendData extends React.Component {
                         <h2 id="friend-name">{firstName}'s book list</h2>
                     </div>
                 }
-                <div id="page-nav">
+                <div className="page-nav">
                     <Scrollspy items={ ['currently-reading', 'finished', 'want-to-read'] } currentClassName="is-current">
                         {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
                             <li><a href="#currently-reading">Current ></a></li>

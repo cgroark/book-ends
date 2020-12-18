@@ -680,13 +680,13 @@ class BookForm extends React.Component {
         return(
             <div className="main-body">
                 {searchButton &&
-                <div>
+                <div className="main-top-section">
                     <h1>Your books</h1>
                     <p>Track your recent reads and search for new books below.</p>
                 </div>
                 }
                 {searchButton &&
-                <div id="page-nav">
+                <div className="page-nav">
                     <Scrollspy items={ ['currently-reading', 'finished', 'want-to-read'] } currentClassName="is-current">
                         {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
                             <li><a href="#currently-reading">Current ></a></li>

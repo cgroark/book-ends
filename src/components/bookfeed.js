@@ -90,7 +90,7 @@ class Bookfeed extends React.Component {
         return feedData.map((each) => 
             <div key={each.first} className="feed-section">
                 <Row>
-                    <Col xs={8} >
+                    <Col xs={8} className="reading-now">
                     <h4>{each.first} {each.last} is reading:</h4>
                         <p><em>{each.currentTitle}</em> by {each.currentAuthor}</p>
                     </Col>
@@ -104,7 +104,7 @@ class Bookfeed extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={8} >
+                    <Col xs={8} className="last-read">
                     <h4>{each.first} last read:</h4>
                         <p><em>{each.lastTitle}</em> by {each.lastAuthor}</p>
                         <p>{each.first}'s rating: ({each.lastRec})</p>
@@ -130,10 +130,9 @@ class Bookfeed extends React.Component {
         const { userData } = this.state;
         return(
             <div>
-                
                 {userData.length > 0 &&
-                <div>
-                    <h2>Book feed</h2>
+                <div id="book-feed">
+                    <h2>Your connections</h2>
                     {this.renderBookFeed()}
                 </div>
                 }
