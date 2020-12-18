@@ -28,7 +28,7 @@ class Home extends React.Component {
     }
   
     getAllData = () => {
-        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98')
+        fetch('https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219')
             .then( (response) => {
                 return response.json()
             }).then( (json) => {
@@ -58,7 +58,6 @@ class Home extends React.Component {
         const { savedusername} = this.state;
         let currentRead = this.state.allData.filter(each => each.username === this.props.username && each.status === "Currently-Reading");
         let friendsNum = this.state.allData.filter(each => each.username === this.props.username && each.friends !== "null");
-        console.log('friends num', friendsNum)
         let welcomeContent;
         let sideContent;
         let homepageBreadcrumbs = 

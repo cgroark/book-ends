@@ -108,7 +108,7 @@ class BookForm extends React.Component {
         });
     }
     getGoogleAPI = () => {
-        fetch('https://spreadsheets.google.com/feeds/cells/11zB8deXSzMsPUlBUMwmv5MpHIuDPjGvjtr5qawIVq-A/1/public/full?alt=json')
+        fetch('https://spreadsheets.google.com/feeds/cells/1nXgoXOrplAx-Yx_N-pH6zFBvDYQFzmmD85oDBgSnSRc/1/public/full?alt=json')
             .then( (response) => {
                 return response.json()
             }).then( (json) => {
@@ -137,7 +137,7 @@ class BookForm extends React.Component {
             })
     }
     getAllData = () => {
-        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98')
+        fetch('https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219')
             .then( (response) => {
                 return response.json()
             }).then( (json) => {
@@ -297,7 +297,7 @@ class BookForm extends React.Component {
             searchloading: true,
             form: false,
         })
-        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98', {
+        fetch('https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219', {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -362,7 +362,7 @@ class BookForm extends React.Component {
             searchloading: true,
             form: false
         })
-        fetch('https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98/id/'+this.state.bookid, {
+        fetch('https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219/id/'+this.state.bookid, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -447,7 +447,7 @@ class BookForm extends React.Component {
             form: false,
             editing: false
         })
-        fetch("https://sheet.best/api/sheets/2cbcb2a3-9df8-40e6-846b-fcb784df5c98/id/"+this.state.bookid, {
+        fetch("https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219/id/"+this.state.bookid, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
