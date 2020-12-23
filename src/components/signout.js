@@ -20,6 +20,9 @@ class SignOut extends React.Component {
         this.props.updateNav();
         this.props.showSignout();
     }
+    closeSignOut = () => {
+        this.props.showSignout()
+    }
     handleChange = e => this.setState({
         [e.target.name]: e.target.value
     })
@@ -27,6 +30,7 @@ class SignOut extends React.Component {
         let pageContent;
             pageContent = 
             <div className="login">
+                <div className="close-button"><button  onClick={this.closeSignOut}>x</button></div>
                 <p><strong>Are you sure you want to sign out?</strong></p> 
                 <div className="div-button" onClick={this.handleClear}>Sign me out</div>       
             </div>

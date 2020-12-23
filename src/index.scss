@@ -103,7 +103,7 @@ code {
     monospace;
 }
 .App-header {
-  background-image: url(./images/book-stack.jpeg);
+  background-image: url(./images/book-pile.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -114,7 +114,6 @@ code {
   color: white;
   h1{
     font-size: 6.5rem;
-    text-shadow: 4px 4px black;
     font-family: 'Bungee Shade', cursive;
   }
 }
@@ -299,7 +298,7 @@ code {
 
 .login{
   text-align: center;
-  #error{
+  .error{
     color: red;
   }
 }
@@ -551,13 +550,13 @@ input[type="submit"].delete:hover{
 #delete-section{
   text-align: center;
 }
-#close-button{
+.close-button{
   text-align: right;
-  padding: 0px 20px 0;
+  padding: 0px 10px 0;
   button{
-    margin-bottom: 10px;
+    margin-bottom: 3px;
     border: solid 2px white;
-    padding: 2px 15px 5px;
+    padding: 0 11px 2px;
     background-color: $color-purple;
     color: white;
   }
@@ -815,7 +814,7 @@ form.search-form{
 }
 @media only screen and (max-width: 370px) {
   .navigation a{
-    margin: 0px 5.6px 0 0;
+    margin: 0px 4.6px 0 0;
     font-size: .7em;
     padding: 3px 0 3px;
   }

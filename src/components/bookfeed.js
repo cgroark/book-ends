@@ -103,6 +103,7 @@ class Bookfeed extends React.Component {
                         </span>
                     </Col>
                 </Row>
+                {each.lastTitle &&
                 <Row>
                     <Col md={8} xs={7} className="last-read">
                     <h4>{each.first} last read:</h4>
@@ -118,6 +119,7 @@ class Bookfeed extends React.Component {
                         </span>
                     </Col>
                 </Row>  
+                }
                 <div className="feed-friend">
                     <Link to={'/friendsbooks/friend/'+each.first+'-'+each.last}>
                         View {each.first}'s books

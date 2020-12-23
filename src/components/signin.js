@@ -69,6 +69,9 @@ class SignIn extends React.Component {
             searchloading: false
         })
     }
+    closeSignIn = () => {
+        this.props.showSignin();
+    }
       render(){
         const { username, usernamedone, savedusername, checkusername, searchloading, done, usernamefound, usernamenotfound} = this.state;
         const submitting = this.state.submitting;
@@ -78,33 +81,31 @@ class SignIn extends React.Component {
             <div className="login">
                     <p>Looks like you are already signed in as {savedusername}</p>
                     <p>Not {savedusername} or want to sign up another user? Logout and then login or sign-up.</p>
-                    
             </div>
         }else if(done){
             pageContent = 
             <div className="login">
-                        <p>Thanks for signing in {usernamedone}</p>
-                        
+                        <p>Thanks for signing in {usernamedone}</p>         
             </div>
         }else if(usernamefound && !searchloading){
             pageContent = 
             <div className="login">
                         <h3>Welcome back {username}</h3>
-                        <p>Use the navigation to view your book list, make updates, add new books.</p>   
-                         
+                        <p>Use the navigation to view your book list, make updates, add new books.</p>       
             </div>
         }
         else{
             pageContent =
             <div className="login">
             <form onSubmit={this.handleSubmit} className={submitting ? 'loading' : 'submit-form'}>
+            <div className="close-button"><button  onClick={this.closeSignIn}>x</button></div>
                 <p>
                     <label>Enter your username: <br />
                         <input type="text" name="username" value={username}  onChange={this.handleChange} />
                     </label>
                 </p>
                 {usernamenotfound &&
-                    <p id="error">Username not found. Search again.</p>
+                    <p className="error">Username not found. Search again.</p>
                 }
                 <input type='submit'  disabled={submitting} value='Sign In'></input>
                 

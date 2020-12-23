@@ -730,7 +730,7 @@ class BookForm extends React.Component {
                         </div>
                         }
                         
-                        <div id="close-button"><button  onClick={this.removeForm}>x</button>
+                        <div className="close-button"><button  onClick={this.removeForm}>x</button>
                         </div>
                     </div>
                 }
