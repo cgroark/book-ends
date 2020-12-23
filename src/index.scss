@@ -157,7 +157,7 @@ code {
   .sign-widget{
     z-index: 2000;
     position: absolute;
-    top: 356px;
+    top: 317px;
     right: calc(((100vw - 1100px) / 2) + 35px);
     padding: 20px;
     border: solid 2px black;
@@ -291,6 +291,10 @@ code {
           padding: 0 3px 0 0;
           font-size: .9em;
   }
+  .page-nav ul li a{
+    font-size: 1em;
+    padding: 0 5px 0 0;
+}
 }
 
 .login{
@@ -530,7 +534,7 @@ input[type="submit"].delete{
   background-color: transparent;
   color: #333;
   border-bottom: solid red 4px;
-  width: 110px;
+  width: 180px;
   height: inherit;
   margin-top: -50px;
 }
@@ -741,10 +745,10 @@ form.search-form{
     }
   } 
   .navigation a{
-      margin: 0 10px;
+      margin: 0 6px;
       font-size: 1em;
       display: inline-block;
-      padding: 6px;
+      padding: 4px;
       color: $color-purple;
       border-bottom: 2px solid white;
       text-decoration: none;
@@ -778,7 +782,7 @@ form.search-form{
       font-size: 1.1rem;
     }
     .sign-widget{
-      top: 240px;
+      top: 185px;
     }
     .main-top-section h1 {
       font-size: 2.2rem;
@@ -795,21 +799,32 @@ form.search-form{
       font-size: 2.9rem;
     }
   } 
+  .main-body { 
+    .sign-widget{
+    top: 150px;
+    }
+  }
 }
 
 @media only screen and (max-width: 462px) {
   .navigation a{
-    margin: 0px 8.6px 0 0;
-    font-size: .9em;
+    margin: 0px 3.6px 0 0;
+    font-size: .8em;
     padding: 3px;
   }
 }
 @media only screen and (max-width: 370px) {
   .navigation a{
-    margin: 0px 6.6px 0 0;
-    font-size: .9em;
+    margin: 0px 5.6px 0 0;
+    font-size: .7em;
     padding: 3px 0 3px;
   }
+  .App-header{   
+    height: 100px; 
+    h1{
+      font-size: 2.5rem;
+    }
+  } 
 }
 footer{
   height: 50px;
