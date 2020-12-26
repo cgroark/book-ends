@@ -156,6 +156,7 @@ class BookForm extends React.Component {
                     let sortedIDs= allIDs.sort((b, a) => b - a)
                     let newID = sortedIDs[allIDs.length -1] + 1;
                     this.setState({currentID: newID})
+                    console.log('newID', newID)
                 } 
             }).then( () => {
                 this.setState({

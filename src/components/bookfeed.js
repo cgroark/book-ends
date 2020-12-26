@@ -89,6 +89,7 @@ class Bookfeed extends React.Component {
         }
         return feedData.map((each) => 
             <div key={each.first} className="feed-section">
+                {each.currentTitle &&
                 <Row>
                     <Col md={8} xs={7} className="reading-now">
                     <h4>{each.first} {each.last} is reading:</h4>
@@ -103,10 +104,15 @@ class Bookfeed extends React.Component {
                         </span>
                     </Col>
                 </Row>
+                }
                 {each.lastTitle &&
                 <Row>
                     <Col md={8} xs={7} className="last-read">
-                    <h4>{each.first} last read:</h4>
+                    <h4>{each.first} {!each.currentTitle &&
+                        <span>{each.last} </span>
+                    }
+                    
+                    last read:</h4>
                         <p><em>{each.lastTitle}</em> by {each.lastAuthor}</p>
                         <p>{each.first}'s rating: ({each.lastRec})</p>
                     </Col>
@@ -121,6 +127,12 @@ class Bookfeed extends React.Component {
                 </Row>  
                 }
                 <div className="feed-friend">
+                {!each.lastTitle && !each.currentTitle &&
+                    <div>
+                    <h4>{each.first} {each.last} does not have any recent updates</h4>
+                    <p>&nbsp;</p>
+                    </div>
+                }
                     <Link to={'/friendsbooks/friend/'+each.first+'-'+each.last}>
                         View {each.first}'s books
                     </Link>

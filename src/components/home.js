@@ -76,7 +76,7 @@ class Home extends React.Component {
                 <div id="current-home">
                     <Row>
                         <Col xs={6}>
-                        <h3>You're currently reading:</h3>
+                        <h3>You're reading:</h3>
                         </Col>
                         {this.renderReading()}
                     </Row>
@@ -101,7 +101,7 @@ class Home extends React.Component {
         }else{
             welcomeContent =
                 <div className="welcome-top">
-                    <h1>Welcome to your new favorite reading tracker</h1>
+                    <h1>Welcome to your favorite book tracker</h1>
                     <p>Login to view your books or sign-up to create an account and start your list of books.</p>
                 </div>
         }

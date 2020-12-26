@@ -345,11 +345,16 @@ code {
       display: inline-block;
       padding: 10px;
       color: $color-purple !important;
-      border-bottom: 2px solid white;
+      border-bottom: 3px solid white;
       text-decoration: none;
     }
-    a:hover, a.active{
-      border-bottom: 2px solid $color-purple;
+    a:hover{
+      border-bottom: 3px solid $color-darkblue;
+      text-decoration: none;
+      color: $color-purple;
+    }
+    a.active{
+      border-bottom: 3px solid $color-purple;
       text-decoration: none;
       color: $color-purple;
     }
