@@ -47,7 +47,9 @@ class Home extends React.Component {
                 <span>{each.image && each.image !== 'null' ?
                             <img src={each.image} alt={each.title} />
                             :
-                            <i className="fa fa-book" aria-hidden="true"></i>
+                            <div>
+                                <h3><em>{each.title}</em></h3>
+                            </div>
                         }
                 </span>
             </Col>

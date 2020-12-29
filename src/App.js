@@ -70,12 +70,21 @@ class App extends React.Component {
   }
   showSignin = () => {
     this.setState({
-      signIn: !this.state.signIn
+      signIn: !this.state.signIn,
+      signup: false
     })
   }
   showSignup = () => {
     this.setState({
-      signup: !this.state.signup
+      signup: !this.state.signup,
+      signIn: false
+    })
+  }
+  showHome = () => {
+    this.setState({
+      signup: false,
+      signIn: false,
+      signOut: false
     })
   }
   newUser = () => {
@@ -91,7 +100,7 @@ class App extends React.Component {
                 {checkusername &&
                   <article className="navigation">
                     <React.Fragment>
-                    <NavLink exact activeClassName="active" to="/"><i className="fa fa-book" aria-hidden="true"></i>&nbsp;Home</NavLink>
+                    <NavLink exact activeClassName="active" to="/" onClick={this.showHome}><i className="fa fa-book" aria-hidden="true"></i>&nbsp;Home</NavLink>
                     <NavLink exact activeClassName="active" to="/books" >Your books</NavLink>
                     <NavLink exact activeClassName="active" to="/friendsbooks" ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends</NavLink>
                     {pathname === '/' &&
@@ -103,7 +112,7 @@ class App extends React.Component {
                   {!checkusername &&
                   <article className="navigation">
                     <React.Fragment>
-                      <NavLink exact activeClassName="active" to="/"><i className="fa fa-book" aria-hidden="true"></i>&nbsp;Home</NavLink>
+                      <NavLink exact activeClassName="active" to="/" onClick={this.showHome}><i className="fa fa-book" aria-hidden="true"></i>&nbsp;Home</NavLink>
                       <a onClick={this.showSignin} >Login</a>
                       <a onClick={this.showSignup} >Sign up</a>
                     </React.Fragment>

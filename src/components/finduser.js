@@ -16,7 +16,8 @@ class FindUser extends React.Component {
             pickedUser: '',
             submitting: false,
             searchloading: false,
-            selectedFirst: ''
+            selectedFirst: '',
+            currentFriends: []
         }
 
     }
@@ -56,7 +57,8 @@ class FindUser extends React.Component {
             showForm: true,
             showResults: true,
             selectedFirst: '',
-            friendData: []
+            friendData: [],
+            currentFriends: []
         })
     }
     friendAdd(user, first, currentusername){
@@ -88,17 +90,18 @@ class FindUser extends React.Component {
                 method: 'POST',
                 body: JSON.stringify(dataSend)
             }).then( (response) => {
+                let allMyFriends = this.state.currentFriends.concat(user)
                 this.setState({
                     searchloading: false,
-                    done: true
+                    done: true,
+                    currentFriends: allMyFriends
                 })
-                
                 return response.json()
-               
+                
             });
     }
     renderFriend(){
-        let currentFriends = [];
+        let currentFriends = this.state.currentFriends;
         function capFirstLetter(string){
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
@@ -108,6 +111,7 @@ class FindUser extends React.Component {
                 currentFriends.push(usersFriends[f].friends)
             } 
         }
+        console.log('re render?', currentFriends)
         return this.state.allData.filter(friend => friend.lastName === this.state.pickedUser.toLowerCase() && friend.username !== this.props.currentusername).map((each) => 
             <div key={each.id} className="found-friend">
                 <h4>{capFirstLetter(each.firstName)} {capFirstLetter(each.lastName)}</h4>

@@ -94,7 +94,7 @@ div.App {
 }
 body {
   margin-bottom: 50px;
-  font-family: 'Jura', sans-serif;
+  font-family: 'Jura', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -196,6 +196,31 @@ code {
         color: white;
         text-decoration: none;
       }
+    }
+  }
+  #complete-book.render {
+    visibility: hidden;
+    opacity: 0;
+    transition: 0;
+    height: 0;
+  }
+  #complete-book.show{
+    visibility: visible;
+    opacity: 1;
+    text-align: center;
+    border: solid 3px $color-purple;
+    padding: 12px 10px 10px;
+    width: 300px;
+    background-color: #dedcdce6;
+    transition: all 1s ease;
+    position: absolute;
+    min-height: 180px;
+    top: 300px;
+    left: 50%;
+    margin-left: -150px;
+    z-index: 10000000;
+    h4{
+      font-weight: 700;
     }
   }
 } 
@@ -809,7 +834,14 @@ form.search-form{
     .main-top-section h1 {
       font-size: 2rem;
     }
+    #complete-book.show {
+      width: 250px;
+      margin-left: -125px;
+      h4{
+          font-size: 1.4rem;
+      }
   }
+}
 }
 @media only screen and (max-width: 576px) {
   .reading-now img{
