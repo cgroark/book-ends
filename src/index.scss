@@ -467,7 +467,21 @@ h2#friend-name{
     color: $color-darkblue;
   }
 }
-
+#booklist #finished .accordion#twentytwenty {
+    border-bottom: 2px solid purple;
+    border-top: 2px solid purple;
+      > .card{
+        border-radius: 0;
+        > .card-header{
+          padding: 20px 10px;
+         > button{
+            font-size: 1.9rem;
+            font-weight: 900;
+            text-decoration: none;
+          }
+      }
+    } 
+}
 .accordion{
   .card{
     border: none;
