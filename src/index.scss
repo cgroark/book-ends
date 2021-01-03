@@ -150,6 +150,9 @@ code {
   #currently-reading,#finished, #want-to-read {
     padding-top: 30px;
   }
+  #currently-reading > .row,#finished > .row, #want-to-read > .row {
+    padding: 0 15px;
+  }
   p{
     font-size: 1.5em;
   }
@@ -475,13 +478,14 @@ h2#friend-name{
         > .card-header{
           padding: 20px 10px;
          > button{
-            font-size: 1.9rem;
+            font-size: 1.8rem;
             font-weight: 900;
             text-decoration: none;
           }
       }
     } 
 }
+
 .accordion{
   .card{
     border: none;
@@ -855,6 +859,11 @@ form.search-form{
           font-size: 1.4rem;
       }
   }
+}
+#booklist #finished .accordion#twentytwenty > .card > .card-header > button {
+  font-size: 1.3rem;
+  font-weight: 900;
+  text-decoration: none;
 }
 }
 @media only screen and (max-width: 576px) {

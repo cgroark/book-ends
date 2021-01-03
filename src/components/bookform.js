@@ -619,12 +619,8 @@ class BookForm extends React.Component {
         )
     }
     renderFinishedData(){
-        console.log('current date', moment('2010-10-20').isBefore('2010-10-21'))
         let twentytwentyBooks = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBefore('2020-12-31'))
-        
         return twentytwentyBooks.sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
-            
-                
                 <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
                     <Row>
