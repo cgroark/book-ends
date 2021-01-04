@@ -1,6 +1,24 @@
 import React from 'react';
-import { Row, Col, Accordion, Card, Button } from 'react-bootstrap';
+import { Row, Col, Accordion, Card, Button, AccordionContext, useAccordionToggle  } from 'react-bootstrap';
 
+
+function CustomToggle({ children, eventKey, callback }) {
+    const currentEventKey = React.useContext(AccordionContext);
+    const decoratedOnClick = useAccordionToggle(
+      eventKey,
+      () => callback && callback(eventKey)
+    );
+  const isCurrentEventKey = currentEventKey === eventKey;
+  return (
+      <button
+        type="button"
+        className={isCurrentEventKey ? "open" : "closed" }
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </button>
+    );
+  }
 class Bestsellers extends React.Component {
     constructor(props){
         super(props);
@@ -48,17 +66,17 @@ class Bestsellers extends React.Component {
                     <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                     <div className="summary-reading">
                         {each.description && each.description !== 'null' ? 
-                                    <Accordion defaultActiveKey="0">
-                                                <Card>
-                                                    <Card.Header>
-                                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                                            Summary
-                                                        </Accordion.Toggle>
-                                                    </Card.Header>
-                                                    <Accordion.Collapse eventKey="1">
-                                                        <Card.Body><p>{each.description}</p></Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
+                                    <Accordion>
+                                        <Card>
+                                            <Card.Header>
+                                                    <CustomToggle eventKey={each.primary_isbn13}>
+                                                    Summary
+                                                </CustomToggle>
+                                            </Card.Header>
+                                            <Accordion.Collapse eventKey={each.primary_isbn13}>
+                                                <Card.Body><p>{each.description}</p></Card.Body>
+                                            </Accordion.Collapse>
+                                        </Card>
                                     </Accordion>  
                                     : 
                                 <p>(No summary available)</p> }
@@ -83,17 +101,17 @@ class Bestsellers extends React.Component {
                     <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                     <div className="summary-reading">
                         {each.description && each.description !== 'null' ? 
-                                    <Accordion defaultActiveKey="0">
-                                                <Card>
-                                                    <Card.Header>
-                                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                                            Summary
-                                                        </Accordion.Toggle>
-                                                    </Card.Header>
-                                                    <Accordion.Collapse eventKey="1">
-                                                        <Card.Body><p>{each.description}</p></Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
+                                    <Accordion>
+                                        <Card>
+                                            <Card.Header>
+                                                    <CustomToggle eventKey={each.primary_isbn13}>
+                                                    Summary
+                                                </CustomToggle>
+                                            </Card.Header>
+                                            <Accordion.Collapse eventKey={each.primary_isbn13}>
+                                                <Card.Body><p>{each.description}</p></Card.Body>
+                                            </Accordion.Collapse>
+                                        </Card>
                                     </Accordion>  
                                     : 
                                 <p>(No summary available)</p> }
@@ -117,14 +135,14 @@ class Bestsellers extends React.Component {
                     <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                     <div className="summary-reading">
                         {each.description && each.description !== 'null' ? 
-                                    <Accordion defaultActiveKey="0">
+                                    <Accordion>
                                                 <Card>
                                                     <Card.Header>
-                                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                         <CustomToggle eventKey={each.primary_isbn13}>
                                                             Summary
-                                                        </Accordion.Toggle>
+                                                        </CustomToggle>
                                                     </Card.Header>
-                                                    <Accordion.Collapse eventKey="1">
+                                                    <Accordion.Collapse eventKey={each.primary_isbn13}>
                                                         <Card.Body><p>{each.description}</p></Card.Body>
                                                     </Accordion.Collapse>
                                                 </Card>
@@ -151,14 +169,14 @@ class Bestsellers extends React.Component {
                     <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                     <div className="summary-reading">
                         {each.description && each.description !== 'null' ? 
-                                    <Accordion defaultActiveKey="0">
+                                    <Accordion>
                                                 <Card>
                                                     <Card.Header>
-                                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                         <CustomToggle eventKey={each.primary_isbn13}>
                                                             Summary
-                                                        </Accordion.Toggle>
+                                                        </CustomToggle>
                                                     </Card.Header>
-                                                    <Accordion.Collapse eventKey="1">
+                                                    <Accordion.Collapse eventKey={each.primary_isbn13}>
                                                         <Card.Body><p>{each.description}</p></Card.Body>
                                                     </Accordion.Collapse>
                                                 </Card>
@@ -170,6 +188,7 @@ class Bestsellers extends React.Component {
             )
         }
     }
+
     render(){
         const { nytFiction, nytnonFiction } = this.state;
         
@@ -182,33 +201,39 @@ class Bestsellers extends React.Component {
                         <Row>
                         {this.renderBestSellersnonFiction()}
                         </Row>
-                        <Accordion defaultActiveKey="0">
-                                                <Card>
-                                                    <Card.Header>
-                                                        <Accordion.Toggle className="view-more" as={Button} variant="link" eventKey="1">
-                                                            View more...
-                                                        </Accordion.Toggle>
-                                                    </Card.Header>
-                                                    <Accordion.Collapse eventKey="1">
-                                                        <Card.Body>
-                                                            <Row>
-                                                                {this.renderRestBestSellersnonFiction()}
-                                                            </Row>
-                                                        </Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
+                        <Accordion>
+                            <Card>
+                                <Card.Header>
+                                    <CustomToggle eventKey="0">
+                                        View more...
+                                    </CustomToggle>
+                                    {/* <Accordion.Toggle className="view-more" as={Button} variant="link" eventKey="1">
+                                        View more...
+                                    </Accordion.Toggle> */}
+                                </Card.Header>
+                                <Accordion.Collapse eventKey="0">
+                                    <Card.Body>
+                                        <Row>
+                                            {this.renderRestBestSellersnonFiction()}
+                                        </Row>
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
                         </Accordion>  
                         <hr></hr>
                         <h3>Fiction</h3>
                         <Row>
                         {this.renderBestSellersFiction()}
                         </Row>
-                        <Accordion defaultActiveKey="0">
+                        <Accordion>
                                                 <Card>
                                                     <Card.Header>
-                                                        <Accordion.Toggle className="view-more" as={Button} variant="link" eventKey="1">
+                                                    <CustomToggle eventKey="1">
+                                                        View more...
+                                                    </CustomToggle>
+                                                        {/* <Accordion.Toggle className="view-more" as={Button} variant="link" eventKey="1">
                                                             View more...
-                                                        </Accordion.Toggle>
+                                                        </Accordion.Toggle> */}
                                                     </Card.Header>
                                                     <Accordion.Collapse eventKey="1">
                                                         <Card.Body>
