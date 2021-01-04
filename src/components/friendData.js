@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Link} from 'react-router-dom';
 import Scrollspy from 'react-scrollspy';
 import { Row, Col, Accordion, Card, Button, AccordionContext, useAccordionToggle  } from 'react-bootstrap';
+import { conditionalExpression } from '@babel/types';
 
 function CustomToggle({ children, eventKey, callback }) {
     const currentEventKey = React.useContext(AccordionContext);
@@ -40,8 +41,7 @@ class FriendData extends React.Component {
         const {id} = this.props.match.params
         this.setState({
             friendString: id.toLowerCase(),
-            firstName: (id.toLowerCase().split('-')[0])[0].toUpperCase() + id.toLowerCase().split('-')[0].slice(1),
-            searchloading: false
+            firstName: (id.toLowerCase().split('-')[0])[0].toUpperCase() + id.toLowerCase().split('-')[0].slice(1)
         })
         this.getAllData();
     }
@@ -51,7 +51,8 @@ class FriendData extends React.Component {
                 return response.json()
             }).then( (json) => {
                 this.setState({
-                    allData: json
+                    allData: json,
+                    searchloading: false
                 })
             }).then( () => {
                 let first = this.state.friendString.split('-')[0];
@@ -224,6 +225,7 @@ class FriendData extends React.Component {
     const { friendData, searchloading, firstName} = this.state;
     const allBooks = friendData;
     const bookCount = friendData.length;
+    console.log(bookCount, 'bookcount', allBooks)
     let twentytwentyBooks = friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2020-12-31'));
     let twentytwentyOneBooks = friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2021-12-31'))
     return(
@@ -234,21 +236,22 @@ class FriendData extends React.Component {
                         </div>                       
                     </div> 
                 }
-            
-                <div className="find-again">
-                    <div>
-                        <Link to={'/friendsbooks'}>
-                            Find another friend
-                        </Link>
+                {!searchloading &&
+                    <div className="find-again">
+                        <div>
+                            <Link to={'/friendsbooks'}>
+                                Find another friend
+                            </Link>
+                            <div>
+                                {bookCount > 1 ?
+                                    <h2 id="friend-name">{firstName}'s book list</h2>
+                                    :
+                                    <h2 id="friend-name">{firstName} has not added anything to their list</h2>
+                                }
+                            </div>
+                        </div>
                     </div>
-                    {bookCount && bookCount > 1 ?
-                    <h2 id="friend-name">{firstName}'s book list</h2>
-                    :
-                    <h2 id="friend-name">{firstName} has not added anything to their list</h2>
-                    }
-
-                </div>
-
+                }
                 <div className="page-nav">
                     <Scrollspy items={ ['currently-reading', 'finished', 'want-to-read'] } currentClassName="is-current">
                         {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
