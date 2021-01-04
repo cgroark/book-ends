@@ -69,7 +69,12 @@ class Bookfeed extends React.Component {
                 lastTitle = allDone[allDone.length-1].title;
                 lastAuthor = allDone[allDone.length-1].author;
                 lastImage = allDone[allDone.length-1].image;
-                lastRec = allDone[allDone.length-1].rating;
+                if(allDone[allDone.length-1].rating !== 'select-rating'){
+                    lastRec = allDone[allDone.length-1].rating;
+                }else{
+                    lastRec = 'Not rated'
+                }
+                
             }
             feedData.push(
                 {
@@ -114,7 +119,7 @@ class Bookfeed extends React.Component {
                     
                     last read:</h4>
                         <p><em>{each.lastTitle}</em> by {each.lastAuthor}</p>
-                        <p>{each.first}'s rating: ({each.lastRec})</p>
+                        <p>{each.first}'s rating: {each.lastRec}</p>
                     </Col>
                     <Col md={4} xs={5}>
                         <span>{each.lastImg && each.lastImg !== 'null' ?

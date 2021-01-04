@@ -24,6 +24,21 @@ div.App {
     min-height: 60vh;
   }
 }
+.accordion .card .card-header button{
+  font-size: 1.1rem;
+  background-color: #fff;
+  border: none;
+  padding: 5px 0 0;
+  &:focus{
+    outline: none;
+  }
+  &.closed:after{
+    content: " +"
+  }
+  &.open:after{
+    content: " -"
+  }
+}
 .welcome{
   margin-top: 50px !important;
   text-align: left;
@@ -85,35 +100,15 @@ div.App {
   #current-home > div{
     padding: 10px 15px;
   }
-  .accordion .card .card-header button{
-    background-color: #fff;
-    border: none;
-    &:focus{
-      outline: none;
-    }
-    &.closed:after{
-      content: " +"
-    }
-    &.open:after{
-      content: " -"
-    }
+
+  #best-sellers .bestsellers{
+    margin-bottom: 10px;
   }
-  #best-sellers > .accordion .card .card-header {
+  #best-sellers > .accordion > .card > .card-header > button {
     color: $color-darkblue !important;
     font-weight: bold;
     font-size: 1.5rem;
     margin-top: 20px;
-    background-color: #fff;
-    border: none;
-    &:focus{
-      outline: none;
-    }
-    &.closed:after{
-      content: " +"
-    }
-    &.open:after{
-      content: " -"
-    }
   }
 }
 body {
@@ -471,7 +466,6 @@ a:hover{
 h2#friend-name{
   font-size: 2.4rem;
   border-top: none;
-  font-weight: 700;
   background-color: $color-purple;
   color: white;
   padding: 20px;

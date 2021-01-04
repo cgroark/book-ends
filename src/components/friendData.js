@@ -2,7 +2,26 @@ import React from 'react';
 import moment from 'moment';
 import { Link} from 'react-router-dom';
 import Scrollspy from 'react-scrollspy';
-import {Accordion, Card, Button, Col, Row } from 'react-bootstrap';
+import { Row, Col, Accordion, Card, Button, AccordionContext, useAccordionToggle  } from 'react-bootstrap';
+
+function CustomToggle({ children, eventKey, callback }) {
+    const currentEventKey = React.useContext(AccordionContext);
+    const decoratedOnClick = useAccordionToggle(
+      eventKey,
+      () => callback && callback(eventKey)
+    );
+  const isCurrentEventKey = currentEventKey === eventKey;
+  return (
+      <button
+        type="button"
+        className={isCurrentEventKey ? "open" : "closed" }
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </button>
+    );
+  }
+
 
 class FriendData extends React.Component {
     constructor(props){
@@ -62,11 +81,11 @@ class FriendData extends React.Component {
                                         <Accordion defaultActiveKey="0">
                                                     <Card>
                                                         <Card.Header>
-                                                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                                                Read summary
-                                                            </Accordion.Toggle>
+                                                            <CustomToggle eventKey={each.id}>
+                                                                Summary
+                                                            </CustomToggle>
                                                         </Card.Header>
-                                                        <Accordion.Collapse eventKey="1">
+                                                        <Accordion.Collapse eventKey={each.id}>
                                                             <Card.Body><p>{each.overview}</p></Card.Body>
                                                         </Accordion.Collapse>
                                                     </Card>
@@ -112,11 +131,11 @@ class FriendData extends React.Component {
             <Accordion defaultActiveKey="0">
                         <Card>
                             <Card.Header>
-                                <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                    Read summary
-                                </Accordion.Toggle>
+                            <CustomToggle eventKey={each.id}>
+                                Summary
+                            </CustomToggle>
                             </Card.Header>
-                            <Accordion.Collapse eventKey="1">
+                            <Accordion.Collapse eventKey={each.id}>
                                 <Card.Body><p>{each.overview}</p></Card.Body>
                             </Accordion.Collapse>
                         </Card>
@@ -150,11 +169,11 @@ class FriendData extends React.Component {
             <Accordion defaultActiveKey="0">
                         <Card>
                             <Card.Header>
-                                <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                    Read summary
-                                </Accordion.Toggle>
+                            <CustomToggle eventKey={each.id}>
+                                 Summary
+                            </CustomToggle>
                             </Card.Header>
-                            <Accordion.Collapse eventKey="1">
+                            <Accordion.Collapse eventKey={each.id}>
                                 <Card.Body><p>{each.overview}</p></Card.Body>
                             </Accordion.Collapse>
                         </Card>
@@ -187,11 +206,11 @@ class FriendData extends React.Component {
                         <Accordion defaultActiveKey="0">
                                     <Card>
                                         <Card.Header>
-                                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                                Read summary
-                                            </Accordion.Toggle>
+                                        <CustomToggle eventKey={each.id}>
+                                            Summary
+                                        </CustomToggle>
                                         </Card.Header>
-                                        <Accordion.Collapse eventKey="1">
+                                        <Accordion.Collapse eventKey={each.id}>
                                             <Card.Body><p>{each.overview}</p></Card.Body>
                                         </Accordion.Collapse>
                                     </Card>
@@ -215,16 +234,21 @@ class FriendData extends React.Component {
                         </div>                       
                     </div> 
                 }
-                {bookCount > 1 &&
-                    <div className="find-again">
-                        <div>
-                            <Link to={'/friendsbooks'}>
-                                Find another friend
-                            </Link>
-                        </div>
-                        <h2 id="friend-name">{firstName}'s book list</h2>
+            
+                <div className="find-again">
+                    <div>
+                        <Link to={'/friendsbooks'}>
+                            Find another friend
+                        </Link>
                     </div>
-                }
+                    {bookCount && bookCount > 1 ?
+                    <h2 id="friend-name">{firstName}'s book list</h2>
+                    :
+                    <h2 id="friend-name">{firstName} has not added anything to their list</h2>
+                    }
+
+                </div>
+
                 <div className="page-nav">
                     <Scrollspy items={ ['currently-reading', 'finished', 'want-to-read'] } currentClassName="is-current">
                         {bookCount > 1 && allBooks.filter(book => book.status === "Currently-Reading").length > 0 &&
@@ -262,11 +286,11 @@ class FriendData extends React.Component {
                                 <Accordion defaultActiveKey="0" id="twentytwenty" >
                                 <Card >
                                     <Card.Header>
-                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                            2020 Books
-                                        </Accordion.Toggle>
+                                    <CustomToggle eventKey='2020books'>
+                                        2020 Books
+                                    </CustomToggle>
                                     </Card.Header>
-                                    <Accordion.Collapse eventKey="1">
+                                    <Accordion.Collapse eventKey='2020books'>
                                         <Card.Body>
                                             <Row >
                                                 {this.renderFinishedData()}

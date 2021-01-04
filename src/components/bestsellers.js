@@ -69,7 +69,7 @@ class Bestsellers extends React.Component {
                                     <Accordion>
                                         <Card>
                                             <Card.Header>
-                                                    <CustomToggle eventKey={each.primary_isbn13}>
+                                                <CustomToggle eventKey={each.primary_isbn13}>
                                                     Summary
                                                 </CustomToggle>
                                             </Card.Header>
@@ -169,20 +169,20 @@ class Bestsellers extends React.Component {
                     <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
                     <div className="summary-reading">
                         {each.description && each.description !== 'null' ? 
-                                    <Accordion>
-                                                <Card>
-                                                    <Card.Header>
-                                                         <CustomToggle eventKey={each.primary_isbn13}>
-                                                            Summary
-                                                        </CustomToggle>
-                                                    </Card.Header>
-                                                    <Accordion.Collapse eventKey={each.primary_isbn13}>
-                                                        <Card.Body><p>{each.description}</p></Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
-                                    </Accordion>  
-                                    : 
-                                <p>(No summary available)</p> }
+                            <Accordion>
+                                <Card>
+                                    <Card.Header>
+                                            <CustomToggle eventKey={each.primary_isbn13}>
+                                            Summary
+                                        </CustomToggle>
+                                    </Card.Header>
+                                    <Accordion.Collapse eventKey={each.primary_isbn13}>
+                                        <Card.Body><p>{each.description}</p></Card.Body>
+                                    </Accordion.Collapse>
+                                </Card>
+                            </Accordion>  
+                            : 
+                        <p>(No summary available)</p> }
                 </div>
                 </Col>
             )
@@ -205,10 +205,10 @@ class Bestsellers extends React.Component {
                             <Card>
                                 <Card.Header>
                                     <CustomToggle eventKey="0">
-                                        View more...
+                                        View more
                                     </CustomToggle>
                                     {/* <Accordion.Toggle className="view-more" as={Button} variant="link" eventKey="1">
-                                        View more...
+                                        View more
                                     </Accordion.Toggle> */}
                                 </Card.Header>
                                 <Accordion.Collapse eventKey="0">
@@ -226,23 +226,20 @@ class Bestsellers extends React.Component {
                         {this.renderBestSellersFiction()}
                         </Row>
                         <Accordion>
-                                                <Card>
-                                                    <Card.Header>
-                                                    <CustomToggle eventKey="1">
-                                                        View more...
-                                                    </CustomToggle>
-                                                        {/* <Accordion.Toggle className="view-more" as={Button} variant="link" eventKey="1">
-                                                            View more...
-                                                        </Accordion.Toggle> */}
-                                                    </Card.Header>
-                                                    <Accordion.Collapse eventKey="1">
-                                                        <Card.Body>
-                                                            <Row>
-                                                                {this.renderRestBestSellersFiction()}
-                                                            </Row>
-                                                        </Card.Body>
-                                                    </Accordion.Collapse>
-                                                </Card>
+                            <Card>
+                                <Card.Header>
+                                <CustomToggle eventKey="1">
+                                    View more
+                                </CustomToggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey="1">
+                                    <Card.Body>
+                                        <Row>
+                                            {this.renderRestBestSellersFiction()}
+                                        </Row>
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
                         </Accordion>  
                     </div>
                 }

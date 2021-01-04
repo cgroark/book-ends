@@ -1,10 +1,27 @@
 import React from 'react';
-import { Row, Col, Accordion, Card, Button } from 'react-bootstrap';
+import { Row, Col, Accordion, Card, Button, AccordionContext, useAccordionToggle  } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 import Scrollspy from 'react-scrollspy';
 import "react-datepicker/dist/react-datepicker.css";
 
+function CustomToggle({ children, eventKey, callback }) {
+    const currentEventKey = React.useContext(AccordionContext);
+    const decoratedOnClick = useAccordionToggle(
+      eventKey,
+      () => callback && callback(eventKey)
+    );
+  const isCurrentEventKey = currentEventKey === eventKey;
+  return (
+      <button
+        type="button"
+        className={isCurrentEventKey ? "open" : "closed" }
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </button>
+    );
+  }
 
 class BookForm extends React.Component {
     constructor(props){
@@ -603,11 +620,11 @@ class BookForm extends React.Component {
                                     <Accordion defaultActiveKey="0">
                                                 <Card>
                                                     <Card.Header>
-                                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                                        <CustomToggle eventKey={each.id}>
                                                             Summary
-                                                        </Accordion.Toggle>
+                                                        </CustomToggle>
                                                     </Card.Header>
-                                                    <Accordion.Collapse eventKey="1">
+                                                    <Accordion.Collapse eventKey={each.id}>
                                                         <Card.Body><p>{each.overview}</p></Card.Body>
                                                     </Accordion.Collapse>
                                                 </Card>
@@ -649,11 +666,11 @@ class BookForm extends React.Component {
                         <Accordion defaultActiveKey="0">
                                     <Card>
                                         <Card.Header>
-                                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                            <CustomToggle eventKey={each.id}>
                                                 Summary
-                                            </Accordion.Toggle>
+                                            </CustomToggle>
                                         </Card.Header>
-                                        <Accordion.Collapse eventKey="1">
+                                        <Accordion.Collapse eventKey={each.id}>
                                             <Card.Body><p>{each.overview}</p></Card.Body>
                                         </Accordion.Collapse>
                                     </Card>
@@ -695,11 +712,11 @@ class BookForm extends React.Component {
                         <Accordion defaultActiveKey="0">
                                     <Card>
                                         <Card.Header>
-                                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                            <CustomToggle eventKey={each.id}>
                                                 Summary
-                                            </Accordion.Toggle>
+                                            </CustomToggle>
                                         </Card.Header>
-                                        <Accordion.Collapse eventKey="1">
+                                        <Accordion.Collapse eventKey={each.id}>
                                             <Card.Body><p>{each.overview}</p></Card.Body>
                                         </Accordion.Collapse>
                                     </Card>
@@ -739,11 +756,11 @@ class BookForm extends React.Component {
                         <Accordion defaultActiveKey="0">
                                     <Card>
                                         <Card.Header>
-                                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                            <CustomToggle eventKey={each.id}>
                                                 Summary
-                                            </Accordion.Toggle>
+                                            </CustomToggle>
                                         </Card.Header>
-                                        <Accordion.Collapse eventKey="1">
+                                        <Accordion.Collapse eventKey={each.id}>
                                             <Card.Body><p>{each.overview}</p></Card.Body>
                                         </Accordion.Collapse>
                                     </Card>
@@ -971,11 +988,11 @@ class BookForm extends React.Component {
                                 <Accordion defaultActiveKey="0" id="twentytwenty" >
                                 <Card >
                                     <Card.Header>
-                                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                        <CustomToggle eventKey='2020books'>
                                             2020 Books
-                                        </Accordion.Toggle>
+                                        </CustomToggle>
                                     </Card.Header>
-                                    <Accordion.Collapse eventKey="1">
+                                    <Accordion.Collapse eventKey='2020books'>
                                         <Card.Body>
                                             <Row >
                                                 {this.renderFinishedData()}
