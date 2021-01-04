@@ -29,7 +29,7 @@ class FindUser extends React.Component {
     }
 
     handleChange = e => this.setState({
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value.trim()
     })
     handleSubmit = (event) => {
         event.preventDefault()
@@ -62,7 +62,6 @@ class FindUser extends React.Component {
         })
     }
     friendAdd(user, first, currentusername){
-        console.log('username to follow', user, currentusername);
             const dataSend = {
                 firstName: 'null',
                 lastName: 'null',
@@ -111,7 +110,6 @@ class FindUser extends React.Component {
                 currentFriends.push(usersFriends[f].friends)
             } 
         }
-        console.log('re render?', currentFriends)
         return this.state.allData.filter(friend => friend.lastName === this.state.pickedUser.toLowerCase() && friend.username !== this.props.currentusername).map((each) => 
             <div key={each.id} className="found-friend">
                 <h4>{capFirstLetter(each.firstName)} {capFirstLetter(each.lastName)}</h4>

@@ -15,7 +15,6 @@ class SignUp extends React.Component {
             usernamedone: '',
             bookid: '',
             searchloading: false,
-            failedValidationCheck: false,
             failedDupCheck: false,
             requiredFirst: false,
             requiredLast: false,
@@ -48,32 +47,15 @@ class SignUp extends React.Component {
         this.setState({checkusername: false})
     }
     handleChange = e => this.setState({
-        [e.target.name]: e.target.value,
+        [e.target.name]: e.target.value.trim(),
         failedDupCheck: false,
-        failedValidationCheck: false,
         requiredFirst: false,
         requiredLast: false,
         requiredUser: false
  
     })
     handleSubmit = event => {
-        let failedValidation = false;
         let failedDup = false;
-        for(var i=0; i<this.state.username.length; i++){
-            if(this.state.username[i] === ' '){
-                failedValidation = true;
-            }
-        }
-        for(var i=0; i<this.state.lastName.length; i++){
-            if(this.state.lastName[i] === ' '){
-                failedValidation = true;
-            }
-        }
-        for(var i=0; i<this.state.firstName.length; i++){
-            if(this.state.firstName[i] === ' '){
-                failedValidation = true;
-            }
-        }
         for(var e = 0; e<this.state.allData.length; e++){
             if(this.state.allData[e].username === this.state.username && this.state.username !== '' ){
                 failedDup = true;
@@ -83,12 +65,6 @@ class SignUp extends React.Component {
             this.setState({
                 failedDupCheck: true,
                 username: '',
-            })
-            event.preventDefault()
-        }
-        else if(failedValidation === true){
-            this.setState({
-                failedValidationCheck: true
             })
             event.preventDefault()
         }else if(this.state.firstName === '' || this.state.lastName === '' || this.state.username === ''){
@@ -111,8 +87,7 @@ class SignUp extends React.Component {
         }
         else{
             this.setState({
-                failedDupCheck: false,
-                failedValidationCheck: false
+                failedDupCheck: false
             })
             const dataSend = {
                 firstName: this.state.firstName.toLowerCase(),
@@ -162,7 +137,7 @@ class SignUp extends React.Component {
         this.props.showSignup();
       }
       render(){
-        const { firstName, lastName, username, searchloading, done, failedValidationCheck, failedDupCheck} = this.state;
+        const { firstName, lastName, username, searchloading, done, failedDupCheck} = this.state;
         const submitting = this.state.submitting;
         let pageContent;
         if(!done && !searchloading){
@@ -194,9 +169,7 @@ class SignUp extends React.Component {
                         <input type="text" name="username" value={username}  onChange={this.handleChange} />
                     </label>
                 </p>
-                {failedValidationCheck &&
-                    <p className="error">Fields may not contain any spaces</p>
-                }
+                
                 {failedDupCheck &&
                     <p className="error">Username {username} already exists</p>
                 }
