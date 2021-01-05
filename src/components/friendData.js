@@ -225,7 +225,7 @@ class FriendData extends React.Component {
     const { friendData, searchloading, firstName} = this.state;
     const allBooks = friendData;
     const bookCount = friendData.length;
-    console.log(bookCount, 'bookcount', allBooks)
+
     let twentytwentyBooks = friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2020-12-31'));
     let twentytwentyOneBooks = friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2021-12-31'))
     return(

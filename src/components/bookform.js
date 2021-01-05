@@ -76,7 +76,7 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameProps
             })
-            this.getAllData();
+            // this.getAllData();
             this.getGoogleAPI();
             
         }
@@ -86,7 +86,7 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameData
             })
-            this.getAllData();
+            // this.getAllData();
             this.getGoogleAPI();
         }
         // this.setState({username: this.props.name});
@@ -141,8 +141,9 @@ class BookForm extends React.Component {
                     this.setState({currentID: 1});
                 }else{
                     let allIDs =[];
-                    for(var b=0 ; b<userData.length ; b++){
-                        allIDs.push(parseInt(userData[b].id.split('id=')[1]));
+                    let userIDsReal = userData.filter(each => each.id !== 'null')
+                    for(var b=0 ; b<userIDsReal.length ; b++){
+                        allIDs.push(parseInt(userIDsReal[b].id.split('id=')[1]));
                     }
                     let sortedIDs= allIDs.sort((b, a) => b - a)
                     let newID = sortedIDs[allIDs.length -1] + 1;
@@ -155,35 +156,35 @@ class BookForm extends React.Component {
                 });
             })
     }
-    getAllData = () => {
-        fetch('https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219')
-            .then( (response) => {
-                return response.json()
-            }).then( (json) => {
-                this.setState({
-                    allData: json
-                })
-            }).then( () => {
-                let userData = this.state.allData.filter(one => one.username === this.state.username && one.id !== 'null');
-                if(userData.length === 0){
-                    this.setState({currentID: 1});
-                }else{
-                    let allIDs =[];
-                    for(var b=0 ; b<userData.length ; b++){
-                        allIDs.push(parseInt(userData[b].id.split('id=')[1]));
-                    }
-                    let sortedIDs= allIDs.sort((b, a) => b - a)
-                    let newID = sortedIDs[allIDs.length -1] + 1;
-                    this.setState({currentID: newID})
-                    console.log('newID', newID)
-                } 
-            }).then( () => {
-                this.setState({
-                    searchloading: false,
-                    searchButton: true
-                });
-            })
-    }
+    // getAllData = () => {
+    //     fetch('https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219')
+    //         .then( (response) => {
+    //             return response.json()
+    //         }).then( (json) => {
+    //             this.setState({
+    //                 allData: json
+    //             })
+    //         }).then( () => {
+    //             let userData = this.state.allData.filter(one => one.username === this.state.username && one.id !== 'null');
+    //             if(userData.length === 0){
+    //                 this.setState({currentID: 1});
+    //             }else{
+    //                 let allIDs =[];
+    //                 for(var b=0 ; b<userData.length ; b++){
+    //                     allIDs.push(parseInt(userData[b].id.split('id=')[1]));
+    //                 }
+    //                 let sortedIDs= allIDs.sort((b, a) => b - a)
+    //                 let newID = sortedIDs[allIDs.length -1] + 1;
+    //                 this.setState({currentID: newID})
+    //                 console.log('newID', newID)
+    //             } 
+    //         }).then( () => {
+    //             this.setState({
+    //                 searchloading: false,
+    //                 searchButton: true
+    //             });
+    //         })
+    // }
     handleSearch = (e) =>{
         e.preventDefault()
         this.setState({
@@ -350,7 +351,7 @@ class BookForm extends React.Component {
     updateBook = (each, e) =>{  
         var updateRating = each.rating === 'select-rating' ? 'select-rating' : each.rating;
         var dateUpdating = each.status === 'Finished' ? moment(each.date).toDate() : moment().toDate();
-        console.log('updating ' + each.title + ' with status of '+ each.status + 'to date of ' + dateUpdating)
+
         this.setState({
             books: false,
             currentlyReading: false,
@@ -440,7 +441,6 @@ class BookForm extends React.Component {
         }    
     }
     handleChange = e => {
-        console.log(e)
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -461,7 +461,9 @@ class BookForm extends React.Component {
         }
     }
     handleDateChange = date => {
-        this.setState({date: date})
+        if(moment(date).isValid()){
+            this.setState({date: date})
+        }
     }
     updateStatus = e => {
         this.setState({
