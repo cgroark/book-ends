@@ -76,7 +76,6 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameProps
             })
-            // this.getAllData();
             this.getGoogleAPI();
             
         }
@@ -86,11 +85,8 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameData
             })
-            // this.getAllData();
             this.getGoogleAPI();
-        }
-        // this.setState({username: this.props.name});
-        
+        }        
     }
     sortData = () =>{
         const allDataSorted = [];
@@ -156,35 +152,7 @@ class BookForm extends React.Component {
                 });
             })
     }
-    // getAllData = () => {
-    //     fetch('https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219')
-    //         .then( (response) => {
-    //             return response.json()
-    //         }).then( (json) => {
-    //             this.setState({
-    //                 allData: json
-    //             })
-    //         }).then( () => {
-    //             let userData = this.state.allData.filter(one => one.username === this.state.username && one.id !== 'null');
-    //             if(userData.length === 0){
-    //                 this.setState({currentID: 1});
-    //             }else{
-    //                 let allIDs =[];
-    //                 for(var b=0 ; b<userData.length ; b++){
-    //                     allIDs.push(parseInt(userData[b].id.split('id=')[1]));
-    //                 }
-    //                 let sortedIDs= allIDs.sort((b, a) => b - a)
-    //                 let newID = sortedIDs[allIDs.length -1] + 1;
-    //                 this.setState({currentID: newID})
-    //                 console.log('newID', newID)
-    //             } 
-    //         }).then( () => {
-    //             this.setState({
-    //                 searchloading: false,
-    //                 searchButton: true
-    //             });
-    //         })
-    // }
+
     handleSearch = (e) =>{
         e.preventDefault()
         this.setState({
@@ -638,7 +606,7 @@ class BookForm extends React.Component {
         )
     }
     renderFinishedData(){
-        let twentytwentyBooks = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBefore('2020-12-31'))
+        let twentytwentyBooks = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBefore('2021-01-01'))
         return twentytwentyBooks.sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
@@ -684,7 +652,7 @@ class BookForm extends React.Component {
         )
     }
     renderFinishedDatatwentytwentyone(){
-        let twentytwentyOneBooks = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isAfter('2020-12-31'))
+        let twentytwentyOneBooks = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2021-01-01'))
         return twentytwentyOneBooks.sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
@@ -790,8 +758,8 @@ class BookForm extends React.Component {
     const { completeAdd, completeEdit, format, checking, submitting, author, title, status, sortedData, date, query, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
     const allBooks = sortedData.filter(book => book.username === this.state.username)
     const bookCount = sortedData.filter(book => book.username === this.state.username).length;
-    let twentytwentyBooks = sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBefore('2020-12-31'));
-    let twentytwentyOneBooks = sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBefore('2021-12-31'))
+    let twentytwentyBooks = sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBefore('2021-01-01'));
+    let twentytwentyOneBooks = sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2021-01-01'))
         return(
             <div className="main-body">
                 {searchButton &&

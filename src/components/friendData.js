@@ -109,7 +109,7 @@ class FriendData extends React.Component {
         )
     }
     renderFinishedData(){
-        let twentytwentyBooks = this.state.friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2020-12-31'))
+        let twentytwentyBooks = this.state.friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2021-01-01'))
         return twentytwentyBooks.sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
         <Col key={each.id} className="book-card" md={4} sm={6}>
         <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
@@ -147,7 +147,7 @@ class FriendData extends React.Component {
         )
     }
     renderFinishedDatatwentytwentyone(){
-        let twentytwentyOneBooks = this.state.friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isAfter('2020-12-31'))
+        let twentytwentyOneBooks = this.state.friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2021-01-01'))
         return twentytwentyOneBooks.sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
         <Col key={each.id} className="book-card" md={4} sm={6}>
         <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
@@ -225,9 +225,8 @@ class FriendData extends React.Component {
     const { friendData, searchloading, firstName} = this.state;
     const allBooks = friendData;
     const bookCount = friendData.length;
-
-    let twentytwentyBooks = friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2020-12-31'));
-    let twentytwentyOneBooks = friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2021-12-31'))
+    let twentytwentyBooks = friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2021-01-01'));
+    let twentytwentyOneBooks = friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2021-01-01'))
     return(
             <div className="main-body">
                 {searchloading && 
