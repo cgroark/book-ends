@@ -607,7 +607,7 @@ class BookForm extends React.Component {
     }
     renderFinishedData(){
         let twentytwentyBooks = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBefore('2021-01-01'))
-        return twentytwentyBooks.sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
+        return twentytwentyBooks.sort((b,a) => new moment(a.date) - new moment(b.date)).map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
                     <Row>
@@ -653,7 +653,7 @@ class BookForm extends React.Component {
     }
     renderFinishedDatatwentytwentyone(){
         let twentytwentyOneBooks = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2021-01-01'))
-        return twentytwentyOneBooks.sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
+        return twentytwentyOneBooks.sort((b,a) => new moment(a.date) - new moment(b.date)).map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
                     <Row>
@@ -740,6 +740,49 @@ class BookForm extends React.Component {
                 </Col>
         )
     }
+    renderStarted(){
+        return this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Started").map((each) => 
+                <Col key={each.id} className="book-card" md={4} sm={6}>
+                     <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
+                    <Row>
+                        <Col xs={8}>
+                            <h4>{each.author}</h4>
+                            <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                            {!this.state.form &&
+                                <div>
+                                    <label htmlFor="edit"></label>
+                                    <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
+                                </div>
+                            }
+                        </Col>
+                        <Col xs={4}>
+                            {each.image && each.image !== 'null' ?
+                                <img src={each.image} alt={each.title} />
+                                :
+                                <i className="fa fa-book" aria-hidden="true"></i>
+                            }
+                            
+                        </Col>
+                        
+                    </Row>
+                    {each.overview && each.overview !== 'null' ? 
+                        <Accordion defaultActiveKey="0">
+                                    <Card>
+                                        <Card.Header>
+                                            <CustomToggle eventKey={each.id}>
+                                                Summary
+                                            </CustomToggle>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey={each.id}>
+                                            <Card.Body><p>{each.overview}</p></Card.Body>
+                                        </Accordion.Collapse>
+                                    </Card>
+                        </Accordion>  
+                        : 
+                    <p>(No summary available)</p> }
+                </Col>
+        )
+    }
     removeCompleteAdd = () => {
         this.setState({
             completeAdd: false,
@@ -749,7 +792,7 @@ class BookForm extends React.Component {
     renderCompleteAdd = () => {
         return <div >
             <div className="close-button"><button  onClick={this.removeCompleteAdd}>x</button></div>
-            <h4>You've just {this.state.completeAdd ? 'added' : 'edited'} <em><strong>{this.state.tempTitle}</strong></em></h4>
+            <h4>You've just {this.state.completeAdd ? 'added' : 'updated'} <em><strong>{this.state.tempTitle}</strong></em></h4>
         </div>
         
     }
@@ -779,6 +822,9 @@ class BookForm extends React.Component {
                         }
                         {bookCount > 1 && allBooks.filter(book => book.status === "Want-to-read").length > 0 &&
                             <li><a href="#want-to-read">Book list ></a></li> 
+                        }
+                        {bookCount > 1 && allBooks.filter(book => book.status === "Started").length > 0 &&
+                            <li><a href="#started">Put aside... ></a></li> 
                         }
                     </Scrollspy>
                 </div>
@@ -894,6 +940,7 @@ class BookForm extends React.Component {
                                         <option value="Finished">Finished</option>
                                         <option value="Currently-Reading">Currently reading</option>
                                         <option value="Want-to-read">Want to read</option>
+                                        <option value="Started">Started...and put it down</option>
                                     </select>
                                 </label>
                             </Col>
@@ -980,6 +1027,14 @@ class BookForm extends React.Component {
                             <h2 >Books I want to read</h2>
                             <Row>
                                 {this.renderWantData()}
+                            </Row>
+                        </div>
+                     }
+                     {bookCount > 1 && allBooks.filter(book => book.status === "Started").length > 0 &&
+                        <div id="started">
+                            <h2 >Books I put aside for now...</h2>
+                            <Row>
+                                {this.renderStarted()}
                             </Row>
                         </div>
                      }

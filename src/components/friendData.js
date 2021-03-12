@@ -68,31 +68,18 @@ class FriendData extends React.Component {
     renderReading(){
         return this.state.friendData.filter(book => book.status === "Currently-Reading").map((each) => 
         <Col sm={6} key={each.id}  >
-            <div >
-            <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3> 
-            </div>
+            
             <Row>
                 <Col xs={7}>
+                <div >
+                    <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3> 
+                </div>
                     <div className="summary-reading">
                         <div >
                             <h4>{each.author}</h4>
                             <a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a>
                         </div>
-                            {each.overview && each.overview !== 'null' ? 
-                                        <Accordion defaultActiveKey="0">
-                                                    <Card>
-                                                        <Card.Header>
-                                                            <CustomToggle eventKey={each.id}>
-                                                                Summary
-                                                            </CustomToggle>
-                                                        </Card.Header>
-                                                        <Accordion.Collapse eventKey={each.id}>
-                                                            <Card.Body><p>{each.overview}</p></Card.Body>
-                                                        </Accordion.Collapse>
-                                                    </Card>
-                                        </Accordion>  
-                                        : 
-                                    <p>(No summary available)</p> }
+                            
                         </div>
                 </Col>
                 <Col xs={5}>
@@ -104,13 +91,32 @@ class FriendData extends React.Component {
                     }
                     </span>
                 </Col>
+                <Col xs={12}>
+                <div className="summary-reading">
+                    {each.overview && each.overview !== 'null' ? 
+                                            <Accordion defaultActiveKey="0">
+                                                        <Card>
+                                                            <Card.Header>
+                                                                <CustomToggle eventKey={each.id}>
+                                                                    Summary
+                                                                </CustomToggle>
+                                                            </Card.Header>
+                                                            <Accordion.Collapse eventKey={each.id}>
+                                                                <Card.Body><p>{each.overview}</p></Card.Body>
+                                                            </Accordion.Collapse>
+                                                        </Card>
+                                            </Accordion>  
+                     : 
+                     <p>(No summary available)</p> }
+                </div>
+                </Col>
             </Row>
         </Col>
         )
     }
     renderFinishedData(){
         let twentytwentyBooks = this.state.friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2021-01-01'))
-        return twentytwentyBooks.sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
+        return twentytwentyBooks.sort((b,a) => new moment(a.date) - new moment(b.date)).map((each) => 
         <Col key={each.id} className="book-card" md={4} sm={6}>
         <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
         <Row>
@@ -148,7 +154,7 @@ class FriendData extends React.Component {
     }
     renderFinishedDatatwentytwentyone(){
         let twentytwentyOneBooks = this.state.friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2021-01-01'))
-        return twentytwentyOneBooks.sort((a,b) => new moment(a.date) - new moment(b.date)).map((each) => 
+        return twentytwentyOneBooks.sort((b,a) => new moment(a.date) - new moment(b.date)).map((each) => 
         <Col key={each.id} className="book-card" md={4} sm={6}>
         <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
         <Row>
@@ -186,6 +192,43 @@ class FriendData extends React.Component {
     }
     renderWantData(){
         return this.state.friendData.filter(one => one.title && one.status === "Want-to-read").map((each) => 
+                <Col key={each.id} className="book-card" md={4} sm={6}>
+                     <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
+                    <Row>
+                        <Col xs={8}>
+                            <h4>{each.author}</h4>
+                            <p className="card-smaller"><a className="thrift-link" href={"https://www.thriftbooks.com/browse/?b.search="+each.title+' ' +each.author} target="_blank" rel="noopener noreferrer"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></p>
+                        </Col>
+                        <Col xs={4}>
+                            {each.image && each.image !== 'null' ?
+                                <img src={each.image} alt={each.title} />
+                                :
+                                <i className="fa fa-book" aria-hidden="true"></i>
+                            }
+                            
+                        </Col>
+                        
+                    </Row>
+                    {each.overview && each.overview !== 'null' ? 
+                        <Accordion defaultActiveKey="0">
+                                    <Card>
+                                        <Card.Header>
+                                        <CustomToggle eventKey={each.id}>
+                                            Summary
+                                        </CustomToggle>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey={each.id}>
+                                            <Card.Body><p>{each.overview}</p></Card.Body>
+                                        </Accordion.Collapse>
+                                    </Card>
+                        </Accordion>  
+                        : 
+                    <p>(No summary available)</p> }
+                </Col>
+        )
+    }
+    renderStartedData(){
+        return this.state.friendData.filter(one => one.title && one.status === "Started").map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
                     <Row>
@@ -262,6 +305,9 @@ class FriendData extends React.Component {
                         {bookCount > 1 && allBooks.filter(book => book.status === "Want-to-read").length > 0 &&
                             <li><a href="#want-to-read">Book list ></a></li> 
                         }
+                        {bookCount > 1 && allBooks.filter(book => book.status === "Started").length > 0 &&
+                            <li><a href="#started">Put aside... ></a></li> 
+                        }
                     </Scrollspy>
                 </div>
                 
@@ -309,6 +355,14 @@ class FriendData extends React.Component {
                             <h2>Books {firstName} wants to read</h2>
                             <Row>
                                 {this.renderWantData()}
+                            </Row>
+                        </div>
+                    }
+                    {bookCount > 1 && allBooks.filter(book => book.status === "Started").length > 0 &&
+                        <div id="started">
+                            <h2>Books {firstName} started and put aside for now...</h2>
+                            <Row>
+                                {this.renderStartedData()}
                             </Row>
                         </div>
                     }
