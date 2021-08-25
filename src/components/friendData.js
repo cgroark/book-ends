@@ -54,6 +54,7 @@ class FriendData extends React.Component {
                     allData: json,
                     searchloading: false
                 })
+                console.log('friend data', json)
             }).then( () => {
                 let first = this.state.friendString.split('-')[0];
                 let last = this.state.friendString.split('-')[1];
@@ -63,6 +64,7 @@ class FriendData extends React.Component {
                 this.setState({
                     friendData: friendData
                 });
+                console.log('friend data parsed', friendData)
             })
     }
     renderReading(){

@@ -76,7 +76,8 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameProps
             })
-            this.getGoogleAPI();
+            // this.getGoogleAPI();
+            this.updatedGoogleAPI();
             
         }
         else if(usernameData){
@@ -85,50 +86,75 @@ class BookForm extends React.Component {
                 checkusername: true,
                 username: usernameData
             })
-            this.getGoogleAPI();
+            // this.getGoogleAPI();
+            this.updatedGoogleAPI();
         }        
     }
+    // sortData = () =>{
+    //     const allDataSorted = [];
+    //     const firstName = this.state.googleAPIData.filter(firstName => firstName.gs$cell.col === "1");
+    //     const lastName = this.state.googleAPIData.filter(lastName => lastName.gs$cell.col ==="2");
+    //     const username = this.state.googleAPIData.filter(username => username.gs$cell.col ==="3");
+    //     const id = this.state.googleAPIData.filter(id => id.gs$cell.col ==="4");
+    //     const title = this.state.googleAPIData.filter(title => title.gs$cell.col ==="5");
+    //     const author = this.state.googleAPIData.filter(author => author.gs$cell.col ==="6");
+    //     const date = this.state.googleAPIData.filter(date => date.gs$cell.col ==="7");
+    //     const status = this.state.googleAPIData.filter(status => status.gs$cell.col ==="8");
+    //     const rating = this.state.googleAPIData.filter(rating => rating.gs$cell.col ==="9");
+    //     const overview = this.state.googleAPIData.filter(overview => overview.gs$cell.col ==="10");
+    //     const image = this.state.googleAPIData.filter(image => image.gs$cell.col ==="11"); 
+    //     const format = this.state.googleAPIData.filter(format => format.gs$cell.col ==="12");
+    //     for(let i=0; i<firstName.length; i++){
+    //         allDataSorted.push({
+    //             firstName: firstName[i].content.$t,              
+    //             lastName: lastName[i].content.$t,               
+    //             username: username[i].content.$t,              
+    //             id: id[i].content.$t,               
+    //             title: title[i].content.$t,               
+    //             author: author[i].content.$t,              
+    //             date: date[i].content.$t,               
+    //             status: status[i].content.$t,              
+    //             rating: rating[i].content.$t,              
+    //             overview: overview[i].content.$t,              
+    //             image: image[i].content.$t,               
+    //             format: format[i].content.$t   
+    //         })
+    //     }
+    //     this.setState({
+    //         sortedData: allDataSorted
+    //     });
+    // }
     sortData = () =>{
+        console.log('new api data', this.state.googleAPIData.values[2])
         const allDataSorted = [];
-        const firstName = this.state.googleAPIData.filter(firstName => firstName.gs$cell.col === "1");
-        const lastName = this.state.googleAPIData.filter(lastName => lastName.gs$cell.col ==="2");
-        const username = this.state.googleAPIData.filter(username => username.gs$cell.col ==="3");
-        const id = this.state.googleAPIData.filter(id => id.gs$cell.col ==="4");
-        const title = this.state.googleAPIData.filter(title => title.gs$cell.col ==="5");
-        const author = this.state.googleAPIData.filter(author => author.gs$cell.col ==="6");
-        const date = this.state.googleAPIData.filter(date => date.gs$cell.col ==="7");
-        const status = this.state.googleAPIData.filter(status => status.gs$cell.col ==="8");
-        const rating = this.state.googleAPIData.filter(rating => rating.gs$cell.col ==="9");
-        const overview = this.state.googleAPIData.filter(overview => overview.gs$cell.col ==="10");
-        const image = this.state.googleAPIData.filter(image => image.gs$cell.col ==="11"); 
-        const format = this.state.googleAPIData.filter(format => format.gs$cell.col ==="12");
-        for(let i=0; i<firstName.length; i++){
+        for(let i=1; i<this.state.googleAPIData.values.length; i++){
             allDataSorted.push({
-                firstName: firstName[i].content.$t,              
-                lastName: lastName[i].content.$t,               
-                username: username[i].content.$t,              
-                id: id[i].content.$t,               
-                title: title[i].content.$t,               
-                author: author[i].content.$t,              
-                date: date[i].content.$t,               
-                status: status[i].content.$t,              
-                rating: rating[i].content.$t,              
-                overview: overview[i].content.$t,              
-                image: image[i].content.$t,               
-                format: format[i].content.$t   
+                firstName: this.state.googleAPIData.values[i][0],           
+                lastName: this.state.googleAPIData.values[i][1],       
+                username: this.state.googleAPIData.values[i][2],             
+                id: this.state.googleAPIData.values[i][3],              
+                title: this.state.googleAPIData.values[i][4],                 
+                author: this.state.googleAPIData.values[i][5],          
+                date: this.state.googleAPIData.values[i][6],              
+                status: this.state.googleAPIData.values[i][7],            
+                rating: this.state.googleAPIData.values[i][8],              
+                overview: this.state.googleAPIData.values[i][9],               
+                image: this.state.googleAPIData.values[i][10],                
+                format: this.state.googleAPIData.values[i][11]
             })
         }
         this.setState({
             sortedData: allDataSorted
         });
+        console.log(allDataSorted)
     }
-    getGoogleAPI = () => {
-        fetch('https://spreadsheets.google.com/feeds/cells/1nXgoXOrplAx-Yx_N-pH6zFBvDYQFzmmD85oDBgSnSRc/1/public/full?alt=json')
+    updatedGoogleAPI = () => {
+        fetch('https://sheets.googleapis.com/v4/spreadsheets/1nXgoXOrplAx-Yx_N-pH6zFBvDYQFzmmD85oDBgSnSRc/values/Sheet1?alt=json&key=AIzaSyDu-1vUJrr_H9DgTcooDlENcvqjQ5WoIqQ')
             .then( (response) => {
                 return response.json()
             }).then( (json) => {
                 this.setState({
-                    googleAPIData: json.feed.entry
+                    googleAPIData: json
                 });
                 this.sortData();
             }).then( () => {
@@ -152,6 +178,36 @@ class BookForm extends React.Component {
                 });
             })
     }
+    // getGoogleAPI = () => {
+    //     fetch('https://sheets.googleapis.com/v4/spreadsheets/1JTq34r71_LZ0_S62FewIkfM8X5kh4vFPZEP3ENy3kDU/values/Sheet1?alt=json&key=AIzaSyDO8RgHeZAZ5LBwhHkUGXF6oqflvEDSJs0')
+    //         .then( (response) => {
+    //             return response.json()
+    //         }).then( (json) => {
+    //             this.setState({
+    //                 googleAPIData: json.feed.entry
+    //             });
+    //             this.sortData();
+    //         }).then( () => {
+    //             let userData = this.state.sortedData.filter(one => one.username === this.state.username);
+    //             if(userData.length === 0){
+    //                 this.setState({currentID: 1});
+    //             }else{
+    //                 let allIDs =[];
+    //                 let userIDsReal = userData.filter(each => each.id !== 'null')
+    //                 for(var b=0 ; b<userIDsReal.length ; b++){
+    //                     allIDs.push(parseInt(userIDsReal[b].id.split('id=')[1]));
+    //                 }
+    //                 let sortedIDs= allIDs.sort((b, a) => b - a)
+    //                 let newID = sortedIDs[allIDs.length -1] + 1;
+    //                 this.setState({currentID: newID})
+    //             }       
+    //         }).then( () => {
+    //             this.setState({
+    //                 searchloading: false,
+    //                 searchButton: true
+    //             });
+    //         })
+    // }
 
     handleSearch = (e) =>{
         e.preventDefault()
@@ -311,7 +367,8 @@ class BookForm extends React.Component {
                 title: '', 
                 completeAdd: true
             })
-            this.getGoogleAPI();
+            // this.getGoogleAPI();
+            this.updatedGoogleAPI();
             return response.json()  
         });
     }
@@ -396,7 +453,8 @@ class BookForm extends React.Component {
                     editing: false
                 })
             }).then( () =>{
-                this.getGoogleAPI();
+                // this.getGoogleAPI();
+                this.updatedGoogleAPI();
                 this.setState({
                     books: true,
                     searchloading: false,
@@ -471,7 +529,8 @@ class BookForm extends React.Component {
             method: 'DELETE'  
         }).then( (response) => {
             setTimeout(() =>{
-                    this.getGoogleAPI();
+                    // this.getGoogleAPI();
+                    this.updatedGoogleAPI();
                     this.setState({
                         searchloading: false,
                         books:true, 
