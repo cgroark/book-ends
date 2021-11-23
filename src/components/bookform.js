@@ -90,6 +90,7 @@ class BookForm extends React.Component {
             this.updatedGoogleAPI();
         }        
     }
+
     sortData = () =>{
         const allDataSorted = [];
         for(let i=1; i<this.state.googleAPIData.values.length; i++){
@@ -416,7 +417,6 @@ class BookForm extends React.Component {
                     editing: false
                 })
             }).then( () =>{
-
                 this.updatedGoogleAPI();
                 this.setState({
                     books: true,
@@ -492,7 +492,6 @@ class BookForm extends React.Component {
             method: 'DELETE'  
         }).then( (response) => {
             setTimeout(() =>{
-    
                     this.updatedGoogleAPI();
                     this.setState({
                         searchloading: false,
