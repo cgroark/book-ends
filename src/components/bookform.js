@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import moment from 'moment';
 import Scrollspy from 'react-scrollspy';
 import "react-datepicker/dist/react-datepicker.css";
-require('dotenv').config()
+require('dotenv').config();
 const sheetKey = process.env.REACT_APP_API_KEY;
 
 function CustomToggle({ children, eventKey, callback }) {
