@@ -66,7 +66,7 @@ class FindUser extends React.Component {
                 firstName: 'null',
                 lastName: 'null',
                 username: currentusername,
-                id: 'null',
+                id: currentusername+'-friend-'+user,
                 date: 'null',
                 author: 'null',
                 title: 'null',

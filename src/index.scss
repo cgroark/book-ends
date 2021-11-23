@@ -598,7 +598,7 @@ input[type="submit"].delete{
   border: none;
   background-color: transparent;
   color: #333;
-  border-bottom: solid red 4px;
+  border-bottom: solid $color-lightgrey 4px;
   width: 180px;
   height: inherit;
   margin-top: -50px;
@@ -611,10 +611,24 @@ input[type="submit"].delete.check{
 input[type="submit"].delete:hover{
   color: #333;
   border: none;
-  border-bottom: solid red 9px;
+  border-bottom: solid red 4px;
 }
 #delete-section{
   text-align: center;
+}
+input[type="submit"].unfollow-friend{
+  display: block;
+  margin: 20px auto;
+  border: none;
+  background: transparent;
+  border-bottom: solid 4px $color-lightergrey;
+}
+input[type="submit"].unfollow-friend:hover{
+  display: block;
+  margin: 20px auto;
+  border: none;
+  background: transparent;
+  border-bottom: solid 4px red;
 }
 .close-button{
   text-align: right;

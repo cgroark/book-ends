@@ -114,7 +114,6 @@ class Home extends React.Component {
                         {welcomeContent}
                         {homepageBreadcrumbs}
                         {sideContent}
-                        
                         {this.props.customHome &&
                             <Bookfeed currentuser={savedusername}/>
                         }

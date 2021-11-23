@@ -3,8 +3,6 @@ import { Row, Col } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
 
-
-
 class Bookfeed extends React.Component {
     constructor(props){
         super(props);
@@ -12,7 +10,11 @@ class Bookfeed extends React.Component {
             checkusername: false,
             savedusername: '',
             allData: [],
-            userData: []
+            userData: [],
+            checking: false,
+            checkname: '',
+            searchloading: true,
+            friendCheck: ''
         }
     }
     getAllData = () => {
@@ -25,7 +27,8 @@ class Bookfeed extends React.Component {
                 })
             }).then( () => {
                 this.setState({
-                    userData: this.state.allData.filter(one => one.username === this.state.savedusername && one.friends !== 'null')
+                    userData: this.state.allData.filter(one => one.username === this.state.savedusername && one.friends !== 'null'),
+                    searchloading: false
                 });
             })
     }
@@ -34,14 +37,50 @@ class Bookfeed extends React.Component {
         if(usernameData){
             this.setState({
                 savedusername: usernameData,
-                checkusername: true
+                checkusername: true,
+                searchloading: true
             })
         }
         this.getAllData();
     }
+    checkDelete = (first, last, friendUsername, e)=> {
+        e.preventDefault();
+        this.setState({
+            checking: true,
+            checkname: first+last,
+            friendCheck: friendUsername
+        })
+    }    
+    handleDeleteYes = (e) =>{
+        e.preventDefault();
+        console.log(this.state.savedusername+"-friend-"+this.state.friendCheck)
+        this.setState({
+            searchloading: true,
+            checking: false
+        })
+        fetch("https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219/id/"+this.state.savedusername+"-friend-"+this.state.friendCheck, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'DELETE'  
+        }).then( (response) => {
+            setTimeout(() =>{
+    
+                    this.getAllData();
+                    this.setState({
+                        searchloading: false,
+                    })
+            }, 1000);
+        });
+       
+    }
+    handleDeleteNo = () => {
+        this.setState({checking: false})
+    }
     renderBookFeed(){
-        let userData = this.state.userData;
-        let feed = []
+        const {userData, checking, checkname, searchloading} = this.state;
+        let feed = [];
         for(let i = 0; i<userData.length; i++){
             feed.push(this.state.allData.filter(one => one.username === this.state.userData[i].friends))
         }
@@ -141,17 +180,42 @@ class Bookfeed extends React.Component {
                     <Link to={'/friendsbooks/friend/'+each.first+'-'+each.last}>
                         View {each.first}'s books
                     </Link>
+                    <input className="unfollow-friend" type='submit' onClick={(e) =>this.checkDelete(each.first, each.last, each.username, e)} value="Unfollow" ></input>
+                    {checking && each.first+each.last === checkname &&
+                            <div id="delete-section">
+                                <div>
+                                    <h3>Are you sure you want to unfollow {each.first}?</h3>
+                                    <label htmlFor="delete-yes"></label>
+                                    <input className="delete check" type="submit" value="Yes" id="delete-yes" onClick={this.handleDeleteYes}></input>
+                                    <label htmlFor="delete-no"></label>
+                                    <input className="delete check" type="submit" value="No" id="delete-no" onClick={this.handleDeleteNo}></input>
+                                </div>
+                            </div>
+                           
+                    }
+                     {searchloading && each.first+each.last === checkname &&
+                            <div className="progress-infinite">
+                                <div className="progress-bar3" >
+                                </div>                       
+                            </div> 
+                    }
                 </div>
             </div>
     )
     }
     render(){
-        const { userData } = this.state;
+        const { userData, searchloading } = this.state;
         return(
             <div>
                 {userData.length > 0 &&
                 <div id="book-feed">
                     <h2>Your connections</h2>
+                    {searchloading && 
+                    <div className="progress-infinite">
+                        <div className="progress-bar3" >
+                        </div>                       
+                    </div> 
+                }
                     {this.renderBookFeed()}
                 </div>
                 }
