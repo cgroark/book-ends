@@ -41,6 +41,19 @@ class Home extends React.Component {
                 })
             })
     }
+    renderReadingText(){
+        let currentLength = this.state.allData.filter(each => each.username === this.props.username && each.status === "Currently-Reading").length;
+        return this.state.allData.filter(each => each.username === this.props.username && each.status === "Currently-Reading").map((each, index) => 
+                
+                <span key={each.id}>{currentLength === index + 1 ?
+                            <h4  ><em>{each.title}</em></h4>
+                            :
+                            <h4 > <em>{each.title}</em> <br />and </h4>
+                        }
+                </span>
+        
+        )
+    }
     renderReading(){
         return this.state.allData.filter(each => each.username === this.props.username && each.status === "Currently-Reading").map((each) => 
             <Col key={each.id} xs={6}>
@@ -63,8 +76,8 @@ class Home extends React.Component {
         let welcomeContent;
         let sideContent;
         let homepageBreadcrumbs = 
-            <div id="home-breadcrumbs">
-                <div className="page-nav">
+           
+                <div className="page-nav" id="home-breadcrumbs">
                     <Scrollspy items={ ['book-feed', 'best-sellers'] } currentClassName="is-current">
                         {friendsNum.length > 1 &&
                             <li><a href="#book-feed">Connections ></a></li>
@@ -72,13 +85,14 @@ class Home extends React.Component {
                         <li><a href="#best-sellers">Bestsellers ></a></li>
                     </Scrollspy>
                 </div>
-            </div>
+           
         if(currentRead.length > 0 && this.props.customHome){
             sideContent =     
                 <div id="current-home">
                     <Row>
                         <Col xs={6}>
                         <h3>You're reading:</h3>
+                        {this.renderReadingText()}
                         </Col>
                         {this.renderReading()}
                     </Row>

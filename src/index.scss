@@ -265,7 +265,7 @@ code {
       font-size: 1.2em;
       }
     h4{
-      font-size: 1.3rem;
+      font-size: 1.6rem;
     }
   }
   .last-read{
@@ -277,7 +277,7 @@ code {
       font-size: 1.2em;
       }
       h4{
-        font-size: 1.3rem;
+        font-size: 1.6rem;
       }
     }
   }
@@ -307,7 +307,7 @@ code {
   background: white;
   z-index: 1000;
   border-bottom: solid 6px $color-darkblue;
-  margin-top: 10px;
+  margin: 10px -5px 0;
   ul{
     padding: 0;
     margin-bottom: 0;
@@ -334,11 +334,11 @@ code {
 
 @media only screen and (max-width: 550px){
   #page-nav ul li a{
-          padding: 0 3px 0 0;
-          font-size: .9em;
+    padding: 0 3px 0 0;
+    font-size: .9em;
   }
   .page-nav ul li a{
-    font-size: 1em;
+    font-size: .8em;
     padding: 0 5px 0 0;
 }
 }

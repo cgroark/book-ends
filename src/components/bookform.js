@@ -846,7 +846,7 @@ class BookForm extends React.Component {
                             <li><a href="#want-to-read">Book list ></a></li> 
                         }
                         {bookCount > 1 && allBooks.filter(book => book.status === "Started").length > 0 &&
-                            <li><a href="#started">Put aside... ></a></li> 
+                            <li><a href="#started">Put aside ></a></li> 
                         }
                     </Scrollspy>
                 </div>
@@ -962,7 +962,7 @@ class BookForm extends React.Component {
                                         <option value="Finished">Finished</option>
                                         <option value="Currently-Reading">Currently reading</option>
                                         <option value="Want-to-read">Want to read</option>
-                                        <option value="Started">Started...and put it down</option>
+                                        <option value="Started">Set aside...</option>
                                     </select>
                                 </label>
                             </Col>

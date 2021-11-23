@@ -158,7 +158,7 @@ class Bookfeed extends React.Component {
                     
                     last read:</h4>
                         <p><em>{each.lastTitle}</em> by {each.lastAuthor}</p>
-                        <p>{each.first}'s rating: {each.lastRec}</p>
+                        <p><strong>{each.first}'s rating:</strong> {each.lastRec}</p>
                     </Col>
                     <Col md={4} xs={5}>
                         <span>{each.lastImg && each.lastImg !== 'null' ?
