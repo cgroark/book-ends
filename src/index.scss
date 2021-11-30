@@ -386,7 +386,14 @@ code {
 }
 .navigation{
     text-align: right;
-    a{
+    button{
+      background-color: transparent;
+      border-left: none;
+      border-right: none;
+      border-top:none;
+      font-weight: bold;
+    }
+    a, button{
       margin: 0 4px;
       font-size: 1.3em;
       display: inline-block;
@@ -395,12 +402,12 @@ code {
       border-bottom: 3px solid white;
       text-decoration: none;
     }
-    a:hover{
+    a:hover, button:hover{
       border-bottom: 3px solid $color-darkblue;
       text-decoration: none;
       color: $color-purple;
     }
-    a.active{
+    a.active, button.active{
       border-bottom: 3px solid $color-purple;
       text-decoration: none;
       color: $color-purple;

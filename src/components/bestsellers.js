@@ -1,10 +1,10 @@
 import React from 'react';
-import { Row, Col, Accordion, Card, Button, AccordionContext, useAccordionToggle  } from 'react-bootstrap';
+import { Row, Col, Accordion, Card, AccordionContext, useAccordionButton  } from 'react-bootstrap';
 
 
 function CustomToggle({ children, eventKey, callback }) {
     const currentEventKey = React.useContext(AccordionContext);
-    const decoratedOnClick = useAccordionToggle(
+    const decoratedOnClick = useAccordionButton(
       eventKey,
       () => callback && callback(eventKey)
     );
@@ -88,7 +88,6 @@ class Bestsellers extends React.Component {
     renderBestSellersnonFiction(){
         let nonfictionBests = this.state.nytnonFiction;
         let nonfictionSix = [];
-        let nonfictionRest = [];
         if(nonfictionBests.length>0){
             for(var i=0;i<6;i++){
                 nonfictionSix.push(nonfictionBests[i])

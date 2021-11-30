@@ -17,6 +17,7 @@ class Bookfeed extends React.Component {
             friendCheck: ''
         }
     }
+
     getAllData = () => {
         fetch('https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219')
             .then( (response) => {
@@ -177,9 +178,7 @@ class Bookfeed extends React.Component {
                     <p>&nbsp;</p>
                     </div>
                 }
-                    <Link to={'/friendsbooks/friend/'+each.first+'-'+each.last}>
-                        View {each.first}'s books
-                    </Link>
+                    <Link to={`/friendsbooks/friend/${each.first+'-'+each.last}`}>View {each.first}'s books</Link>
                     <input className="unfollow-friend" type='submit' onClick={(e) =>this.checkDelete(each.first, each.last, each.username, e)} value="Unfollow" ></input>
                     {checking && each.first+each.last === checkname &&
                             <div id="delete-section">

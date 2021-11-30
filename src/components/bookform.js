@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Accordion, Card, Button, AccordionContext, useAccordionToggle  } from 'react-bootstrap';
+import { Row, Col, Accordion, Card, Button, AccordionContext, useAccordionButton  } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import moment from 'moment';
 import Scrollspy from 'react-scrollspy';
@@ -9,7 +9,7 @@ const sheetKey = process.env.REACT_APP_API_KEY;
 
 function CustomToggle({ children, eventKey, callback }) {
     const currentEventKey = React.useContext(AccordionContext);
-    const decoratedOnClick = useAccordionToggle(
+    const decoratedOnClick = useAccordionButton(
       eventKey,
       () => callback && callback(eventKey)
     );
@@ -143,37 +143,6 @@ class BookForm extends React.Component {
                 });
             })
     }
-    // getGoogleAPI = () => {
-    //     fetch('https://sheets.googleapis.com/v4/spreadsheets/1JTq34r71_LZ0_S62FewIkfM8X5kh4vFPZEP3ENy3kDU/values/Sheet1?alt=json&key=AIzaSyDO8RgHeZAZ5LBwhHkUGXF6oqflvEDSJs0')
-    //         .then( (response) => {
-    //             return response.json()
-    //         }).then( (json) => {
-    //             this.setState({
-    //                 googleAPIData: json.feed.entry
-    //             });
-    //             this.sortData();
-    //         }).then( () => {
-    //             let userData = this.state.sortedData.filter(one => one.username === this.state.username);
-    //             if(userData.length === 0){
-    //                 this.setState({currentID: 1});
-    //             }else{
-    //                 let allIDs =[];
-    //                 let userIDsReal = userData.filter(each => each.id !== 'null')
-    //                 for(var b=0 ; b<userIDsReal.length ; b++){
-    //                     allIDs.push(parseInt(userIDsReal[b].id.split('id=')[1]));
-    //                 }
-    //                 let sortedIDs= allIDs.sort((b, a) => b - a)
-    //                 let newID = sortedIDs[allIDs.length -1] + 1;
-    //                 this.setState({currentID: newID})
-    //             }       
-    //         }).then( () => {
-    //             this.setState({
-    //                 searchloading: false,
-    //                 searchButton: true
-    //             });
-    //         })
-    // }
-
     handleSearch = (e) =>{
         e.preventDefault()
         this.setState({
@@ -182,11 +151,12 @@ class BookForm extends React.Component {
             searchForm: false
         })
         fetch('https://www.googleapis.com/books/v1/volumes?q="'+this.state.query+'"')
-        .then( response =>  response.json())
-        .then( (json) => {
+        .then( (response) => {
+            return response.json()
+        }).then( (json) => {
             if(json.totalItems > 0){
                 this.setState({
-                    searchData: json, 
+                    searchData: json.items, 
                     searchComplete: true,
                     searchloading: false
                 })
@@ -535,47 +505,41 @@ class BookForm extends React.Component {
     renderSearchData(){
         let submitting = this.state.submitting;
         let bookData = this.state.searchData;
-        let currentBooks = [];
-        for(var b=0; b < bookData.items.length; b++){
-            let activeBook = bookData.items[b].volumeInfo;
-            let image;
-            activeBook.imageLinks ? image = 'https'+ activeBook.imageLinks.thumbnail.slice(4) : image = '';
-            currentBooks.push(
-            <Col key={bookData.items[b].id} sm={6}>
+        return this.state.searchData.map((each) => 
+            <Col key={bookData.id} sm={6}>
             <div className="eachbook">
                 <Row>
                     <Col  xs={7}>
-                        <p><strong>{activeBook.title}<em>{activeBook.subtitle ? ', '+activeBook.subtitle : '' }</em></strong></p>
-                        <p>{activeBook.authors}</p>
-                       
+                        <p><strong>{each.volumeInfo.title}<em>{each.volumeInfo.subtitle ? ', '+each.volumeInfo.subtitle : '' }</em></strong></p>
+                        <p>{each.volumeInfo.authors}</p>
+                    
                     </Col>
                     <Col  xs={5}>
-                        <p>{activeBook.imageLinks ? <img src={image} alt={activeBook.title} /> : '' }</p>
+                        <p>{each.volumeInfo.imageLinks ? <img src={each.volumeInfo.imageLinks ? 'https'+ each.volumeInfo.imageLinks.thumbnail.slice(4) : ''} alt={each.volumeInfo.title} /> : '' }</p>
                         
-                    </Col>  
-                    
-                        <Col  xs={12}>
-                            <Accordion defaultActiveKey="0">
-                                    <Card>
-                                        <Card.Header>
-                                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                                Overview (see details)
-                                            </Accordion.Toggle>
-                                        </Card.Header>
-                                        <Accordion.Collapse eventKey="1">
-                                            <Card.Body><p>{activeBook.description}</p></Card.Body>
-                                        </Accordion.Collapse>
-                                    </Card>
-                            </Accordion>  
-                        </Col>
-                   
-                        <input type='submit' className="add-button search" disabled={submitting} onClick={(e) =>this.addSearchResults(activeBook.title, activeBook.authors, activeBook.description, image, e)} value={submitting ? 'Loading...' : 'Add '+activeBook.title}></input>
-                 </Row>
+                    </Col> 
+                    <Col  xs={12}>
+                        <Accordion defaultActiveKey="0">
+                                <Card>
+                                    <Card.Header>
+                                        <CustomToggle as={Button} variant="link" eventKey="1">
+                                            Overview (see details)
+                                        </CustomToggle>
+                                    </Card.Header>
+                                    <Accordion.Collapse eventKey="1">
+                                        <Card.Body><p>{each.volumeInfo.description}</p></Card.Body>
+                                    </Accordion.Collapse>
+                                </Card>
+                        </Accordion>  
+                    </Col>
+                    <input type='submit' className="add-button search" disabled={submitting} onClick={(e) =>this.addSearchResults(each.volumeInfo.title, each.volumeInfo.authors, each.volumeInfo.description, each.volumeInfo.imageLinks ? 'https'+ each.volumeInfo.imageLinks.thumbnail.slice(4) : '', e)} value={submitting ? 'Loading...' : 'Add '+each.volumeInfo.title}></input>
+                </Row> 
             </div>
             </Col>
-            )
-        }
-        return currentBooks;
+        )
+        
+              
+            
     }
     renderReading(){
         return this.state.sortedData.filter(book => book.username === this.state.username && book.status === "Currently-Reading").map((each) => 

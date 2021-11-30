@@ -1,12 +1,12 @@
 import React from 'react';
-import { Route, NavLink, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, NavLink} from 'react-router-dom';
 import Home from './components/home';
 import SignUp from './components/signup';
 import SignIn from './components/signin';
 import SignOut from './components/signout';
 import BookForm from './components/bookform';
 import FindUser from './components/finduser';
-import FriendData from './components/friendData';
+import FriendPage from './components/friendPage';
 
 class App extends React.Component {
   constructor(props){
@@ -96,15 +96,15 @@ class App extends React.Component {
     const { checkusername, savedusername, signOut, signIn, signup, customHome, newUser, pathname} = this.state;
         let mainNav;
         mainNav =
-          <Router>
+          <BrowserRouter>
                 {checkusername &&
                   <article className="navigation">
                     <React.Fragment>
-                    <NavLink exact activeClassName="active" to="/" onClick={this.showHome}><i className="fa fa-book" aria-hidden="true"></i>&nbsp;Home</NavLink>
-                    <NavLink exact activeClassName="active" to="/books" >Your books</NavLink>
-                    <NavLink exact activeClassName="active" to="/friendsbooks" ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends</NavLink>
+                    <NavLink to="/" activeClassName="active" onClick={this.showHome}><i className="fa fa-book" aria-hidden="true"></i>&nbsp;Home</NavLink>
+                    <NavLink activeClassName="active" to="/books" >Your books</NavLink>
+                    <NavLink activeClassName="active" to="/friendsbooks" ><i className="fa fa-search" aria-hidden="true"></i>&nbsp;Friends</NavLink>
                     {pathname === '/' &&
-                      <a onClick={this.showSignout} >Sign out</a>
+                      <button onClick={this.showSignout} >Sign out</button>
                     }
                   </React.Fragment>
                   </article>
@@ -112,19 +112,19 @@ class App extends React.Component {
                   {!checkusername &&
                   <article className="navigation">
                     <React.Fragment>
-                      <NavLink exact activeClassName="active" to="/" onClick={this.showHome}><i className="fa fa-book" aria-hidden="true"></i>&nbsp;Home</NavLink>
-                      <a onClick={this.showSignin} >Login</a>
-                      <a onClick={this.showSignup} >Sign up</a>
+                      <NavLink activeClassName="active" to="/" onClick={this.showHome}><i className="fa fa-book" aria-hidden="true"></i>&nbsp;Home</NavLink>
+                      <button onClick={this.showSignin} >Login</button>
+                      <button onClick={this.showSignup} >Sign up</button>
                     </React.Fragment>
                   </article>
                   }
-                   <Switch>
-                    <Route exact path="/books" render={() => <BookForm name={savedusername} pathname={this.getPathName}  />} />
-                    <Route exact path="/friendsbooks" render={() => <FindUser currentusername={savedusername} pathname={this.getPathName}/>}/>
-                    <Route exact path="/friendsbooks/friend/:id" exact component={FriendData} pathname={this.getPathName}/>
-                    <Route exact path="/"  render={() => <Home customHome={customHome} newUser={newUser} username={this.state.savedusername} pathname={this.getPathName}/>} />
-                  </Switch>
-          </Router>
+                   <Routes>
+                    <Route  path="/books" element={<BookForm name={savedusername} pathname={this.getPathName}  />} />
+                    <Route  path="/friendsbooks" element={<FindUser currentusername={savedusername} pathname={this.getPathName}/>}/>
+                    <Route  path="/friendsbooks/friend/:friendname"  element={<FriendPage pathname={this.getPathName} />} />
+                    <Route  path="/" element={<Home customHome={customHome} newUser={newUser} username={this.state.savedusername} pathname={this.getPathName}/>} />
+                  </Routes>
+          </BrowserRouter>
     return(
       <div className="App">
         <header className="App-header" >

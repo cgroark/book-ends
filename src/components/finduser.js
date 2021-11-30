@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link} from 'react-router-dom';
-import FriendData from './friendData';
+import FriendPage from './friendPage';
 
 class FindUser extends React.Component {
     constructor(props){
@@ -113,7 +113,7 @@ class FindUser extends React.Component {
         return this.state.allData.filter(friend => friend.lastName === this.state.pickedUser.toLowerCase() && friend.username !== this.props.currentusername).map((each) => 
             <div key={each.id} className="found-friend">
                 <h4>{capFirstLetter(each.firstName)} {capFirstLetter(each.lastName)}</h4>
-                <Link to={'/friendsbooks/friend/'+each.firstName+'-'+each.lastName}>
+                <Link to={`/friendsbooks/friend/${each.firstName+'-'+each.lastName}`}>
                     View {capFirstLetter(each.firstName)}'s books
                 </Link>
                 {this.state.selectedFirst === capFirstLetter(each.firstName) ?
@@ -181,9 +181,6 @@ class FindUser extends React.Component {
                 }
                  
                 </div>
-                {friendData.length > 0 && 
-                            <FriendData data={friendData} firstName={selectedFirst} />
-                        }
             </div>
         )
     }

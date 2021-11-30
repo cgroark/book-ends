@@ -2,12 +2,11 @@ import React from 'react';
 import moment from 'moment';
 import { Link} from 'react-router-dom';
 import Scrollspy from 'react-scrollspy';
-import { Row, Col, Accordion, Card, Button, AccordionContext, useAccordionToggle  } from 'react-bootstrap';
-import { conditionalExpression } from '@babel/types';
+import { Row, Col, Accordion, Card, AccordionContext, useAccordionButton  } from 'react-bootstrap';
 
 function CustomToggle({ children, eventKey, callback }) {
     const currentEventKey = React.useContext(AccordionContext);
-    const decoratedOnClick = useAccordionToggle(
+    const decoratedOnClick = useAccordionButton(
       eventKey,
       () => callback && callback(eventKey)
     );
@@ -21,9 +20,7 @@ function CustomToggle({ children, eventKey, callback }) {
         {children}
       </button>
     );
-  }
-
-
+}
 class FriendData extends React.Component {
     constructor(props){
         super(props);
@@ -34,14 +31,12 @@ class FriendData extends React.Component {
             friendString:'',
             firstName: ''
         }
-
     }
     componentDidMount =(props) => {
-        // this.props.pathname(window.location.pathname)
-        const {id} = this.props.match.params
+        console.log('friendname', this.props.friendname)
         this.setState({
-            friendString: id.toLowerCase(),
-            firstName: (id.toLowerCase().split('-')[0])[0].toUpperCase() + id.toLowerCase().split('-')[0].slice(1)
+            friendString: this.props.friendname.toLowerCase(),
+            firstName: (this.props.friendname.toLowerCase().split('-')[0])[0].toUpperCase() + this.props.friendname.toLowerCase().split('-')[0].slice(1)
         })
         this.getAllData();
     }
@@ -67,7 +62,7 @@ class FriendData extends React.Component {
                 console.log('friend data parsed', friendData)
             })
     }
-    renderReading(){
+    renderReading = () => {
         return this.state.friendData.filter(book => book.status === "Currently-Reading").map((each) => 
         <Col sm={6} key={each.id}  >
             
@@ -116,7 +111,7 @@ class FriendData extends React.Component {
         </Col>
         )
     }
-    renderFinishedData(){
+    renderFinishedData = () => {
         let twentytwentyBooks = this.state.friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isBefore('2021-01-01'))
         return twentytwentyBooks.sort((b,a) => new moment(a.date) - new moment(b.date)).map((each) => 
         <Col key={each.id} className="book-card" md={4} sm={6}>
@@ -154,7 +149,7 @@ class FriendData extends React.Component {
    </Col>
         )
     }
-    renderFinishedDatatwentytwentyone(){
+    renderFinishedDatatwentytwentyone = () => {
         let twentytwentyOneBooks = this.state.friendData.filter(one => one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2021-01-01'))
         return twentytwentyOneBooks.sort((b,a) => new moment(a.date) - new moment(b.date)).map((each) => 
         <Col key={each.id} className="book-card" md={4} sm={6}>
@@ -192,7 +187,7 @@ class FriendData extends React.Component {
    </Col>
         )
     }
-    renderWantData(){
+    renderWantData = () => {
         return this.state.friendData.filter(one => one.title && one.status === "Want-to-read").map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
@@ -229,7 +224,7 @@ class FriendData extends React.Component {
                 </Col>
         )
     }
-    renderStartedData(){
+    renderStartedData = () => {
         return this.state.friendData.filter(one => one.title && one.status === "Started").map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
@@ -266,7 +261,7 @@ class FriendData extends React.Component {
                 </Col>
         )
     }
-    render(){
+    render = () => {
     const { friendData, searchloading, firstName} = this.state;
     const allBooks = friendData;
     const bookCount = friendData.length;
@@ -377,4 +372,3 @@ class FriendData extends React.Component {
 }
 
 export default FriendData;
-

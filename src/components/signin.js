@@ -21,16 +21,15 @@ class SignIn extends React.Component {
         }
     }
     componentDidMount = () => {
-        this.getAllData()
-        // let usernameData = localStorage.getItem('username');
-        //let usernameData = this.props.username;
-        // if(usernameData){
-        //     console.log('username on load', usernameData)
-        //     this.setState({
-        //         savedusername: usernameData,
-        //         checkusername: true
-        //     })
-        // }
+        // this.getAllData()
+        fetch('https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219')
+            .then( (response) => {
+                return response.json()
+            }).then( (json) => {
+                this.setState({
+                    allData: json
+                })
+            })
     }
     getAllData = () => {
         fetch('https://sheet.best/api/sheets/cc3a871c-9365-4594-ab7a-828fcec65219')
