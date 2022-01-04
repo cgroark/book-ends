@@ -495,9 +495,10 @@ h2#friend-name{
     color: $color-darkblue;
   }
 }
-#booklist #finished .accordion#twentytwenty {
+#booklist #finished .accordion.past-year-books {
     border-bottom: 2px solid purple;
     border-top: 2px solid purple;
+    margin-bottom: 10px;
       > .card{
         border-radius: 0;
         > .card-header{
@@ -899,7 +900,7 @@ form.search-form{
       }
   }
 }
-#booklist #finished .accordion#twentytwenty > .card > .card-header > button {
+#booklist #finished .accordion.past-year-books > .card > .card-header > button {
   font-size: 1.3rem;
   font-weight: 900;
   text-decoration: none;

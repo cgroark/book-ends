@@ -130,9 +130,13 @@ class BookForm extends React.Component {
                     let allIDs =[];
                     let userIDsReal = userData.filter(each => each.id !== 'null')
                     for(var b=0 ; b<userIDsReal.length ; b++){
-                        allIDs.push(parseInt(userIDsReal[b].id.split('id=')[1]));
+                        console.log(parseInt(userIDsReal[b].id.split('id=')[1]))
+                        if(!isNaN(parseInt(userIDsReal[b].id.split('id=')[1]))){
+                            allIDs.push(parseInt(userIDsReal[b].id.split('id=')[1]));
+                        }
                     }
-                    let sortedIDs= allIDs.sort((b, a) => b - a)
+                    let sortedIDs= allIDs.sort((b, a) => b - a);
+                    console.log('sorted', sortedIDs)
                     let newID = sortedIDs[allIDs.length -1] + 1;
                     this.setState({currentID: newID})
                 }       
@@ -235,6 +239,7 @@ class BookForm extends React.Component {
         })
     }
     handleSubmit = event => {
+        console.log(this.state.username+'id='+this.state.currentID)
         if(this.state.status === 'select-status' || this.state.title === '' || this.state.author === '' ){
             event.preventDefault()
             if(this.state.status === 'select-status'){
@@ -590,7 +595,53 @@ class BookForm extends React.Component {
             </Col>
         )
     }
-    renderFinishedData(){
+    renderCurrentYearFinished(){
+        let currentYearFinished = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2022-01-01'))
+        return currentYearFinished.sort((b,a) => new moment(a.date) - new moment(b.date)).map((each) => 
+                <Col key={each.id} className="book-card" md={4} sm={6}>
+                     <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
+                    <Row>
+                        <Col xs={8}>
+                            <h4>{each.author}</h4>
+                            <p className="card-smaller">{each.status} {moment(each.date).isValid() ? moment(each.date).format('MMM D YYYY'): ""} </p>
+                            <p className="card-smaller">{each.rating === 'select-rating' ? '' : each.rating} </p>
+                            {!this.state.form &&
+                                <div>
+                                    <label htmlFor="edit"></label>
+                                    <input type="submit" value="Update" id="edit" onClick={(e) => this.updateBook(each,e)}></input>
+                                </div>
+                            }
+                        </Col>
+                        <Col xs={4}>
+                            {each.image && each.image !== 'null' ?
+                                <img src={each.image} alt={each.title} />
+                                :
+                                <i className="fa fa-book" aria-hidden="true"></i>
+                            }
+                            
+                        </Col>
+                        
+                    </Row>
+                    {each.overview && each.overview !== 'null' ? 
+                        <Accordion defaultActiveKey="0">
+                                    <Card>
+                                        <Card.Header>
+                                            <CustomToggle eventKey={each.id}>
+                                                Summary
+                                            </CustomToggle>
+                                        </Card.Header>
+                                        <Accordion.Collapse eventKey={each.id}>
+                                            <Card.Body><p>{each.overview}</p></Card.Body>
+                                        </Accordion.Collapse>
+                                    </Card>
+                        </Accordion>  
+                        : 
+                    <p>(No summary available)</p> }
+                </Col>
+
+        )
+    }
+    renderFinishedDataTwentyTwenty(){
         let twentytwentyBooks = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBefore('2021-01-01'))
         return twentytwentyBooks.sort((b,a) => new moment(a.date) - new moment(b.date)).map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
@@ -637,7 +688,7 @@ class BookForm extends React.Component {
         )
     }
     renderFinishedDatatwentytwentyone(){
-        let twentytwentyOneBooks = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2021-01-01'))
+        let twentytwentyOneBooks = this.state.sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBetween('2021-01-01', '2021-12-31'))
         return twentytwentyOneBooks.sort((b,a) => new moment(a.date) - new moment(b.date)).map((each) => 
                 <Col key={each.id} className="book-card" md={4} sm={6}>
                      <h3><em>{each.title}</em>&nbsp;{each.format === 'Audio' ? <i className="fa fa-headphones" aria-hidden="true"></i> : <i className="fa fa-book" aria-hidden="true"></i>}</h3>
@@ -786,8 +837,9 @@ class BookForm extends React.Component {
     const { completeAdd, completeEdit, format, checking, submitting, author, title, status, sortedData, date, query, rating, searchComplete, searchError, searchForm, searchloading, form, books, currentlyReading, searchButton} = this.state;
     const allBooks = sortedData.filter(book => book.username === this.state.username)
     const bookCount = sortedData.filter(book => book.username === this.state.username).length;
+    let currentyearBooks = sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2022-01-01'));
     let twentytwentyBooks = sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBefore('2021-01-01'));
-    let twentytwentyOneBooks = sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isSameOrAfter('2021-01-01'))
+    let twentytwentyOneBooks = sortedData.filter(one => one.username === this.state.username && one.title && one.status === "Finished" && moment(one.date).isBetween('2021-01-01', '2021-12-31'))
         return(
             <div className="main-body">
                 {searchButton &&
@@ -981,13 +1033,31 @@ class BookForm extends React.Component {
                      {bookCount > 1 && allBooks.filter(book => book.status === "Finished").length > 0 &&
                         <div id="finished">
                             <h2>Finished books</h2>
-                            {twentytwentyOneBooks.length > 0 &&
+                            {currentyearBooks.length > 0 &&
                                 <Row >
-                                    {this.renderFinishedDatatwentytwentyone()}
+                                    {this.renderCurrentYearFinished()}
                                 </Row>
                             }
+                            {twentytwentyOneBooks.length > 0 &&
+                                <Accordion defaultActiveKey="0" className="past-year-books" id="twentytwentyone" >
+                                <Card >
+                                    <Card.Header>
+                                        <CustomToggle eventKey='2021books'>
+                                            2021 Books
+                                        </CustomToggle>
+                                    </Card.Header>
+                                    <Accordion.Collapse eventKey='2021books'>
+                                        <Card.Body>
+                                            <Row >
+                                            {this.renderFinishedDatatwentytwentyone()}
+                                            </Row>
+                                        </Card.Body>
+                                    </Accordion.Collapse>
+                                </Card>
+                                </Accordion>  
+                            }
                             {twentytwentyBooks.length > 0 &&
-                                <Accordion defaultActiveKey="0" id="twentytwenty" >
+                                <Accordion defaultActiveKey="0" className="past-year-books" id="twentytwenty" >
                                 <Card >
                                     <Card.Header>
                                         <CustomToggle eventKey='2020books'>
@@ -997,7 +1067,7 @@ class BookForm extends React.Component {
                                     <Accordion.Collapse eventKey='2020books'>
                                         <Card.Body>
                                             <Row >
-                                                {this.renderFinishedData()}
+                                                {this.renderFinishedDataTwentyTwenty()}
                                             </Row>
                                         </Card.Body>
                                     </Accordion.Collapse>
